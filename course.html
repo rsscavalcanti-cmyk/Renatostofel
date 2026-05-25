@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Engenheiro Orçamentista para Obras Hospitalares no RJ — Curso Completo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .accordion-body { overflow: hidden; }
+    html { scroll-behavior: smooth; }
+    .gradient-hero { background: linear-gradient(135deg, rgba(15,23,42,0.88) 0%, rgba(30,58,138,0.80) 100%); }
+    .module-card:hover .module-img { transform: scale(1.04); }
+    .module-img { transition: transform 0.4s ease; }
+    @keyframes fadeInUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+    .fade-in { animation: fadeInUp 0.6s ease both; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased" x-data="courseApp()" x-cloak>
+
+<!-- ========== STICKY NAV ========== -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm shadow-lg">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <a href="#inicio" class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">RS</div>
+        <span class="text-white font-semibold text-sm hidden sm:block">Renato Stofel <span class="text-blue-400">| Cursos</span></span>
+      </a>
+      <!-- Desktop nav -->
+      <div class="hidden md:flex items-center gap-6">
+        <a href="#modulos" class="text-slate-300 hover:text-white text-sm transition-colors">Módulos</a>
+        <a href="#instrutor" class="text-slate-300 hover:text-white text-sm transition-colors">Instrutor</a>
+        <a href="#publico" class="text-slate-300 hover:text-white text-sm transition-colors">Para quem é</a>
+        <a href="#inscricao" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Inscreva-se</a>
+      </div>
+      <!-- Mobile hamburger -->
+      <button @click="navOpen = !navOpen" class="md:hidden text-slate-300 hover:text-white p-2">
+        <svg x-show="!navOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        <svg x-show="navOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+  </div>
+  <!-- Mobile menu -->
+  <div x-show="navOpen" x-transition class="md:hidden bg-slate-800 border-t border-slate-700">
+    <div class="px-4 py-3 flex flex-col gap-3">
+      <a href="#modulos" @click="navOpen=false" class="text-slate-300 hover:text-white text-sm py-1">Módulos</a>
+      <a href="#instrutor" @click="navOpen=false" class="text-slate-300 hover:text-white text-sm py-1">Instrutor</a>
+      <a href="#publico" @click="navOpen=false" class="text-slate-300 hover:text-white text-sm py-1">Para quem é</a>
+      <a href="#inscricao" @click="navOpen=false" class="bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg text-center">Inscreva-se</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="inicio" class="relative min-h-screen flex items-center pt-16">
+  <div class="absolute inset-0">
+    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1400&auto=format&fit=crop&q=80" alt="Hospital moderno" class="w-full h-full object-cover" loading="eager" />
+    <div class="gradient-hero absolute inset-0"></div>
+  </div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+    <div class="max-w-3xl">
+      <div class="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-400/30 text-blue-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+        <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+        Novo curso — Turma 2025
+      </div>
+      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 fade-in">
+        Engenheiro Orçamentista para<br/>
+        <span class="text-blue-400">Obras Hospitalares no RJ</span>
+      </h1>
+      <p class="text-lg sm:text-xl text-slate-200 mb-4 leading-relaxed">
+        Do programa assistencial ao edital publicado: domine instalações elétricas, gases medicinais, HVAC crítico, legislação sanitária, normas técnicas e contratação pública em hospitais fluminenses.
+      </p>
+      <p class="text-slate-400 mb-8 text-sm sm:text-base">
+        Formação completa baseada no <em>Manual do Engenheiro Orçamentista para Editais de Obras Hospitalares no Rio de Janeiro</em> — 9 módulos, casos reais, matrizes, checklists e modelos prontos para uso.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4">
+        <a href="#inscricao" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-4 rounded-xl text-center transition-all shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5">
+          Quero me inscrever
+        </a>
+        <a href="#modulos" class="border border-white/30 hover:border-white/60 text-white font-semibold px-8 py-4 rounded-xl text-center transition-all backdrop-blur-sm">
+          Ver conteúdo completo
+        </a>
+      </div>
+    </div>
+  </div>
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 animate-bounce hidden md:block">
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+  </div>
+</section>
+
+<!-- ========== STATS BAR ========== -->
+<div class="bg-slate-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-700">
+      <div class="py-6 px-4 text-center">
+        <div class="text-2xl sm:text-3xl font-bold text-blue-400">9</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1">Módulos completos</div>
+      </div>
+      <div class="py-6 px-4 text-center">
+        <div class="text-2xl sm:text-3xl font-bold text-blue-400">55+</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1">Aulas e tópicos</div>
+      </div>
+      <div class="py-6 px-4 text-center">
+        <div class="text-2xl sm:text-3xl font-bold text-blue-400">8</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1">Sistemas de instalações</div>
+      </div>
+      <div class="py-6 px-4 text-center">
+        <div class="text-2xl sm:text-3xl font-bold text-blue-400">100%</div>
+        <div class="text-xs sm:text-sm text-slate-400 mt-1">Foco no Rio de Janeiro</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== OVERVIEW CARDS ========== -->
+<section class="py-16 sm:py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">O que você vai dominar</h2>
+      <p class="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base">Formação técnica e prática para engenheiros que elaboram editais, termos de referência e orçamentos de instalações hospitalares no Estado do Rio de Janeiro.</p>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
+        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <h3 class="font-bold text-slate-900 mb-2">Base Regulatória Completa</h3>
+        <p class="text-slate-500 text-sm">ANVISA, SES-RJ/SUVISA, CBMERJ, Light, Naturgy e concessionárias — todas as interfaces regulatórias tratadas com rigor técnico.</p>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
+        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        </div>
+        <h3 class="font-bold text-slate-900 mb-2">Orçamento Referencial Defensável</h3>
+        <p class="text-slate-500 text-sm">SINAPI, EMOP-RJ, composições próprias, cotações equalizadas — método completo para sistemas especiais como gases medicinais, HVAC crítico e UPS.</p>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
+        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>
+        </div>
+        <h3 class="font-bold text-slate-900 mb-2">Matriz Normativa por Sistema</h3>
+        <p class="text-slate-500 text-sm">Aprenda a transformar cada NBR em consequência prática: projeto exigido, material especificado, teste de aceite e documento de entrega.</p>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
+        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+        </div>
+        <h3 class="font-bold text-slate-900 mb-2">4 Tipos de Intervenção</h3>
+        <p class="text-slate-500 text-sm">Obra nova, ampliação, reforma operacional e retrofit — cada modalidade com impactos específicos em escopo, orçamento, prazo e riscos.</p>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
+        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <h3 class="font-bold text-slate-900 mb-2">Sistemas Críticos na Prática</h3>
+        <p class="text-slate-500 text-sm">Instalações elétricas com IT-médico, gases medicinais, HVAC para áreas críticas, incêndio e sistemas eletrônicos hospitalares — do projeto ao comissionamento.</p>
+      </div>
+      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
+        <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+        </div>
+        <h3 class="font-bold text-slate-900 mb-2">Modelos Prontos para Usar</h3>
+        <p class="text-slate-500 text-sm">Matrizes normativas, checklists de recebimento de projetos, planilhas orçamentárias, critérios de medição e 12 gates para liberação do edital.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MODULES ========== -->
+<section id="modulos" class="py-16 sm:py-20 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Conteúdo do Curso — 9 Módulos</h2>
+      <p class="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base">Clique em cada módulo para expandir o conteúdo detalhado das aulas.</p>
+    </div>
+
+    <div class="space-y-4">
+
+      <!-- MODULE 1 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: true}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">01</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-blue-600 font-semibold uppercase tracking-wide mb-0.5">Fundamentos</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">O Hospital e o Papel do Engenheiro Orçamentista</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Por que instalações hospitalares exigem tratamento especializado e como o orçamentista atua.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-blue-50 text-blue-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">5 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800&auto=format&fit=crop&q=80" alt="Corredor hospitalar moderno" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.1</span>
+                <span class="text-sm text-slate-700">O hospital como edificação de risco operacional elevado — por que instalações não são sistemas auxiliares</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.2</span>
+                <span class="text-sm text-slate-700">Papel do engenheiro orçamentista na elaboração do edital: além do levantamento de quantitativos</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.3</span>
+                <span class="text-sm text-slate-700">Os 10 sistemas principais: elétrico, hidráulico, gases medicinais, HVAC, incêndio, cabeamento e mais</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.4</span>
+                <span class="text-sm text-slate-700">Identificar requisitos normativos, riscos de omissão e interfaces entre disciplinas — competências essenciais</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.5</span>
+                <span class="text-sm text-slate-700">Resultado esperado: do programa assistencial ao edital técnico — visão geral do percurso formativo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 2 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-orange-500 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">02</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-orange-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 3</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Tipos de Intervenção Hospitalar</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Obra nova, ampliação, reforma operacional e retrofit — impactos em escopo, orçamento e riscos.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-orange-50 text-orange-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">6 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=80" alt="Obra de construção hospitalar" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.1</span>
+                <span class="text-sm text-slate-700">As 4 modalidades de intervenção: definições, fronteiras e regras de enquadramento para instalações</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.2</span>
+                <span class="text-sm text-slate-700">Obra nova: ponto de partida sem restrições de rede existente — documentação e escopo completo</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.3</span>
+                <span class="text-sm text-slate-700">Ampliação: conectar ao existente sem comprometer a operação — diagnóstico de redes e interfaces</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.4</span>
+                <span class="text-sm text-slate-700">Reforma operacional: planejar execução com hospital em funcionamento — faseamento e provisórios</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.5</span>
+                <span class="text-sm text-slate-700">Retrofit: modernização de sistemas críticos sem paralisar assistência — riscos e estratégias de migração</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.6</span>
+                <span class="text-sm text-slate-700">Matrizes de decisão por tipo de intervenção e os 10 erros mais comuns no orçamento de cada modalidade</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 3 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">03</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-emerald-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 4</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Leitura do Programa de Necessidades Assistencial</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Metodologia de 6 camadas para traduzir o programa em requisitos precisos de instalações.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-emerald-50 text-emerald-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">8 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&auto=format&fit=crop&q=80" alt="Plantas e projetos hospitalares" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.1</span>
+                <span class="text-sm text-slate-700">O programa assistencial como ponto de partida indispensável — por que orçar sem ele é erro grave</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.2</span>
+                <span class="text-sm text-slate-700">1ª Camada: Identificação de serviços e atividades assistenciais previstas no hospital</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.3</span>
+                <span class="text-sm text-slate-700">2ª Camada: Métricas de capacidade — leitos, salas, atendimentos e sua tradução em demandas de instalações</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.4</span>
+                <span class="text-sm text-slate-700">3ª e 4ª Camadas: Ambientes, relações, fluxos e processos operacionais por setor hospitalar</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.5</span>
+                <span class="text-sm text-slate-700">5ª Camada: Equipamentos e suas demandas — elétrica, gases, hidráulica, HVAC, dados e utilidades</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.6</span>
+                <span class="text-sm text-slate-700">6ª Camada: Regime operacional — 24h, turnos, sazonalidade e continuidade de sistemas críticos</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.7</span>
+                <span class="text-sm text-slate-700">Os 9 setores hospitalares: UTI, centro cirúrgico, CME, imagem, hemodiálise, laboratório, internação, PA e apoio — guia prático de leitura de programa para cada setor</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 4 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-purple-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">04</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-purple-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 5</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">ANVISA, Vigilância Sanitária e Aprovação de Projetos Físicos</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">RDC 50/2002, RDC 51/2011, PBA e compliance sanitário no Estado do Rio de Janeiro.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-purple-50 text-purple-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">7 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=800&auto=format&fit=crop&q=80" alt="Documentos oficiais e aprovação sanitária" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.1</span>
+                <span class="text-sm text-slate-700">Estrutura regulatória dual: ANVISA federal (RDC 50/2002 e RDC 51/2011) e SES-RJ/SUVISA estadual</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.2</span>
+                <span class="text-sm text-slate-700">RDC 50/2002: ambientes mínimos, requisitos físico-funcionais e condicionantes por tipo de EAS</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.3</span>
+                <span class="text-sm text-slate-700">Projeto Básico de Arquitetura (PBA): o que é, quem elabora, quais instalações são declaradas</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.4</span>
+                <span class="text-sm text-slate-700">Resoluções SES-RJ nº 1.058/2014 e nº 1.822/2019: procedimentos de aprovação no Estado do RJ</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.5</span>
+                <span class="text-sm text-slate-700">Documentos de instalações exigíveis no visto em planta: elétrico, hidráulico, gases, HVAC, incêndio</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.6</span>
+                <span class="text-sm text-slate-700">Processo de aprovação: prazos típicos, exigências frequentes, marcos impeditivos e compliance final</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.7</span>
+                <span class="text-sm text-slate-700">Responsabilidades no edital: quem elabora, protocola, acompanha e atende exigências sanitárias — custo, prazo e documentação</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 5 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">05</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-indigo-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 6</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Matriz Aprofundada das NBRs para Instalações Hospitalares</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Como selecionar, aplicar e transformar normas técnicas em itens concretos de edital e orçamento.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-indigo-50 text-indigo-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">11 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=800&auto=format&fit=crop&q=80" alt="Documentos normativos técnicos" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.1</span>
+                <span class="text-sm text-slate-700">As 4 origens de obrigação no edital hospitalar: regulação sanitária, ABNT, exigência local e contratual</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.2</span>
+                <span class="text-sm text-slate-700">Classificação H/G/C/L: como categorizar normas hospitalares, gerais, condicionais e locais/regulatórias</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.3</span>
+                <span class="text-sm text-slate-700">NBRs elétricas: NBR 13534 (EAS), NBR IEC 60364, NBR 5410 e o sistema IT-médico (NBR IEC 60364-7-710)</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.4</span>
+                <span class="text-sm text-slate-700">NBRs de HVAC hospitalar: NBR 7256 (ar em EAS), NBR 16401, NBR ISO 14644 — parâmetros por ambiente</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.5</span>
+                <span class="text-sm text-slate-700">NBRs de gases medicinais: NBR 12188, NBR ISO 7396-1 (tubulação), NBR ISO 7396-2 (exaustão anestésica)</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.6</span>
+                <span class="text-sm text-slate-700">NBRs hidráulicas e de incêndio: NBR 5626, 8160, 10844, 10897 (sprinklers), 13714 (hidrantes), 17240</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.7</span>
+                <span class="text-sm text-slate-700">Gás combustível e telecomunicações: NBR 15526, NBR 14565, sistemas de supervisão BMS e cabeamento</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.8</span>
+                <span class="text-sm text-slate-700">Matriz por setor hospitalar: quais normas devem ser abertas primeiro para CC, UTI, CME, imagem e mais</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.9</span>
+                <span class="text-sm text-slate-700">7 passos para converter norma em item de edital: acionador → norma → requisito → projeto → item → medição → evidência</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.10</span>
+                <span class="text-sm text-slate-700">Controle de edições, revisões e conflitos normativos — registro obrigatório e regras de atualização</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.11</span>
+                <span class="text-sm text-slate-700">10 erros críticos no uso de NBRs em editais hospitalares — checklist de 15 itens para verificação final</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 6 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-teal-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">06</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-teal-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 7</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Regras Específicas do Rio de Janeiro para Instalações Hospitalares</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">SES-RJ/SUVISA, CBMERJ, Light, Naturgy, concessionárias de água e interfaces locais do edital.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-teal-50 text-teal-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">9 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&auto=format&fit=crop&q=80" alt="Rio de Janeiro" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.1</span>
+                <span class="text-sm text-slate-700">Princípio fundamental: endereço + sistema = interface regulatória — mapa inicial de 6 agentes no RJ</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.2</span>
+                <span class="text-sm text-slate-700">SES-RJ/SUVISA: Res. 1.058/2014 e 1.822/2019 — status de PBA, exigências de instalações e marcos de conformidade</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.3</span>
+                <span class="text-sm text-slate-700">CBMERJ/DGST: COSCIP, NT CBMERJ — Laudo de Exigências (LE), Certificado de Aprovação (CA) e interfaces com gerador e gás</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.4</span>
+                <span class="text-sm text-slate-700">Light: modalidade BT/MT, padrões RECON 2023/2026 — consulta, projeto, aprovação e obras de conexão</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.5</span>
+                <span class="text-sm text-slate-700">Naturgy/AGENERSA: gás combustível — separação obrigatória dos gases medicinais, IN 48/2015 e IN 113/2024</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.6</span>
+                <span class="text-sm text-slate-700">Concessionárias de água e esgoto: Águas do Rio, Iguá Rio, Rio+Saneamento — consulta de viabilidade por endereço</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.7</span>
+                <span class="text-sm text-slate-700">Órgãos municipais, INEA e complementares: logradouro, drenagem, efluentes especiais, equipamentos radiológicos</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.8</span>
+                <span class="text-sm text-slate-700">Matriz de Interfaces Regulatórias e Concessionárias: modelo-base com status, responsáveis, custos e marcos impeditivos</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.9</span>
+                <span class="text-sm text-slate-700">Casos práticos: hospital novo na capital fluminense e ampliação de UTI em hospital existente — 5 checklists por agente externo</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 7 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-rose-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">07</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-rose-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 8</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Contratação Pública e Orçamento Referencial</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Lei 14.133/2021, SINAPI, EMOP-RJ, regimes de execução e pacote documental completo para licitação.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-rose-50 text-rose-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">15 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&auto=format&fit=crop&q=80" alt="Orçamento e planilhas de obra" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.1</span>
+                <span class="text-sm text-slate-700">Primeira decisão: qual regra governa o empreendimento — Lei 14.133/2021, Lei 13.303/2016 ou regulamento próprio</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.2</span>
+                <span class="text-sm text-slate-700">Ficha de enquadramento jurídico-orçamentário: contratante, natureza, base de custos, portal de publicação</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.3</span>
+                <span class="text-sm text-slate-700">Fase preparatória da Lei 14.133/2021: ETP, Anteprojeto, Projeto Básico, Projeto Executivo e Termo de Referência</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.4</span>
+                <span class="text-sm text-slate-700">Regimes de execução: preço unitário, preço global, integral, semi-integrada e integrada — adequação para hospitais</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.5</span>
+                <span class="text-sm text-slate-700">SINAPI e EMOP-RJ: quando usar cada base, como preencher lacunas com composições próprias e cotações</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.6</span>
+                <span class="text-sm text-slate-700">Sistemas especiais: como orçar gases medicinais, HVAC crítico, UPS/STS, automação hospitalar e equipamentos especiais</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.7</span>
+                <span class="text-sm text-slate-700">Estrutura analítica do orçamento hospitalar: 14 macrogrupos do EAP, da elétrica ao comissionamento</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.8</span>
+                <span class="text-sm text-slate-700">BDI, encargos sociais e custos indiretos em ambiente hospitalar — o que não pode ficar só no BDI</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.9</span>
+                <span class="text-sm text-slate-700">Cronograma físico-financeiro e Curva ABC: marcos técnicos, aquisições de longo prazo e itens críticos ao caminho</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.10</span>
+                <span class="text-sm text-slate-700">Orçamento sigiloso: uso, limites e cuidados — o que não pode ser ocultado mesmo com sigilo de preços</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.11</span>
+                <span class="text-sm text-slate-700">Análise de riscos e matriz de alocação: o que é risco do contratante, do contratado e do imprevisível</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.12</span>
+                <span class="text-sm text-slate-700">Habilitação técnica e competitividade: parcelas de maior relevância, atestados e condutas inadequadas</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.13</span>
+                <span class="text-sm text-slate-700">Critérios de medição e pagamento vinculados a entrega verificável — fases por sistema (gases, HVAC, gerador, alarme)</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.14</span>
+                <span class="text-sm text-slate-700">Pacote documental mínimo do edital: 20 documentos obrigatórios do objeto ao relatório de coerência final</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.15</span>
+                <span class="text-sm text-slate-700">12 Gates para liberação do edital: da ficha de enquadramento ao relatório de coerência final — checklist de 17 itens</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 8 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-amber-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">08</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-amber-600 font-semibold uppercase tracking-wide mb-0.5">Sistemas Críticos</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Instalações Críticas Hospitalares — Todos os Sistemas</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Elétrico, hidráulico, gases medicinais, HVAC, incêndio, eletrônicos e setores especiais.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-amber-50 text-amber-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">12 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=800&auto=format&fit=crop&q=80" alt="UTI hospitalar com equipamentos críticos" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.1</span>
+                <span class="text-sm text-slate-700">Instalações elétricas: entrada MT/BT, quadros, seletividade, proteção contra curto-circuito e identificação</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.2</span>
+                <span class="text-sm text-slate-700">Sistema IT-médico: DSI, equipotencialização, tomadas críticas, alarmes e ensaios — ambientes de locais médicos</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.3</span>
+                <span class="text-sm text-slate-700">Continuidade de energia: grupos geradores, QTA/STS, nobreaks, autonomia, comissionamento e testes de transferência</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.4</span>
+                <span class="text-sm text-slate-700">SPDA, DPS e aterramento hospitalar — equipotencialização de ambientes assistenciais e documentação</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.5</span>
+                <span class="text-sm text-slate-700">Hidráulica hospitalar: água fria, água quente (controle de temperatura Legionella), esgoto especial e pluviais</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.6</span>
+                <span class="text-sm text-slate-700">Gases medicinais: O₂, ar medicinal, vácuo clínico, N₂O, CO₂ e exaustão anestésica — centrais, redes, alarmes e pontos</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.7</span>
+                <span class="text-sm text-slate-700">HVAC crítico: centro cirúrgico, UTI, CME e isolamento — pressurização, renovação, filtragem HEPA e controle de contaminação</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.8</span>
+                <span class="text-sm text-slate-700">Automação de ar: controle de pressão diferencial, monitoramento contínuo e comissionamento de HVAC hospitalar</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.9</span>
+                <span class="text-sm text-slate-700">Incêndio e pânico: hidrantes, sprinklers, detecção, alarme, iluminação de emergência e sinalização — COSCIP RJ</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.10</span>
+                <span class="text-sm text-slate-700">Sistemas eletrônicos: cabeamento estruturado, Wi-Fi, chamada de enfermagem, CFTV, controle de acesso e BMS</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.11</span>
+                <span class="text-sm text-slate-700">Água tratada para processos especiais: hemodiálise, CME, laboratório — tratamento, monitoramento e validação</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.12</span>
+                <span class="text-sm text-slate-700">Setores especiais — CC, UTI, CME, diagnóstico por imagem/radiologia intervencionista, hemodiálise, laboratórios, lavanderia e nutrição: requisitos específicos de instalações por setor</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 9 -->
+      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
+        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
+          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-slate-700 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">09</div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-3">
+              <div>
+                <p class="text-xs text-slate-600 font-semibold uppercase tracking-wide mb-0.5">Modelos Práticos</p>
+                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Ferramentas e Modelos Prontos para Uso em Edital</h3>
+                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Matrizes, checklists, planilhas e modelos de anexos técnicos para aplicação imediata.</p>
+              </div>
+              <div class="flex-shrink-0 flex flex-col items-end gap-2">
+                <span class="text-xs bg-slate-100 text-slate-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">8 aulas</span>
+                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+              </div>
+            </div>
+          </div>
+        </button>
+        <div class="accordion-body" x-show="open" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0">
+          <div class="px-5 sm:px-6 pb-6">
+            <div class="overflow-hidden rounded-xl mb-5">
+              <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&auto=format&fit=crop&q=80" alt="Planejamento com checklists e matrizes" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.1</span>
+                <span class="text-sm text-slate-700">Modelo de matriz normativa do empreendimento: campos obrigatórios, situação, evidência e controle de edição</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.2</span>
+                <span class="text-sm text-slate-700">Checklist de recebimento de projetos: PB/anteprojeto/PE — lacunas críticas e ações antes de orçar</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.3</span>
+                <span class="text-sm text-slate-700">Modelo de escopo de instalações por sistema: elétrico, hidráulico, gases, HVAC, incêndio e eletrônicos</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.4</span>
+                <span class="text-sm text-slate-700">Modelo de planilha orçamentária com codificação EAP: 14 macrogrupos, itens mínimos e campos obrigatórios</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.5</span>
+                <span class="text-sm text-slate-700">Modelo de critérios de medição e pagamento: marcos por fase técnica, vinculados à entrega verificável</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.6</span>
+                <span class="text-sm text-slate-700">Plano de testes e comissionamento: sequência por sistema, responsáveis, documentos e evidências de aceite</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.7</span>
+                <span class="text-sm text-slate-700">Modelos de anexos técnicos do edital: especificações, matriz de riscos, lista de entregáveis e responsabilidades</span>
+              </div>
+              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2">
+                <span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.8</span>
+                <span class="text-sm text-slate-700">Checklist final — 12 Gates de liberação do edital: do enquadramento ao relatório de coerência, com exercícios práticos de revisão cruzada</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- end modules -->
+  </div>
+</section>
+
+<!-- ========== INSTRUCTOR ========== -->
+<section id="instrutor" class="py-16 sm:py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
+        <div class="flex-shrink-0">
+          <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 border-4 border-blue-50 shadow-lg">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80" alt="Renato Stofel — Engenheiro de Instalações" class="w-full h-full object-cover" loading="lazy"/>
+          </div>
+        </div>
+        <div class="flex-1 text-center md:text-left">
+          <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide mb-2">Seu instrutor</p>
+          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Renato Stofel</h2>
+          <p class="text-slate-500 text-sm font-medium mb-4">Engenheiro de Instalações · Rio de Janeiro, RJ</p>
+          <p class="text-slate-700 leading-relaxed mb-4">
+            Especialista em instalações hospitalares com foco em elaboração de editais, termos de referência e orçamentos referenciais para obras de saúde no Estado do Rio de Janeiro. Atua na interface entre engenharia técnica e contratação pública, com domínio das exigências da ANVISA, SUVISA, CBMERJ, Light, Naturgy e concessionárias locais.
+          </p>
+          <p class="text-slate-700 leading-relaxed mb-6">
+            Autor do <em>Manual do Engenheiro Orçamentista para Editais de Obras Hospitalares no Rio de Janeiro</em>, obra de referência que estrutura metodologia completa para elaboração de editais técnicos de instalações em estabelecimentos assistenciais de saúde.
+          </p>
+          <div class="flex flex-wrap justify-center md:justify-start gap-2">
+            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Instalações Hospitalares</span>
+            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Orçamento Referencial</span>
+            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Lei 14.133/2021</span>
+            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Normas ABNT</span>
+            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">ANVISA/SUVISA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOR WHOM ========== -->
+<section id="publico" class="py-16 sm:py-20 bg-slate-900 text-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-8">Para quem é este curso?</h2>
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-white">Engenheiros orçamentistas</p>
+              <p class="text-slate-400 text-sm mt-0.5">Que preparam editais, termos de referência e planilhas orçamentárias para obras hospitalares em órgãos públicos ou empresas de engenharia.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-white">Engenheiros de projetos e fiscalização</p>
+              <p class="text-slate-400 text-sm mt-0.5">Que atuam em EAS e precisam entender o universo normativo, os processos de aprovação e os critérios de aceite de instalações críticas.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-white">Gestores de contratos e servidores públicos</p>
+              <p class="text-slate-400 text-sm mt-0.5">Responsáveis por contratações hospitalares que precisam avaliar orçamentos, gerenciar riscos e verificar conformidade de instalações.</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+              <svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            </div>
+            <div>
+              <p class="font-semibold text-white">Profissionais em transição para a área hospitalar</p>
+              <p class="text-slate-400 text-sm mt-0.5">Engenheiros com experiência em obras convencionais que querem atuar na área de saúde com embasamento técnico e regulatório sólido.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-bold mb-8">Pré-requisitos</h2>
+        <div class="space-y-3">
+          <div class="flex items-center gap-3 p-4 bg-slate-800 rounded-xl border border-slate-700">
+            <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            <span class="text-slate-300 text-sm">Formação em Engenharia (Civil, Elétrica, Mecânica ou áreas correlatas)</span>
+          </div>
+          <div class="flex items-center gap-3 p-4 bg-slate-800 rounded-xl border border-slate-700">
+            <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+            <span class="text-slate-300 text-sm">Noções básicas de leitura de projetos e planilhas orçamentárias</span>
+          </div>
+          <div class="flex items-center gap-3 p-4 bg-slate-800 rounded-xl border border-slate-700">
+            <svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+            <span class="text-slate-300 text-sm">Interesse em atuar com obras hospitalares no Estado do Rio de Janeiro</span>
+          </div>
+          <div class="mt-4 p-4 bg-emerald-900/30 border border-emerald-700/40 rounded-xl">
+            <p class="text-emerald-300 text-sm font-medium mb-1">Experiência prévia em hospitais não é exigida</p>
+            <p class="text-slate-400 text-xs">O curso parte do zero regulatório e normativo, conduzindo o aluno progressivamente até os casos práticos mais complexos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ENROLLMENT CTA ========== -->
+<section id="inscricao" class="py-16 sm:py-24 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 relative overflow-hidden">
+  <div class="absolute inset-0 opacity-10">
+    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1400&auto=format&fit=crop&q=60" alt="" class="w-full h-full object-cover" loading="lazy"/>
+  </div>
+  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/80 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+      <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
+      Vagas disponíveis — Turma 2025
+    </div>
+    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Pronto para dominar instalações hospitalares?</h2>
+    <p class="text-blue-200 text-lg mb-8 max-w-2xl mx-auto">Inscreva-se agora e tenha acesso a 9 módulos completos, modelos prontos, matrizes normativas e suporte técnico especializado.</p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="mailto:contato@renatostofel.com.br" class="w-full sm:w-auto bg-white text-blue-800 font-bold px-8 py-4 rounded-xl text-center hover:bg-blue-50 transition-all shadow-lg hover:-translate-y-0.5">
+        Entrar em contato para inscrição
+      </a>
+      <a href="#modulos" class="w-full sm:w-auto border border-white/30 text-white font-semibold px-8 py-4 rounded-xl text-center hover:border-white/60 transition-all">
+        Ver conteúdo completo
+      </a>
+    </div>
+    <p class="text-white/40 text-xs mt-8">Rio de Janeiro, RJ &nbsp;·&nbsp; Engenheiro Renato Stofel &nbsp;·&nbsp; Formação presencial e online</p>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="bg-slate-950 text-slate-400 py-10">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs">RS</div>
+        <span class="text-white font-semibold text-sm">Renato Stofel <span class="text-blue-400 font-normal">| Cursos de Engenharia</span></span>
+      </div>
+      <p class="text-xs text-center sm:text-right">© 2025 Renato Stofel. Conteúdo baseado no <em>Manual do Engenheiro Orçamentista para Editais de Obras Hospitalares no RJ</em>. Rio de Janeiro, Brasil.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ========== MOBILE STICKY CTA ========== -->
+<div class="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-slate-900/95 backdrop-blur-sm border-t border-slate-700 px-4 py-3 safe-area-bottom">
+  <a href="#inscricao" class="block w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-center text-sm transition-colors">
+    Quero me inscrever no curso
+  </a>
+</div>
+
+<script>
+  function courseApp() {
+    return {
+      navOpen: false,
+    }
+  }
+</script>
+
+</body>
+</html>
