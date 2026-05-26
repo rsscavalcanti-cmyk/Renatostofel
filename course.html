@@ -1,565 +1,764 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Engenheiro Orçamentista para Obras Hospitalares no RJ — Curso Completo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
-  <style>
-    [x-cloak] { display: none !important; }
-    .accordion-body { overflow: hidden; }
-    html { scroll-behavior: smooth; }
-    .gradient-hero { background: linear-gradient(135deg, rgba(15,23,42,0.88) 0%, rgba(30,58,138,0.80) 100%); }
-    .module-card:hover .module-img { transform: scale(1.04); }
-    .module-img { transition: transform 0.4s ease; }
-    @keyframes fadeInUp { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
-    .fade-in { animation: fadeInUp 0.6s ease both; }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Engenheiro Orçamentista para Obras Hospitalares no RJ — Curso Completo</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>
+<style>
+[x-cloak]{display:none!important}
+html{scroll-behavior:smooth}
+.gradient-hero{background:linear-gradient(135deg,rgba(15,23,42,0.90) 0%,rgba(30,58,138,0.82) 100%)}
+.prose h2{font-size:1.2rem;font-weight:700;color:#1e293b;margin-top:2rem;margin-bottom:.6rem;padding-left:.75rem;border-left:4px solid #2563eb}
+.prose h3{font-size:1rem;font-weight:600;color:#334155;margin-top:1.4rem;margin-bottom:.4rem}
+.prose p{color:#475569;line-height:1.75;margin-bottom:.9rem}
+.prose ul{list-style:disc;padding-left:1.4rem;color:#475569;margin-bottom:.9rem}
+.prose ul li{margin-bottom:.3rem;line-height:1.65}
+.prose ol{list-style:decimal;padding-left:1.4rem;color:#475569;margin-bottom:.9rem}
+.prose ol li{margin-bottom:.3rem}
+.prose table{width:100%;border-collapse:collapse;margin-bottom:1.2rem;font-size:.82rem;overflow-x:auto;display:block}
+.prose th{background:#1e3a5f;color:#fff;padding:.45rem .7rem;text-align:left;white-space:nowrap}
+.prose td{padding:.4rem .7rem;border-bottom:1px solid #e2e8f0;color:#334155;vertical-align:top}
+.prose tr:nth-child(even) td{background:#f8fafc}
+.ibox{background:#eff6ff;border-left:4px solid #3b82f6;padding:.9rem 1.1rem;border-radius:.5rem;margin:1.1rem 0;color:#1e40af;font-size:.88rem}
+.wbox{background:#fefce8;border-left:4px solid #eab308;padding:.9rem 1.1rem;border-radius:.5rem;margin:1.1rem 0;color:#713f12;font-size:.88rem}
+.sbox{background:#f0fdf4;border-left:4px solid #22c55e;padding:.9rem 1.1rem;border-radius:.5rem;margin:1.1rem 0;color:#14532d;font-size:.88rem}
+.opt-btn{transition:all .15s;cursor:pointer;text-align:left}
+.opt-btn:hover{background:#eff6ff;border-color:#3b82f6}
+.opt-sel{background:#dbeafe!important;border-color:#2563eb!important}
+.opt-ok{background:#dcfce7!important;border-color:#16a34a!important}
+.opt-err{background:#fee2e2!important;border-color:#dc2626!important}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.fu{animation:fadeUp .35s ease both}
+</style>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased" x-data="courseApp()" x-cloak>
 
-<!-- ========== STICKY NAV ========== -->
-<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900/95 backdrop-blur-sm shadow-lg">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <a href="#inicio" class="flex items-center gap-2">
-        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm">RS</div>
-        <span class="text-white font-semibold text-sm hidden sm:block">Renato Stofel <span class="text-blue-400">| Cursos</span></span>
-      </a>
-      <div class="hidden md:flex items-center gap-6">
-        <a href="#modulos" class="text-slate-300 hover:text-white text-sm transition-colors">Módulos</a>
-        <a href="#instrutor" class="text-slate-300 hover:text-white text-sm transition-colors">Instrutor</a>
-        <a href="#publico" class="text-slate-300 hover:text-white text-sm transition-colors">Para quem é</a>
-        <a href="#inscricao" class="bg-blue-600 hover:bg-blue-500 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">Inscreva-se</a>
-      </div>
-      <button @click="navOpen = !navOpen" class="md:hidden text-slate-300 hover:text-white p-2">
-        <svg x-show="!navOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        <svg x-show="navOpen" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-      </button>
+<!-- ===================== HOME ===================== -->
+<div x-show="view==='home'">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900/96 backdrop-blur-sm shadow-lg">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs">EO</div>
+      <span class="text-white font-semibold text-sm hidden sm:block">Engenheiro Orçamentista <span class="text-blue-400">| Hospitais RJ</span></span>
     </div>
-  </div>
-  <div x-show="navOpen" x-transition class="md:hidden bg-slate-800 border-t border-slate-700">
-    <div class="px-4 py-3 flex flex-col gap-3">
-      <a href="#modulos" @click="navOpen=false" class="text-slate-300 hover:text-white text-sm py-1">Módulos</a>
-      <a href="#instrutor" @click="navOpen=false" class="text-slate-300 hover:text-white text-sm py-1">Instrutor</a>
-      <a href="#publico" @click="navOpen=false" class="text-slate-300 hover:text-white text-sm py-1">Para quem é</a>
-      <a href="#inscricao" @click="navOpen=false" class="bg-blue-600 text-white text-sm font-semibold px-4 py-2 rounded-lg text-center">Inscreva-se</a>
+    <div class="flex items-center gap-3">
+      <span class="text-slate-400 text-xs" x-text="completedCount()+'/9 concluídos'"></span>
+      <button @click="if(confirm('Reiniciar todo o progresso?'))resetProgress()" class="text-slate-500 hover:text-red-400 text-xs transition-colors">Reiniciar</button>
     </div>
   </div>
 </nav>
 
-<!-- ========== HERO ========== -->
-<section id="inicio" class="relative min-h-screen flex items-center pt-16">
+<section class="relative flex items-center min-h-[58vh] pt-16">
   <div class="absolute inset-0">
-    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1400&auto=format&fit=crop&q=80" alt="Hospital moderno" class="w-full h-full object-cover" loading="eager" />
+    <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1400&auto=format&fit=crop&q=80" alt="Hospital" class="w-full h-full object-cover"/>
     <div class="gradient-hero absolute inset-0"></div>
   </div>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-    <div class="max-w-3xl">
-      <div class="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-400/30 text-blue-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
+  <div class="relative max-w-6xl mx-auto px-4 py-14 sm:py-20">
+    <div class="max-w-2xl">
+      <div class="inline-flex items-center gap-2 bg-blue-600/20 border border-blue-400/30 text-blue-300 text-xs font-semibold px-3 py-1.5 rounded-full mb-5">
         <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>
-        Novo curso — Turma 2025
+        Curso de leitura — 9 módulos + quizzes
       </div>
-      <h1 class="text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-6 fade-in">
-        Engenheiro Orçamentista para<br/>
-        <span class="text-blue-400">Obras Hospitalares no RJ</span>
+      <h1 class="text-3xl sm:text-4xl font-bold text-white leading-tight mb-4">
+        Engenheiro Orçamentista para<br/><span class="text-blue-400">Obras Hospitalares no RJ</span>
       </h1>
-      <p class="text-lg sm:text-xl text-slate-200 mb-4 leading-relaxed">
-        Do programa assistencial ao edital publicado: domine instalações elétricas, gases medicinais, HVAC crítico, legislação sanitária, normas técnicas e contratação pública em hospitais fluminenses.
-      </p>
-      <p class="text-slate-400 mb-8 text-sm sm:text-base">
-        Formação completa baseada no <em>Manual do Engenheiro Orçamentista para Editais de Obras Hospitalares no Rio de Janeiro</em> — 9 módulos, casos reais, matrizes, checklists e modelos prontos para uso.
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4">
-        <a href="#inscricao" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-4 rounded-xl text-center transition-all shadow-lg hover:shadow-blue-500/25 hover:-translate-y-0.5">Quero me inscrever</a>
-        <a href="#modulos" class="border border-white/30 hover:border-white/60 text-white font-semibold px-8 py-4 rounded-xl text-center transition-all backdrop-blur-sm">Ver conteúdo completo</a>
+      <p class="text-slate-300 mb-6 leading-relaxed text-sm sm:text-base">Do programa assistencial ao edital publicado — instalações elétricas, gases medicinais, HVAC crítico, legislação sanitária, normas ABNT e contratação pública em hospitais fluminenses.</p>
+      <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-sm">
+        <div class="flex justify-between text-xs text-slate-300 mb-2">
+          <span>Seu progresso</span><span x-text="completedCount()+' de 9 módulos concluídos'"></span>
+        </div>
+        <div class="h-2 bg-slate-700 rounded-full overflow-hidden">
+          <div class="h-full bg-emerald-500 rounded-full transition-all duration-700" :style="'width:'+Math.round(completedCount()/9*100)+'%'"></div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/50 animate-bounce hidden md:block">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-  </div>
 </section>
 
-<!-- ========== STATS BAR ========== -->
 <div class="bg-slate-900 text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-2 md:grid-cols-4 divide-x divide-slate-700">
-      <div class="py-6 px-4 text-center"><div class="text-2xl sm:text-3xl font-bold text-blue-400">9</div><div class="text-xs sm:text-sm text-slate-400 mt-1">Módulos completos</div></div>
-      <div class="py-6 px-4 text-center"><div class="text-2xl sm:text-3xl font-bold text-blue-400">55+</div><div class="text-xs sm:text-sm text-slate-400 mt-1">Aulas e tópicos</div></div>
-      <div class="py-6 px-4 text-center"><div class="text-2xl sm:text-3xl font-bold text-blue-400">8</div><div class="text-xs sm:text-sm text-slate-400 mt-1">Sistemas de instalações</div></div>
-      <div class="py-6 px-4 text-center"><div class="text-2xl sm:text-3xl font-bold text-blue-400">100%</div><div class="text-xs sm:text-sm text-slate-400 mt-1">Foco no Rio de Janeiro</div></div>
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-700">
+      <div class="py-5 px-4 text-center"><div class="text-2xl font-bold text-blue-400">9</div><div class="text-xs text-slate-400 mt-0.5">Módulos</div></div>
+      <div class="py-5 px-4 text-center"><div class="text-2xl font-bold text-blue-400">72</div><div class="text-xs text-slate-400 mt-0.5">Questões</div></div>
+      <div class="py-5 px-4 text-center"><div class="text-2xl font-bold text-blue-400">8</div><div class="text-xs text-slate-400 mt-0.5">Sistemas</div></div>
+      <div class="py-5 px-4 text-center"><div class="text-2xl font-bold text-blue-400">100%</div><div class="text-xs text-slate-400 mt-0.5">Foco RJ</div></div>
     </div>
   </div>
 </div>
 
-<!-- ========== OVERVIEW CARDS ========== -->
-<section class="py-16 sm:py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">O que você vai dominar</h2>
-      <p class="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base">Formação técnica e prática para engenheiros que elaboram editais, termos de referência e orçamentos de instalações hospitalares no Estado do Rio de Janeiro.</p>
-    </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
-        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-        <h3 class="font-bold text-slate-900 mb-2">Base Regulatória Completa</h3>
-        <p class="text-slate-500 text-sm">ANVISA, SES-RJ/SUVISA, CBMERJ, Light, Naturgy e concessionárias — todas as interfaces regulatórias tratadas com rigor técnico.</p>
+<section class="py-12 sm:py-16 max-w-4xl mx-auto px-4">
+  <h2 class="text-2xl font-bold text-slate-900 mb-1 text-center">Módulos do Curso</h2>
+  <p class="text-slate-500 text-sm text-center mb-8">Clique em qualquer módulo para começar a leitura</p>
+  <div class="space-y-3">
+    <template x-for="(mod,idx) in modules" :key="idx">
+      <div @click="startModule(idx)" class="bg-white rounded-xl border border-slate-100 shadow-sm hover:shadow-md hover:border-blue-200 transition-all cursor-pointer p-4 flex items-center gap-4">
+        <div class="flex-shrink-0 w-11 h-11 rounded-xl flex items-center justify-center font-bold text-white text-sm" :class="mod.bg" x-text="String(idx+1).padStart(2,'0')"></div>
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold text-slate-900 text-sm leading-snug" x-text="mod.title"></p>
+          <p class="text-xs text-slate-400 mt-0.5" x-text="mod.sub"></p>
+        </div>
+        <div class="flex-shrink-0 flex flex-col items-end gap-1 ml-2">
+          <template x-if="isCompleted(idx)">
+            <span class="inline-flex items-center gap-1 text-xs text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full font-medium">
+              <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+              <span x-text="getSavedScore(idx)+'/8'"></span>
+            </span>
+          </template>
+          <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+        </div>
       </div>
-      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
-        <div class="w-12 h-12 bg-emerald-100 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg></div>
-        <h3 class="font-bold text-slate-900 mb-2">Orçamento Referencial Defensável</h3>
-        <p class="text-slate-500 text-sm">SINAPI, EMOP-RJ, composições próprias, cotações equalizadas — método completo para sistemas especiais como gases medicinais, HVAC crítico e UPS.</p>
-      </div>
-      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
-        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-purple-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg></div>
-        <h3 class="font-bold text-slate-900 mb-2">Matriz Normativa por Sistema</h3>
-        <p class="text-slate-500 text-sm">Aprenda a transformar cada NBR em consequência prática: projeto exigido, material especificado, teste de aceite e documento de entrega.</p>
-      </div>
-      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
-        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
-        <h3 class="font-bold text-slate-900 mb-2">4 Tipos de Intervenção</h3>
-        <p class="text-slate-500 text-sm">Obra nova, ampliação, reforma operacional e retrofit — cada modalidade com impactos específicos em escopo, orçamento, prazo e riscos.</p>
-      </div>
-      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
-        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-red-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg></div>
-        <h3 class="font-bold text-slate-900 mb-2">Sistemas Críticos na Prática</h3>
-        <p class="text-slate-500 text-sm">Instalações elétricas com IT-médico, gases medicinais, HVAC para áreas críticas, incêndio e sistemas eletrônicos hospitalares — do projeto ao comissionamento.</p>
-      </div>
-      <div class="bg-slate-50 rounded-2xl p-6 border border-slate-100 hover:border-blue-200 hover:shadow-lg transition-all">
-        <div class="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-4"><svg class="w-6 h-6 text-teal-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg></div>
-        <h3 class="font-bold text-slate-900 mb-2">Modelos Prontos para Usar</h3>
-        <p class="text-slate-500 text-sm">Matrizes normativas, checklists de recebimento de projetos, planilhas orçamentárias, critérios de medição e 12 gates para liberação do edital.</p>
-      </div>
-    </div>
+    </template>
   </div>
 </section>
 
-<!-- ========== MODULES ========== -->
-<section id="modulos" class="py-16 sm:py-20 bg-slate-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12">
-      <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Conteúdo do Curso — 9 Módulos</h2>
-      <p class="text-slate-500 max-w-2xl mx-auto text-sm sm:text-base">Clique em cada módulo para expandir o conteúdo detalhado das aulas.</p>
-    </div>
-    <div class="space-y-4">
-
-      <!-- MODULE 1 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: true}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">01</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-blue-600 font-semibold uppercase tracking-wide mb-0.5">Fundamentos</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">O Hospital e o Papel do Engenheiro Orçamentista</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Por que instalações hospitalares exigem tratamento especializado e como o orçamentista atua.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-blue-50 text-blue-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">5 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=800&auto=format&fit=crop&q=80" alt="Corredor hospitalar moderno" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.1</span><span class="text-sm text-slate-700">O hospital como edificação de risco operacional elevado — por que instalações não são sistemas auxiliares</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.2</span><span class="text-sm text-slate-700">Papel do engenheiro orçamentista na elaboração do edital: além do levantamento de quantitativos</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.3</span><span class="text-sm text-slate-700">Os 10 sistemas principais: elétrico, hidráulico, gases medicinais, HVAC, incêndio, cabeamento e mais</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.4</span><span class="text-sm text-slate-700">Identificar requisitos normativos, riscos de omissão e interfaces entre disciplinas — competências essenciais</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-700 rounded-full text-xs font-bold flex items-center justify-center">1.5</span><span class="text-sm text-slate-700">Resultado esperado: do programa assistencial ao edital técnico — visão geral do percurso formativo</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 2 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-orange-500 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">02</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-orange-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 3</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Tipos de Intervenção Hospitalar</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Obra nova, ampliação, reforma operacional e retrofit — impactos em escopo, orçamento e riscos.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-orange-50 text-orange-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">6 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=80" alt="Obra de construção hospitalar" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.1</span><span class="text-sm text-slate-700">As 4 modalidades de intervenção: definições, fronteiras e regras de enquadramento para instalações</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.2</span><span class="text-sm text-slate-700">Obra nova: ponto de partida sem restrições de rede existente — documentação e escopo completo</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.3</span><span class="text-sm text-slate-700">Ampliação: conectar ao existente sem comprometer a operação — diagnóstico de redes e interfaces</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.4</span><span class="text-sm text-slate-700">Reforma operacional: planejar execução com hospital em funcionamento — faseamento e provisórios</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.5</span><span class="text-sm text-slate-700">Retrofit: modernização de sistemas críticos sem paralisar assistência — riscos e estratégias de migração</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-orange-100 text-orange-700 rounded-full text-xs font-bold flex items-center justify-center">2.6</span><span class="text-sm text-slate-700">Matrizes de decisão por tipo de intervenção e os 10 erros mais comuns no orçamento de cada modalidade</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 3 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-emerald-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">03</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-emerald-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 4</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Leitura do Programa de Necessidades Assistencial</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Metodologia de 6 camadas para traduzir o programa em requisitos precisos de instalações.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-emerald-50 text-emerald-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">8 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=800&auto=format&fit=crop&q=80" alt="Plantas e projetos hospitalares" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.1</span><span class="text-sm text-slate-700">O programa assistencial como ponto de partida indispensável — por que orçar sem ele é erro grave</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.2</span><span class="text-sm text-slate-700">1ª Camada: Identificação de serviços e atividades assistenciais previstas no hospital</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.3</span><span class="text-sm text-slate-700">2ª Camada: Métricas de capacidade — leitos, salas, atendimentos e sua tradução em demandas de instalações</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.4</span><span class="text-sm text-slate-700">3ª e 4ª Camadas: Ambientes, relações, fluxos e processos operacionais por setor hospitalar</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.5</span><span class="text-sm text-slate-700">5ª Camada: Equipamentos e suas demandas — elétrica, gases, hidráulica, HVAC, dados e utilidades</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.6</span><span class="text-sm text-slate-700">6ª Camada: Regime operacional — 24h, turnos, sazonalidade e continuidade de sistemas críticos</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-emerald-100 text-emerald-700 rounded-full text-xs font-bold flex items-center justify-center">3.7</span><span class="text-sm text-slate-700">Os 9 setores hospitalares: UTI, CC, CME, imagem, hemodiálise, laboratório, internação, PA e apoio — guia prático de leitura para cada setor</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 4 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-purple-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">04</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-purple-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 5</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">ANVISA, Vigilância Sanitária e Aprovação de Projetos Físicos</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">RDC 50/2002, RDC 51/2011, PBA e compliance sanitário no Estado do Rio de Janeiro.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-purple-50 text-purple-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">7 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=800&auto=format&fit=crop&q=80" alt="Documentos oficiais e aprovação sanitária" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.1</span><span class="text-sm text-slate-700">Estrutura regulatória dual: ANVISA federal (RDC 50/2002 e RDC 51/2011) e SES-RJ/SUVISA estadual</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.2</span><span class="text-sm text-slate-700">RDC 50/2002: ambientes mínimos, requisitos físico-funcionais e condicionantes por tipo de EAS</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.3</span><span class="text-sm text-slate-700">Projeto Básico de Arquitetura (PBA): o que é, quem elabora, quais instalações são declaradas</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.4</span><span class="text-sm text-slate-700">Resoluções SES-RJ nº 1.058/2014 e nº 1.822/2019: procedimentos de aprovação no Estado do RJ</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.5</span><span class="text-sm text-slate-700">Documentos de instalações exigíveis no visto em planta: elétrico, hidráulico, gases, HVAC, incêndio</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.6</span><span class="text-sm text-slate-700">Processo de aprovação: prazos típicos, exigências frequentes, marcos impeditivos e compliance final</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 rounded-full text-xs font-bold flex items-center justify-center">4.7</span><span class="text-sm text-slate-700">Responsabilidades no edital: quem elabora, protocola, acompanha e atende exigências sanitárias</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 5 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">05</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-indigo-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 6</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Matriz Aprofundada das NBRs para Instalações Hospitalares</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Como selecionar, aplicar e transformar normas técnicas em itens concretos de edital e orçamento.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-indigo-50 text-indigo-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">11 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1568667256549-094345857637?w=800&auto=format&fit=crop&q=80" alt="Documentos normativos técnicos" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.1</span><span class="text-sm text-slate-700">As 4 origens de obrigação no edital hospitalar: regulação sanitária, ABNT, exigência local e contratual</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.2</span><span class="text-sm text-slate-700">Classificação H/G/C/L: como categorizar normas hospitalares, gerais, condicionais e locais/regulatórias</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.3</span><span class="text-sm text-slate-700">NBRs elétricas: NBR 13534 (EAS), NBR IEC 60364, NBR 5410 e o sistema IT-médico</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.4</span><span class="text-sm text-slate-700">NBRs de HVAC hospitalar: NBR 7256 (ar em EAS), NBR 16401, NBR ISO 14644</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.5</span><span class="text-sm text-slate-700">NBRs de gases medicinais: NBR 12188, NBR ISO 7396-1 (tubulação), NBR ISO 7396-2 (exaustão anestésica)</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.6</span><span class="text-sm text-slate-700">NBRs hidráulicas e de incêndio: NBR 5626, 8160, 10844, 10897 (sprinklers), 13714 (hidrantes), 17240</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.7</span><span class="text-sm text-slate-700">Gás combustível e telecomunicações: NBR 15526, NBR 14565, BMS e cabeamento</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.8</span><span class="text-sm text-slate-700">Matriz por setor: quais normas abrir primeiro para CC, UTI, CME, imagem e mais</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.9</span><span class="text-sm text-slate-700">7 passos para converter norma em item de edital: acionador → norma → requisito → projeto → item → medição → evidência</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.10</span><span class="text-sm text-slate-700">Controle de edições, revisões e conflitos normativos — registro obrigatório e regras de atualização</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 rounded-full text-xs font-bold flex items-center justify-center">5.11</span><span class="text-sm text-slate-700">10 erros críticos no uso de NBRs em editais hospitalares — checklist de 15 itens para verificação final</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 6 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-teal-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">06</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-teal-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 7</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Regras Específicas do Rio de Janeiro para Instalações Hospitalares</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">SES-RJ/SUVISA, CBMERJ, Light, Naturgy, concessionárias de água e interfaces locais do edital.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-teal-50 text-teal-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">9 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=800&auto=format&fit=crop&q=80" alt="Rio de Janeiro" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.1</span><span class="text-sm text-slate-700">Princípio fundamental: endereço + sistema = interface regulatória — mapa inicial de 6 agentes no RJ</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.2</span><span class="text-sm text-slate-700">SES-RJ/SUVISA: Res. 1.058/2014 e 1.822/2019 — status de PBA, exigências de instalações e marcos</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.3</span><span class="text-sm text-slate-700">CBMERJ/DGST: COSCIP, NT CBMERJ — Laudo de Exigências (LE) e Certificado de Aprovação (CA)</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.4</span><span class="text-sm text-slate-700">Light: modalidade BT/MT, padrões RECON 2023/2026 — consulta, projeto, aprovação e obras de conexão</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.5</span><span class="text-sm text-slate-700">Naturgy/AGENERSA: gás combustível — separação obrigatória dos gases medicinais, IN 48/2015 e IN 113/2024</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.6</span><span class="text-sm text-slate-700">Concessionárias de água e esgoto: Águas do Rio, Iguá Rio, Rio+Saneamento — viabilidade por endereço</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.7</span><span class="text-sm text-slate-700">Órgãos municipais, INEA e complementares: logradouro, drenagem, efluentes especiais</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.8</span><span class="text-sm text-slate-700">Matriz de Interfaces Regulatórias e Concessionárias: modelo-base com status, responsáveis e marcos</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-teal-100 text-teal-700 rounded-full text-xs font-bold flex items-center justify-center">6.9</span><span class="text-sm text-slate-700">Casos práticos: hospital novo na capital fluminense e ampliação de UTI — 5 checklists por agente externo</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 7 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-rose-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">07</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-rose-600 font-semibold uppercase tracking-wide mb-0.5">Capítulo 8</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Contratação Pública e Orçamento Referencial</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Lei 14.133/2021, SINAPI, EMOP-RJ, regimes de execução e pacote documental completo para licitação.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-rose-50 text-rose-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">15 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800&auto=format&fit=crop&q=80" alt="Orçamento e planilhas de obra" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.1</span><span class="text-sm text-slate-700">Primeira decisão: qual regra governa o empreendimento — Lei 14.133/2021, Lei 13.303/2016 ou regulamento próprio</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.2</span><span class="text-sm text-slate-700">Ficha de enquadramento jurídico-orçamentário: contratante, natureza, base de custos, portal de publicação</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.3</span><span class="text-sm text-slate-700">Fase preparatória da Lei 14.133/2021: ETP, Anteprojeto, Projeto Básico, Projeto Executivo e Termo de Referência</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.4</span><span class="text-sm text-slate-700">Regimes de execução: preço unitário, preço global, integral, semi-integrada e integrada — adequação hospitalar</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.5</span><span class="text-sm text-slate-700">SINAPI e EMOP-RJ: quando usar cada base e como preencher lacunas com composições próprias e cotações</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.6</span><span class="text-sm text-slate-700">Sistemas especiais: como orçar gases medicinais, HVAC crítico, UPS/STS, automação e equipamentos especiais</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.7</span><span class="text-sm text-slate-700">Estrutura analítica do orçamento hospitalar: 14 macrogrupos do EAP, da elétrica ao comissionamento</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.8</span><span class="text-sm text-slate-700">BDI, encargos sociais e custos indiretos — o que não pode ficar só no BDI em obras hospitalares</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.9</span><span class="text-sm text-slate-700">Cronograma físico-financeiro e Curva ABC: marcos técnicos, aquisições de longo prazo e itens críticos</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.10</span><span class="text-sm text-slate-700">Orçamento sigiloso: uso, limites e cuidados — o que não pode ser ocultado mesmo com sigilo de preços</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.11</span><span class="text-sm text-slate-700">Análise de riscos e matriz de alocação: risco do contratante, do contratado e do imprevisível</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.12</span><span class="text-sm text-slate-700">Habilitação técnica e competitividade: parcelas de maior relevância, atestados e condutas inadequadas</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.13</span><span class="text-sm text-slate-700">Critérios de medição e pagamento vinculados a entrega verificável por sistema</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.14</span><span class="text-sm text-slate-700">Pacote documental mínimo do edital: 20 documentos obrigatórios do objeto ao relatório de coerência final</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-rose-100 text-rose-700 rounded-full text-xs font-bold flex items-center justify-center">7.15</span><span class="text-sm text-slate-700">12 Gates para liberação do edital: da ficha de enquadramento ao relatório de coerência — checklist de 17 itens</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 8 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-amber-600 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">08</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-amber-600 font-semibold uppercase tracking-wide mb-0.5">Sistemas Críticos</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Instalações Críticas Hospitalares — Todos os Sistemas</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Elétrico, hidráulico, gases medicinais, HVAC, incêndio, eletrônicos e setores especiais.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-amber-50 text-amber-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">12 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=800&auto=format&fit=crop&q=80" alt="UTI hospitalar" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.1</span><span class="text-sm text-slate-700">Instalações elétricas: entrada MT/BT, quadros, seletividade, proteção e identificação</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.2</span><span class="text-sm text-slate-700">Sistema IT-médico: DSI, equipotencialização, tomadas críticas, alarmes e ensaios</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.3</span><span class="text-sm text-slate-700">Continuidade de energia: geradores, QTA/STS, nobreaks, autonomia e testes de transferência</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.4</span><span class="text-sm text-slate-700">SPDA, DPS e aterramento hospitalar — equipotencialização de ambientes assistenciais</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.5</span><span class="text-sm text-slate-700">Hidráulica hospitalar: água fria, quente (controle de temperatura Legionella), esgoto e pluviais</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.6</span><span class="text-sm text-slate-700">Gases medicinais: O₂, ar medicinal, vácuo clínico, N₂O, CO₂ e exaustão anestésica — centrais, redes e alarmes</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.7</span><span class="text-sm text-slate-700">HVAC crítico: CC, UTI, CME e isolamento — pressurização, renovação, filtragem HEPA e controle</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.8</span><span class="text-sm text-slate-700">Automação de ar: controle de pressão diferencial, monitoramento e comissionamento de HVAC</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.9</span><span class="text-sm text-slate-700">Incêndio e pânico: hidrantes, sprinklers, detecção, alarme, iluminação e sinalização — COSCIP RJ</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.10</span><span class="text-sm text-slate-700">Sistemas eletrônicos: cabeamento estruturado, chamada de enfermagem, CFTV, controle de acesso e BMS</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.11</span><span class="text-sm text-slate-700">Água tratada para processos especiais: hemodiálise, CME, laboratório — tratamento e validação</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-amber-100 text-amber-700 rounded-full text-xs font-bold flex items-center justify-center">8.12</span><span class="text-sm text-slate-700">Setores especiais: CC, UTI, CME, imagem, hemodiálise, laboratórios, lavanderia e nutrição — requisitos por setor</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 9 -->
-      <div class="module-card bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden" x-data="{open: false}">
-        <button @click="open = !open" class="w-full text-left p-5 sm:p-6 flex items-start gap-4 hover:bg-slate-50 transition-colors">
-          <div class="flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 bg-slate-700 text-white rounded-xl flex items-center justify-center font-bold text-sm sm:text-base">09</div>
-          <div class="flex-1 min-w-0">
-            <div class="flex items-start justify-between gap-3">
-              <div>
-                <p class="text-xs text-slate-600 font-semibold uppercase tracking-wide mb-0.5">Modelos Práticos</p>
-                <h3 class="font-bold text-slate-900 text-base sm:text-lg leading-tight">Ferramentas e Modelos Prontos para Uso em Edital</h3>
-                <p class="text-slate-500 text-sm mt-1 hidden sm:block">Matrizes, checklists, planilhas e modelos de anexos técnicos para aplicação imediata.</p>
-              </div>
-              <div class="flex-shrink-0 flex flex-col items-end gap-2">
-                <span class="text-xs bg-slate-100 text-slate-700 font-medium px-2 py-0.5 rounded-full whitespace-nowrap">8 aulas</span>
-                <svg :class="open ? 'rotate-180' : ''" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-              </div>
-            </div>
-          </div>
-        </button>
-        <div class="accordion-body" x-show="open" x-transition>
-          <div class="px-5 sm:px-6 pb-6">
-            <div class="overflow-hidden rounded-xl mb-5"><img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=800&auto=format&fit=crop&q=80" alt="Planejamento com checklists" class="module-img w-full h-40 sm:h-52 object-cover" loading="lazy"/></div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.1</span><span class="text-sm text-slate-700">Modelo de matriz normativa do empreendimento: campos obrigatórios, situação, evidência e controle</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.2</span><span class="text-sm text-slate-700">Checklist de recebimento de projetos: PB/anteprojeto/PE — lacunas críticas e ações antes de orçar</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.3</span><span class="text-sm text-slate-700">Modelo de escopo de instalações por sistema: elétrico, hidráulico, gases, HVAC, incêndio e eletrônicos</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.4</span><span class="text-sm text-slate-700">Modelo de planilha orçamentária com codificação EAP: 14 macrogrupos e campos obrigatórios</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.5</span><span class="text-sm text-slate-700">Modelo de critérios de medição e pagamento: marcos por fase técnica, vinculados à entrega verificável</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.6</span><span class="text-sm text-slate-700">Plano de testes e comissionamento: sequência por sistema, responsáveis e evidências de aceite</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.7</span><span class="text-sm text-slate-700">Modelos de anexos técnicos do edital: especificações, riscos, entregáveis e responsabilidades</span></div>
-              <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl sm:col-span-2"><span class="flex-shrink-0 w-6 h-6 bg-slate-200 text-slate-700 rounded-full text-xs font-bold flex items-center justify-center">9.8</span><span class="text-sm text-slate-700">Checklist final — 12 Gates de liberação do edital: do enquadramento ao relatório de coerência, com exercícios de revisão cruzada</span></div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ========== INSTRUCTOR ========== -->
-<section id="instrutor" class="py-16 sm:py-20 bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
-      <div class="flex flex-col md:flex-row items-center md:items-start gap-8">
-        <div class="flex-shrink-0">
-          <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl overflow-hidden bg-slate-100 border-4 border-blue-50 shadow-lg">
-            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&auto=format&fit=crop&q=80" alt="Renato Stofel — Engenheiro de Instalações" class="w-full h-full object-cover" loading="lazy"/>
-          </div>
-        </div>
-        <div class="flex-1 text-center md:text-left">
-          <p class="text-blue-600 font-semibold text-sm uppercase tracking-wide mb-2">Seu instrutor</p>
-          <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Renato Stofel</h2>
-          <p class="text-slate-500 text-sm font-medium mb-4">Engenheiro de Instalações · Rio de Janeiro, RJ</p>
-          <p class="text-slate-700 leading-relaxed mb-4">Especialista em instalações hospitalares com foco em elaboração de editais, termos de referência e orçamentos referenciais para obras de saúde no Estado do Rio de Janeiro. Atua na interface entre engenharia técnica e contratação pública, com domínio das exigências da ANVISA, SUVISA, CBMERJ, Light, Naturgy e concessionárias locais.</p>
-          <p class="text-slate-700 leading-relaxed mb-6">Autor do <em>Manual do Engenheiro Orçamentista para Editais de Obras Hospitalares no Rio de Janeiro</em>, obra de referência que estrutura metodologia completa para elaboração de editais técnicos de instalações em estabelecimentos assistenciais de saúde.</p>
-          <div class="flex flex-wrap justify-center md:justify-start gap-2">
-            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Instalações Hospitalares</span>
-            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Orçamento Referencial</span>
-            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Lei 14.133/2021</span>
-            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">Normas ABNT</span>
-            <span class="text-xs bg-blue-50 text-blue-700 font-medium px-3 py-1.5 rounded-full">ANVISA/SUVISA</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== FOR WHOM ========== -->
-<section id="publico" class="py-16 sm:py-20 bg-slate-900 text-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-start">
-      <div>
-        <h2 class="text-2xl sm:text-3xl font-bold mb-8">Para quem é este curso?</h2>
-        <div class="space-y-4">
-          <div class="flex items-start gap-4"><div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><div><p class="font-semibold text-white">Engenheiros orçamentistas</p><p class="text-slate-400 text-sm mt-0.5">Que preparam editais, termos de referência e planilhas para obras hospitalares em órgãos públicos ou empresas de engenharia.</p></div></div>
-          <div class="flex items-start gap-4"><div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><div><p class="font-semibold text-white">Engenheiros de projetos e fiscalização</p><p class="text-slate-400 text-sm mt-0.5">Que atuam em EAS e precisam entender o universo normativo, processos de aprovação e critérios de aceite de instalações críticas.</p></div></div>
-          <div class="flex items-start gap-4"><div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><div><p class="font-semibold text-white">Gestores de contratos e servidores públicos</p><p class="text-slate-400 text-sm mt-0.5">Responsáveis por contratações hospitalares que avaliam orçamentos, gerenciam riscos e verificam conformidade de instalações.</p></div></div>
-          <div class="flex items-start gap-4"><div class="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center"><svg class="w-4 h-4 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg></div><div><p class="font-semibold text-white">Profissionais em transição para a área hospitalar</p><p class="text-slate-400 text-sm mt-0.5">Engenheiros com experiência em obras convencionais que querem atuar em saúde com embasamento técnico e regulatório sólido.</p></div></div>
-        </div>
-      </div>
-      <div>
-        <h2 class="text-2xl sm:text-3xl font-bold mb-8">Pré-requisitos</h2>
-        <div class="space-y-3">
-          <div class="flex items-center gap-3 p-4 bg-slate-800 rounded-xl border border-slate-700"><svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg><span class="text-slate-300 text-sm">Formação em Engenharia (Civil, Elétrica, Mecânica ou áreas correlatas)</span></div>
-          <div class="flex items-center gap-3 p-4 bg-slate-800 rounded-xl border border-slate-700"><svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg><span class="text-slate-300 text-sm">Noções básicas de leitura de projetos e planilhas orçamentárias</span></div>
-          <div class="flex items-center gap-3 p-4 bg-slate-800 rounded-xl border border-slate-700"><svg class="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg><span class="text-slate-300 text-sm">Interesse em atuar com obras hospitalares no Estado do Rio de Janeiro</span></div>
-          <div class="mt-4 p-4 bg-emerald-900/30 border border-emerald-700/40 rounded-xl"><p class="text-emerald-300 text-sm font-medium mb-1">Experiência prévia em hospitais não é exigida</p><p class="text-slate-400 text-xs">O curso parte do zero regulatório e normativo, conduzindo o aluno progressivamente até os casos práticos mais complexos.</p></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ========== ENROLLMENT CTA ========== -->
-<section id="inscricao" class="py-16 sm:py-24 bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-10"><img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?w=1400&auto=format&fit=crop&q=60" alt="" class="w-full h-full object-cover" loading="lazy"/></div>
-  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div class="inline-flex items-center gap-2 bg-white/10 border border-white/20 text-white/80 text-xs font-semibold px-3 py-1.5 rounded-full mb-6"><span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></span>Vagas disponíveis — Turma 2025</div>
-    <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">Pronto para dominar instalações hospitalares?</h2>
-    <p class="text-blue-200 text-lg mb-8 max-w-2xl mx-auto">Inscreva-se agora e tenha acesso a 9 módulos completos, modelos prontos, matrizes normativas e suporte técnico especializado.</p>
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <a href="mailto:contato@renatostofel.com.br" class="w-full sm:w-auto bg-white text-blue-800 font-bold px-8 py-4 rounded-xl text-center hover:bg-blue-50 transition-all shadow-lg hover:-translate-y-0.5">Entrar em contato para inscrição</a>
-      <a href="#modulos" class="w-full sm:w-auto border border-white/30 text-white font-semibold px-8 py-4 rounded-xl text-center hover:border-white/60 transition-all">Ver conteúdo completo</a>
-    </div>
-    <p class="text-white/40 text-xs mt-8">Rio de Janeiro, RJ &nbsp;·&nbsp; Engenheiro Renato Stofel &nbsp;·&nbsp; Formação presencial e online</p>
-  </div>
-</section>
-
-<!-- ========== FOOTER ========== -->
-<footer class="bg-slate-950 text-slate-400 py-10">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2"><div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-xs">RS</div><span class="text-white font-semibold text-sm">Renato Stofel <span class="text-blue-400 font-normal">| Cursos de Engenharia</span></span></div>
-      <p class="text-xs text-center sm:text-right">© 2025 Renato Stofel. Conteúdo baseado no <em>Manual do Engenheiro Orçamentista para Editais de Obras Hospitalares no RJ</em>. Rio de Janeiro, Brasil.</p>
-    </div>
-  </div>
+<footer class="bg-slate-900 text-slate-400 text-center py-8 text-xs">
+  <p class="text-slate-200 font-semibold mb-1">Engenheiro Orçamentista para Obras Hospitalares no RJ</p>
+  <p>Conteúdo baseado no Manual do Engenheiro Orçamentista para Editais de Obras Hospitalares no Estado do Rio de Janeiro</p>
 </footer>
+</div>
 
-<!-- ========== MOBILE STICKY CTA ========== -->
-<div class="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-slate-900/95 backdrop-blur-sm border-t border-slate-700 px-4 py-3">
-  <a href="#inscricao" class="block w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl text-center text-sm transition-colors">Quero me inscrever no curso</a>
+<!-- ===================== MODULE ===================== -->
+<div x-show="view==='module'" class="min-h-screen bg-slate-50">
+<div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+  <div class="max-w-4xl mx-auto px-4 h-14 flex items-center gap-3">
+    <button @click="view='home';window.scrollTo(0,0)" class="text-slate-500 hover:text-blue-600 transition-colors flex-shrink-0">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="flex-1 min-w-0">
+      <p class="text-xs text-slate-400">Módulo <span x-text="currentModule+1"></span> de 9</p>
+      <p class="text-sm font-semibold text-slate-800 truncate" x-text="modules[currentModule].title"></p>
+    </div>
+    <button @click="startQuiz()" class="bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold px-4 py-2 rounded-lg transition-colors whitespace-nowrap flex-shrink-0">Ir ao Quiz →</button>
+  </div>
+  <div class="h-0.5 bg-slate-100"><div class="h-full bg-blue-600 transition-all" :style="'width:'+Math.round((currentModule+1)/9*100)+'%'"></div></div>
+</div>
+
+<div class="pt-14">
+  <div class="relative h-44 sm:h-56 overflow-hidden">
+    <img :src="modules[currentModule].img" :alt="modules[currentModule].title" class="w-full h-full object-cover"/>
+    <div class="absolute inset-0 bg-gradient-to-t from-slate-900/75 to-transparent"></div>
+    <div class="absolute bottom-0 left-0 right-0 p-5 max-w-4xl mx-auto">
+      <span class="text-blue-300 text-xs font-semibold uppercase tracking-wider">Módulo <span x-text="currentModule+1"></span></span>
+      <h1 class="text-white font-bold text-xl sm:text-2xl mt-0.5" x-text="modules[currentModule].title"></h1>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 sm:px-6 py-8 pb-28">
+<div class="prose max-w-none">
+
+<!-- M1 -->
+<div x-show="currentModule===0">
+<h2>1.1 Por que Hospitais são Edificações de Categoria Especial</h2>
+<p>Um hospital não é simplesmente um prédio onde pessoas ficam internadas. É uma edificação que opera ininterruptamente, acolhendo pacientes em estado crítico, realizando procedimentos cirúrgicos complexos e mantendo equipamentos médicos de alta precisão ativos 24 horas por dia, 365 dias por ano. Essa característica central transforma radicalmente a forma como suas instalações devem ser concebidas, especificadas e orçadas.</p>
+<p>O conceito de <strong>risco operacional elevado</strong> refere-se ao fato de que uma falha em qualquer sistema crítico — elétrico, de gases medicinais, de climatização ou hidráulico — pode colocar diretamente em risco a vida de pacientes. Uma queda de energia sem gerador de backup em UTI, uma interrupção no fornecimento de oxigênio medicinal durante uma cirurgia ou uma falha no sistema de HVAC de uma sala de transplante representam situações de risco real e imediato.</p>
+<p>Compare com uma edificação comercial: se o ar-condicionado falha, o desconforto é elevado, mas não há risco de vida imediato. No hospital, o mesmo evento tem consequências completamente diferentes. Por isso, o engenheiro que elabora o edital ou o orçamento de um hospital não pode tratar instalações como acessório — elas são parte essencial e indissociável do serviço assistencial.</p>
+<div class="ibox"><strong>Conceito-chave:</strong> Continuidade operacional não é opção em hospital — é requisito técnico, normativo e ético. Cada sistema deve ter nível de redundância compatível com o risco assistencial do ambiente que atende.</div>
+
+<h2>1.2 Os 10 Sistemas Principais de Instalações Hospitalares</h2>
+<p>Ao contrário de edificações convencionais, hospitais concentram dez sistemas de instalações interdependentes, muitos dos quais inexistentes em outros tipos de obra:</p>
+<table>
+<thead><tr><th>Sistema</th><th>Função principal</th><th>Norma-raiz</th><th>Consequência de falha</th></tr></thead>
+<tbody>
+<tr><td>Elétrico</td><td>Alimentação de equipamentos médicos e iluminação</td><td>NBR 13534 / NBR IEC 60364-7-710</td><td>Interrupção de suporte de vida</td></tr>
+<tr><td>Hidráulico</td><td>Água para procedimentos, esterilização e uso sanitário</td><td>NBR 5626 / NBR 7198</td><td>Paralisia de CME e cirurgias</td></tr>
+<tr><td>Gases Medicinais</td><td>O₂, ar medicinal, vácuo clínico para pacientes</td><td>NBR ISO 7396-1 / NBR 12188</td><td>Asfixia e falha em ventilação</td></tr>
+<tr><td>HVAC</td><td>Temperatura, umidade, filtragem e pressurização</td><td>NBR 7256 / NBR 16401</td><td>Infecção hospitalar e contaminação</td></tr>
+<tr><td>Incêndio</td><td>Detecção, alarme e extinção automática</td><td>NBR 17240 / NBR 10897</td><td>Propagação com vítimas</td></tr>
+<tr><td>Gás Combustível</td><td>Alimentação de cozinhas e caldeiras</td><td>NBR 15526</td><td>Explosão ou incêndio</td></tr>
+<tr><td>Telecomunicações</td><td>Rede de dados, chamada de enfermagem, CFTV</td><td>NBR 14565</td><td>Falha de comunicação em emergência</td></tr>
+<tr><td>Automação (BMS)</td><td>Supervisão e controle centralizado dos sistemas</td><td>ISO 16484</td><td>Perda de monitoramento crítico</td></tr>
+<tr><td>SPDA</td><td>Proteção contra descargas atmosféricas</td><td>NBR 5419</td><td>Surtos que danificam equipamentos</td></tr>
+<tr><td>Gestão de Resíduos</td><td>Coleta e destinação de RSS infectantes</td><td>RDC 222/2018</td><td>Contaminação cruzada e autuação</td></tr>
+</tbody>
+</table>
+<p>A interdependência entre esses sistemas é fundamental: o gerador depende do sistema elétrico para transferência automática; o HVAC depende do elétrico para funcionar; os gases medicinais dependem de energia para as centrais de vácuo e ar. Uma falha em cascata pode comprometer toda a operação assistencial.</p>
+
+<h2>1.3 O Papel do Engenheiro Orçamentista em Hospital</h2>
+<p>Em obras convencionais, o orçamentista lê projetos, levanta quantitativos e aplica preços de referência. Em hospitais, esse papel se expande consideravelmente. O orçamentista hospitalar precisa dominar:</p>
+<ul>
+<li><strong>Leitura do programa assistencial</strong> — antes de qualquer projeto, o programa define o que o hospital vai fazer, qual sua capacidade e quais ambientes são necessários</li>
+<li><strong>Triagem normativa</strong> — identificar quais das dezenas de normas técnicas se aplicam a cada sistema e ambiente</li>
+<li><strong>Interfaces regulatórias</strong> — saber quais aprovações são necessárias (ANVISA, CBMERJ, Light, Naturgy, CEDAE) e incluir seus custos e prazos no edital</li>
+<li><strong>Coordenação de disciplinas</strong> — entender como os sistemas se interferem e quais projetos devem ser desenvolvidos em paralelo</li>
+<li><strong>Riscos de omissão</strong> — itens omitidos no edital não desaparecem: viram aditivos contratuais onerosos ou questionamentos dos tribunais de contas</li>
+</ul>
+<div class="wbox"><strong>Atenção:</strong> Omissão de sistema ou subdimensionamento no orçamento hospitalar não é apenas erro técnico — pode configurar irregularidade no processo licitatório, gerando nulidade ou responsabilização do gestor público.</div>
+
+<h2>1.4 Percurso do Curso: do Programa ao Edital</h2>
+<p>Este curso segue a lógica do processo real de elaboração de um edital hospitalar, do início ao fim:</p>
+<ol>
+<li><strong>Módulo 1</strong> — Fundamentos: o que é um hospital e qual o papel do orçamentista</li>
+<li><strong>Módulo 2</strong> — Tipos de intervenção: qual modalidade rege as obrigações técnicas</li>
+<li><strong>Módulo 3</strong> — Programa assistencial: ponto de partida de todo o orçamento</li>
+<li><strong>Módulo 4</strong> — Regulação sanitária: aprovações e documentação exigida</li>
+<li><strong>Módulo 5</strong> — Matriz de NBRs: como normas viram itens de planilha</li>
+<li><strong>Módulo 6</strong> — Regras do RJ: as interfaces locais que impactam o orçamento</li>
+<li><strong>Módulo 7</strong> — Contratação pública: bases legais e orçamento referencial</li>
+<li><strong>Módulo 8</strong> — Sistemas críticos: conteúdo técnico de cada instalação</li>
+<li><strong>Módulo 9</strong> — Modelos práticos: matrizes, checklists e documentos prontos</li>
+</ol>
+<div class="sbox"><strong>Resultado esperado:</strong> Ao concluir todos os módulos, você estará apto a coordenar a elaboração de um edital de instalações hospitalares completo, tecnicamente defensável e alinhado à legislação vigente no Estado do Rio de Janeiro.</div>
+</div>
+
+<!-- M2 -->
+<div x-show="currentModule===1">
+<h2>2.1 As 4 Modalidades de Intervenção e seus Critérios</h2>
+<p>Antes de orçar qualquer instalação hospitalar, é preciso classificar corretamente o tipo de intervenção. Cada modalidade tem implicações radicalmente diferentes em escopo, documentação, riscos e custos.</p>
+<table>
+<thead><tr><th>Modalidade</th><th>Definição</th><th>Gatilho regulatório</th><th>Exigência típica de instalações</th></tr></thead>
+<tbody>
+<tr><td>Obra nova</td><td>Construção em terreno sem edificação existente</td><td>RDC 50 completo + licença nova</td><td>Todos os sistemas do zero</td></tr>
+<tr><td>Ampliação</td><td>Acréscimo físico a edificação existente</td><td>Novo PBA para área acrescida</td><td>Diagnóstico de redes + interligação</td></tr>
+<tr><td>Reforma operacional</td><td>Alteração com hospital em funcionamento</td><td>PBA da área afetada + CBMERJ</td><td>Faseamento + provisórios + contingência</td></tr>
+<tr><td>Retrofit</td><td>Modernização de sistemas obsoletos</td><td>Projeto por sistema substituído</td><td>Migração planejada + downtime controlado</td></tr>
+</tbody>
+</table>
+
+<h2>2.2 Obra Nova: Ponto de Partida sem Restrições</h2>
+<p>A obra nova oferece ao orçamentista a maior liberdade técnica: não há redes existentes para diagnosticar, não há interferências com operação em andamento e os sistemas podem ser dimensionados desde o início para atender plenamente ao programa assistencial. A documentação necessária é a mais completa de todas as modalidades.</p>
+<p>Na fase de elaboração do edital de obra nova, o engenheiro deve garantir que todos os projetos básicos de instalações estejam elaborados antes da publicação — ou que o edital contemple explicitamente as obrigações de projeto executivo que caberão ao contratado, com os respectivos critérios de aprovação e compatibilização.</p>
+
+<h2>2.3 Ampliação: Conectar sem Comprometer o que Funciona</h2>
+<p>A ampliação é tecnicamente mais complexa que a obra nova porque exige integração com redes existentes. O orçamentista deve garantir que o edital contemple obrigatoriamente:</p>
+<ul>
+<li>Levantamento e as-built das instalações existentes na área de influência da ampliação</li>
+<li>Estudo de capacidade das redes: a rede elétrica existente suporta a demanda adicional? O ramal de gases tem pressão suficiente? A central de ar tem folga de capacidade?</li>
+<li>Custo de reforço ou substituição de trechos existentes que não suportam a nova demanda</li>
+<li>Pontos de interligação e compatibilidade de sistemas (tensão, pressão, diâmetro, protocolo de automação)</li>
+</ul>
+<div class="wbox"><strong>Erro frequente:</strong> Orçar a ampliação como se fosse obra nova independente, ignorando os custos de interligação, reforço de redes existentes e adaptações necessárias nas centrais já instaladas.</div>
+
+<h2>2.4 Reforma Operacional: Hospital em Funcionamento</h2>
+<p>A reforma operacional é a modalidade de maior risco, pois a execução ocorre enquanto o hospital continua atendendo pacientes. O edital deve obrigatoriamente prever:</p>
+<ul>
+<li><strong>Plano de faseamento</strong>: sequência de execução que minimiza interferência com a operação assistencial</li>
+<li><strong>Instalações provisórias</strong>: redes temporárias que mantêm o serviço durante interrupções planejadas de sistemas críticos</li>
+<li><strong>Plano de contingência</strong>: procedimentos para emergências durante a obra (falta de O₂, queda de energia, etc.)</li>
+<li><strong>Janelas de manutenção</strong>: períodos negociados com a operação para intervenções nos sistemas críticos</li>
+<li><strong>Comunicação e sinalização</strong>: orientação permanente para pacientes, familiares e equipes clínicas durante toda a obra</li>
+</ul>
+
+<h2>2.5 Retrofit: Modernização de Sistemas Críticos</h2>
+<p>O retrofit difere da reforma operacional por ter foco exclusivo na substituição de sistemas tecnicamente obsoletos, não na alteração de layout ou programa assistencial. O principal desafio é a <strong>migração planejada</strong>: a transferência controlada e gradual de cargas e serviços do sistema antigo para o novo.</p>
+<p>Exemplo prático: o retrofit do sistema de gases medicinais de um hospital que opera com cilindros portáteis para central fixa com redes embutidas. Durante a obra, o sistema antigo continua operando enquanto a rede nova é instalada; apenas na fase de comissionamento e aprovação é feita a conexão e transferência definitiva.</p>
+
+<h2>2.6 Os 10 Erros Mais Comuns por Modalidade</h2>
+<ol>
+<li>Não diagnosticar redes existentes antes de orçar a ampliação</li>
+<li>Omitir instalações provisórias no orçamento de reforma operacional</li>
+<li>Não incluir custos de as-built pós-obra no contrato</li>
+<li>Subestimar o custo de comissionamento e testes em sistemas críticos</li>
+<li>Não prever a aprovação de projetos junto a órgãos reguladores no cronograma</li>
+<li>Ignorar a necessidade de janelas de manutenção negociadas na reforma operacional</li>
+<li>Não incluir custo de descarte e destinação dos sistemas substituídos no retrofit</li>
+<li>Omitir a revisão de prontuários e documentação técnica dos sistemas existentes</li>
+<li>Não prever impacto de interferências físicas entre disciplinas na ampliação</li>
+<li>Subestimar o prazo de aprovação sanitária ao definir o cronograma da obra</li>
+</ol>
+</div>
+
+<!-- M3 -->
+<div x-show="currentModule===2">
+<h2>3.1 O Programa Assistencial como Origem de Tudo</h2>
+<p>O programa de necessidades assistencial é o documento que define o que o hospital vai fazer: quais serviços serão prestados, qual a capacidade planejada (número de leitos, salas, atendimentos por dia) e como os setores se relacionam entre si. Para o engenheiro de instalações, ele é o ponto de partida absoluto — sem programa, qualquer orçamento é apenas uma estimativa imprecisa.</p>
+<p>A lógica é simples: as instalações existem para servir ao serviço assistencial. Um centro cirúrgico com 4 salas tem demandas de gases medicinais, energia e HVAC completamente diferentes de um com 12 salas. Uma UTI de 10 leitos tem pontos de O₂ e vácuo, quadros elétricos e sistemas de monitoramento dimensionados de forma muito diferente de uma UTI de 40 leitos.</p>
+<div class="wbox"><strong>Regra de ouro:</strong> Nunca inicie o levantamento de quantitativos de instalações sem ter o programa assistencial aprovado em mãos. Programas preliminares levam a orçamentos que precisarão ser refeitos completamente.</div>
+
+<h2>3.2 As 6 Camadas de Análise do Programa</h2>
+<h3>Camada 1 — Identificação de Serviços</h3>
+<p>Liste todos os serviços assistenciais previstos: UTI adulto, UTI neonatal, centro cirúrgico, centro obstétrico, hemodinâmica, laboratório, imagem, hemodiálise, PA, CME, internação clínica, etc. Cada serviço diferente traz exigências normativas e técnicas específicas que precisam ser identificadas antes de qualquer projeto.</p>
+<h3>Camada 2 — Métricas de Capacidade</h3>
+<p>Quantifique cada serviço: número de leitos por tipo, número de salas cirúrgicas, número de estações de hemodiálise, capacidade diária de esterilização do CME, volume de exames por dia. Essas métricas são a entrada para os cálculos de demanda de todos os sistemas de instalações.</p>
+<h3>Camada 3 — Ambientes e Relações</h3>
+<p>Liste todos os ambientes de cada setor conforme a RDC 50/2002 e verifique quais são obrigatórios ou condicionados. Cada ambiente tem requisitos mínimos de área, ventilação, iluminação, pontos de gases e instalações elétricas definidos pela norma sanitária.</p>
+<h3>Camada 4 — Processos e Fluxos</h3>
+<p>Analise como pessoas, materiais estéreis, resíduos e roupas circulam pelo hospital. Os fluxos impactam diretamente as instalações: o fluxo de resíduos infectantes define a necessidade de tomadas e pontos de lavagem em áreas específicas; o fluxo de materiais estéreis define a separação entre áreas contaminadas e limpas no CME.</p>
+<h3>Camada 5 — Equipamentos e Demandas</h3>
+<p>Esta é a camada mais direta para o orçamentista. Cada equipamento médico tem demandas específicas de instalações:</p>
+<table>
+<thead><tr><th>Equipamento</th><th>Elétrica</th><th>Gases</th><th>HVAC</th><th>Dados</th></tr></thead>
+<tbody>
+<tr><td>Respirador UTI</td><td>220V/10A IT-médico</td><td>O₂ + Ar Med. + Vácuo</td><td>21–24°C</td><td>RJ45</td></tr>
+<tr><td>Mesa cirúrgica</td><td>220V/16A IT-médico</td><td>O₂ + N₂O + Vácuo</td><td>16–26°C, HEPA</td><td>RJ45</td></tr>
+<tr><td>Tomógrafo (TC)</td><td>3F/125A dedicada</td><td>—</td><td>18–22°C, 50% UR</td><td>Fibra óptica</td></tr>
+<tr><td>Autoclave CME</td><td>3F/60A + vapor</td><td>Ar comp. + vácuo</td><td>Pressão negativa</td><td>RJ45</td></tr>
+<tr><td>Estação hemodiálise</td><td>220V/16A</td><td>—</td><td>22–26°C</td><td>RJ45 + água tratada</td></tr>
+</tbody>
+</table>
+<h3>Camada 6 — Regime Operacional</h3>
+<p>Identifique quais setores operam 24h e quais têm horário restrito. Setores 24h exigem redundância obrigatória em todos os sistemas críticos — não há margem para manutenção sem backup ativo. Isso impacta o dimensionamento de geradores, centrais de gases e sistemas de climatização.</p>
+
+<h2>3.3 Guia por Setor Hospitalar</h2>
+<ul>
+<li><strong>UTI:</strong> Quantos leitos? Quantos precisam de isolamento (pressão negativa)? Há leitos de queimados?</li>
+<li><strong>Centro Cirúrgico:</strong> Quantas salas? Classificação HEPA (ISO 5/6/7)? Há hemodinâmica? Cirurgia robótica?</li>
+<li><strong>CME:</strong> Qual método de esterilização? Volume de carga por ciclo? Há processamento de endoscópios?</li>
+<li><strong>Imagem:</strong> Quais equipamentos (RX, TC, RMN, PET)? Há blindagem para radiação? Sala de cateterismo?</li>
+<li><strong>Hemodiálise:</strong> Quantas estações? Há central de tratamento de água? Qual o sistema de osmose reversa?</li>
+<li><strong>Laboratório:</strong> Há laboratório de biossegurança nível 2 ou 3? Câmaras frias?</li>
+<li><strong>Internação:</strong> Quantos leitos por quarto? Há apartamentos com ar split individual?</li>
+<li><strong>Pronto-Atendimento:</strong> Qual o fluxo de atendimentos/dia? Há sala de trauma?</li>
+<li><strong>Apoio:</strong> Há lavanderia hospitalar? Copa ou refeitório com cozinha completa?</li>
+</ul>
+
+<h2>3.4 Traduzindo Programa em Requisitos de Instalações</h2>
+<p>A tradução do programa em requisitos de instalações segue uma lógica de derivação progressiva: serviço → ambiente → equipamento → demanda de instalação → item de planilha. Um método prático é criar uma planilha com todos os ambientes do programa, os equipamentos de cada ambiente e, para cada equipamento, as demandas de elétrica, gases, HVAC e dados. Essa planilha se torna a base do dimensionamento e da verificação de completude do projeto.</p>
+<div class="sbox"><strong>Ferramenta prática:</strong> A "Planilha de Demandas de Instalações" com colunas: Setor | Ambiente | Equipamento | Demanda Elétrica | Demanda de Gases | Demanda HVAC | Demanda Dados — é o principal instrumento de verificação de escopo do orçamentista hospitalar.</div>
+</div>
+
+<!-- M4 -->
+<div x-show="currentModule===3">
+<h2>4.1 Estrutura Regulatória Dual: Federal e Estadual</h2>
+<p>A aprovação sanitária de estabelecimentos de saúde no Brasil opera em dois níveis simultâneos. No nível federal, a ANVISA estabelece as normas mínimas nacionais por meio de RDCs. No nível estadual, a SES-RJ por meio da SUVISA aplica e fiscaliza essas normas e pode estabelecer exigências adicionais. Para o orçamentista, o edital precisa atender a ambos os níveis: as normas federais (RDC 50, RDC 51) E as resoluções estaduais (Res. SES-RJ nº 1.058/2014 e nº 1.822/2019). Ignorar o nível estadual é um dos erros mais comuns e pode inviabilizar o licenciamento sanitário.</p>
+
+<h2>4.2 RDC 50/2002: A Base dos Requisitos Físico-Funcionais</h2>
+<p>A RDC 50/2002 é a principal norma sanitária para projetos físicos de EAS. Ela define os ambientes mínimos obrigatórios e condicionados para cada tipo de EAS e os parâmetros de área, circulação e instalações por ambiente. Para o engenheiro de instalações, os aspectos mais relevantes são:</p>
+<ul>
+<li>Requisitos de ventilação e climatização por tipo de ambiente (mecânica obrigatória em CC, UTI, CME)</li>
+<li>Exigência de gases medicinais em ambientes de internação, CC, UTI e PA</li>
+<li>Requisitos de instalações elétricas em ambientes de risco (tomadas com aterramento, circuitos dedicados)</li>
+<li>Exigência de instalações hidráulicas específicas em ambientes de procedimento</li>
+</ul>
+<div class="ibox"><strong>Importante:</strong> A RDC 50 passou por processo de revisão. Verifique a edição vigente no momento da elaboração do edital e registre na Matriz Normativa a versão utilizada e a data de verificação.</div>
+
+<h2>4.3 RDC 51/2011: Projetos Físicos e Licenciamento</h2>
+<p>A RDC 51/2011 estabelece os critérios para o licenciamento sanitário de serviços de saúde. Ela define o <strong>Projeto Básico de Arquitetura (PBA)</strong> — documento indispensável para a aprovação — e quais informações de instalações devem constar nele. O PBA é elaborado pela equipe de arquitetura mas deve conter declarações técnicas sobre os sistemas de instalações previstos: tipo de climatização, gases medicinais projetados, sistema elétrico (inclusive IT-médico), proteção contra incêndio e instalações hidráulicas especiais.</p>
+
+<h2>4.4 Processo de Aprovação no RJ: Passo a Passo</h2>
+<p>O fluxo típico de aprovação sanitária de um projeto hospitalar no Estado do Rio de Janeiro segue estas etapas sequenciais:</p>
+<ol>
+<li><strong>Pré-consulta informal</strong> — contato com SUVISA para verificar exigências específicas antes do projeto</li>
+<li><strong>Elaboração do PBA</strong> — com todos os projetos básicos de instalações compatibilizados</li>
+<li><strong>Protocolo na SUVISA</strong> — entrega do conjunto documental completo com formulários específicos</li>
+<li><strong>Análise técnica</strong> — prazo típico de 60 a 120 dias para análise inicial</li>
+<li><strong>Exigências</strong> — lista de pendências a serem sanadas (ocorre em aproximadamente 90% dos processos)</li>
+<li><strong>Resposta às exigências</strong> — envio de documentos complementares ou projetos revisados</li>
+<li><strong>Aprovação e visto em planta</strong> — emissão do visto sanitário que autoriza o início das obras</li>
+<li><strong>Vistoria final</strong> — inspeção in loco após conclusão das obras</li>
+<li><strong>Licença de funcionamento</strong> — habilitação para início da operação assistencial</li>
+</ol>
+<div class="wbox"><strong>Atenção ao prazo:</strong> O processo de aprovação sanitária pode levar de 4 a 18 meses. Esse prazo deve ser obrigatoriamente incluído no cronograma do edital — ignorá-lo é o principal causador de atrasos em obras hospitalares públicas.</div>
+
+<h2>4.5 Responsabilidades no Edital</h2>
+<p>O edital deve ser preciso sobre quem é responsável por cada etapa. As responsabilidades típicas são:</p>
+<ul>
+<li><strong>Contratada</strong>: elaboração do PBA e projetos básicos, protocolo na SUVISA, acompanhamento das exigências, resposta técnica, pagamento das taxas</li>
+<li><strong>Contratante</strong>: fornecimento das informações do programa assistencial, aprovação dos projetos, acompanhamento do processo</li>
+</ul>
+<p>O edital deve prever o custo das taxas de análise e aprovação sanitária como item da planilha orçamentária, além de incluir prazo específico para obtenção do visto em planta como condição precedente ao início das obras.</p>
+</div>
+
+<!-- M5 -->
+<div x-show="currentModule===4">
+<h2>5.1 As 4 Origens de Obrigação Normativa</h2>
+<p>O orçamentista hospitalar precisa identificar corretamente a origem de cada obrigação técnica para enquadrá-la no edital de forma defensável. Existem quatro origens distintas:</p>
+<table>
+<thead><tr><th>Origem</th><th>Instrumento</th><th>Como verificar</th><th>Consequência</th></tr></thead>
+<tbody>
+<tr><td>Regulação sanitária</td><td>RDC, Portaria, Resolução</td><td>Banco de atos da ANVISA / SES</td><td>Exigência de aprovação sem exceção</td></tr>
+<tr><td>Norma ABNT</td><td>NBR, NBR ISO, NBR IEC</td><td>Catálogo ABNT atualizado</td><td>Boa prática de engenharia</td></tr>
+<tr><td>Exigência local/regulatória</td><td>Regulamento de concessionária, código de obras</td><td>Consulta direta ao agente</td><td>Condição para aprovação ou conexão</td></tr>
+<tr><td>Obrigação contratual</td><td>Cláusula do edital, TR, caderno técnico</td><td>Revisão do documento</td><td>Obrigação civil entre as partes</td></tr>
+</tbody>
+</table>
+
+<h2>5.2 Classificação H/G/C/L</h2>
+<ul>
+<li><strong>H — Hospitalar:</strong> norma de aplicação específica e exclusiva em EAS (NBR 7256, NBR ISO 7396-1, NBR 13534)</li>
+<li><strong>G — Geral:</strong> norma de aplicação em todos os tipos de edificação que inclui EAS (NBR 5410, NBR 5626)</li>
+<li><strong>C — Condicional:</strong> aplica-se somente se determinado sistema ou ambiente estiver presente (NBR ISO 14644 — apenas se houver sala limpa)</li>
+<li><strong>L — Local/Regulatória:</strong> instrumento normativo de agente local (concessionária, corpo de bombeiros, vigilância sanitária estadual)</li>
+</ul>
+
+<h2>5.3 Tabela de NBRs por Sistema</h2>
+<table>
+<thead><tr><th>Sistema</th><th>Norma principal</th><th>Norma complementar</th></tr></thead>
+<tbody>
+<tr><td>Elétrico</td><td>NBR 13534 (EAS)</td><td>NBR IEC 60364-7-710 (IT-médico), NBR 5410</td></tr>
+<tr><td>HVAC</td><td>NBR 7256 (ar em EAS)</td><td>NBR 16401, NBR ISO 14644</td></tr>
+<tr><td>Gases medicinais</td><td>NBR ISO 7396-1 (redes)</td><td>NBR ISO 7396-2 (exaustão anestésica), NBR 12188</td></tr>
+<tr><td>Hidráulico</td><td>NBR 5626 (água fria)</td><td>NBR 7198 (água quente), NBR 8160 (esgoto)</td></tr>
+<tr><td>Águas pluviais</td><td>NBR 10844</td><td>—</td></tr>
+<tr><td>Incêndio — sprinkler</td><td>NBR 10897</td><td>—</td></tr>
+<tr><td>Incêndio — hidrante</td><td>NBR 13714</td><td>—</td></tr>
+<tr><td>Incêndio — detecção</td><td>NBR 17240</td><td>NBR 15276</td></tr>
+<tr><td>Gás combustível</td><td>NBR 15526</td><td>—</td></tr>
+<tr><td>Telecomunicações</td><td>NBR 14565</td><td>ABNT NBR 16521</td></tr>
+<tr><td>SPDA</td><td>NBR 5419</td><td>—</td></tr>
+<tr><td>O&amp;M</td><td>NBR 5674</td><td>—</td></tr>
+</tbody>
+</table>
+
+<h2>5.4 Campos da Matriz Normativa</h2>
+<p>Os campos obrigatórios da matriz normativa do empreendimento são: Código | Edição | Status (vigente/cancelada) | Motivo de aplicação | Sistema afetado | Setor/ambiente | Responsável | Evidência de atendimento.</p>
+
+<h2>5.5 Os 7 Passos: Norma → Item de Edital</h2>
+<ol>
+<li><strong>Acionador:</strong> elemento do projeto que obriga a norma (ex.: UTI aciona NBR ISO 7396-1)</li>
+<li><strong>Norma:</strong> determinar qual edição está vigente</li>
+<li><strong>Requisito técnico:</strong> extrair o requisito específico (ex.: pressão mínima de O₂ no ponto de utilização)</li>
+<li><strong>Projeto exigido:</strong> definir qual projeto precisa ser elaborado</li>
+<li><strong>Item de planilha:</strong> criar o item mensurável (ex.: "Rede de O₂ em tubo de cobre sem costura 3/4", m)</li>
+<li><strong>Critério de medição:</strong> definir como será medido e pago</li>
+<li><strong>Documento de entrega:</strong> especificar a evidência de conclusão</li>
+</ol>
+<div class="sbox"><strong>Regra prática:</strong> Se a norma foi identificada mas não gerou nenhum item na planilha, ela não foi devidamente incorporada ao edital. Toda norma relevante deve gerar pelo menos um item orçamentário, um critério de medição e um documento de entrega.</div>
+
+<h2>5.6 10 Erros Críticos no Uso de NBRs em Editais</h2>
+<ol>
+<li>Citar norma sem especificar a edição utilizada</li>
+<li>Usar norma cancelada sem registrar o motivo da manutenção</li>
+<li>Citar norma mas não gerar requisito técnico correspondente</li>
+<li>Omitir normas de sistemas considerados "óbvios"</li>
+<li>Não verificar se norma complementar foi incorporada</li>
+<li>Ignorar instruções técnicas de concessionárias</li>
+<li>Não atualizar a matriz normativa quando o projeto é revisado</li>
+<li>Confundir norma de projeto com norma de execução</li>
+<li>Aplicar norma de edificações convencionais sem adaptar ao contexto hospitalar</li>
+<li>Não registrar conflitos entre normas e como foram resolvidos</li>
+</ol>
+</div>
+
+<!-- M6 -->
+<div x-show="currentModule===5">
+<h2>6.1 Princípio Fundamental: Endereço + Sistema = Interface Regulatória</h2>
+<p>Ao contrário das normas ABNT, que têm aplicação nacional, as interfaces regulatórias do Rio de Janeiro dependem de dois fatores combinados: o <strong>endereço</strong> do hospital (município, CEP, área de concessão) e o <strong>sistema de instalações</strong> em questão. Um hospital em Niterói tem interfaces diferentes de um em Volta Redonda, mesmo que o projeto seja idêntico. O mapa completo de interfaces envolve pelo menos 6 agentes distintos.</p>
+
+<h2>6.2 Interface 1 — SES-RJ / SUVISA</h2>
+<p>Responsável pela aprovação do PBA e pela emissão do Licenciamento Sanitário. Para instalações, exige projetos básicos de todos os sistemas com ART do responsável técnico. O prazo de análise varia entre 60 e 180 dias. As taxas são calculadas com base na área construída e tipo de EAS.</p>
+<div class="ibox"><strong>Documentos exigidos pela SUVISA:</strong> PBA arquitetônico, projetos básicos de elétrica, hidráulica, gases medicinais, HVAC e incêndio, memórias de cálculo, ARTs de todos os responsáveis técnicos e formulários específicos.</div>
+
+<h2>6.3 Interface 2 — CBMERJ / DGST</h2>
+<p>O CBMERJ aprova e fiscaliza o PSCIP (Projeto de Segurança Contra Incêndio e Pânico). O processo envolve: elaboração do PSCIP → protocolo digital → análise (45–90 dias) → execução → vistoria técnica → emissão do <strong>Certificado de Aprovação (CA)</strong>. O CA é condição obrigatória para o funcionamento do hospital — sem ele, a SUVISA não emite a licença de funcionamento.</p>
+
+<h2>6.4 Interface 3 — Light (ENEL) — Energia Elétrica</h2>
+<p>Os pontos críticos para o orçamentista são: hospitais de médio e grande porte exigem subestação própria de média tensão (MT); os padrões RECON da Light devem ser consultados para projeto de subestação, entrada e medição; a extensão da rede MT até o ponto de entrega é custo do empreendimento; o prazo de conexão pode ser de 90 a 240 dias e deve constar no cronograma do edital.</p>
+
+<h2>6.5 Interface 4 — Naturgy / AGENERSA</h2>
+<p>Para hospitais com central de vapor, cozinha industrial ou caldeiras, o gás natural canalizado envolve: Naturgy (distribuidora, responsável pela rede e ramal predial), AGENERSA (reguladora estadual), inspeção pré-operacional obrigatória e teste de estanqueidade conforme NBR 15526.</p>
+
+<h2>6.6 Interface 5 — CEDAE / SAAE</h2>
+<p>A viabilidade de abastecimento de água e coleta de esgoto deve ser verificada no início do projeto. O processo envolve: certidão de viabilidade de abastecimento de água, certidão de viabilidade de ligação de esgoto, projeto de ramal de entrada e execução da ligação (custo do empreendimento). Hospitais de grande porte podem exigir reservatório superior adicional ou poço artesiano de backup.</p>
+
+<h2>6.7 Interface 6 — Município e Meio Ambiente</h2>
+<ul>
+<li>Alvará de construção (Secretaria Municipal de Urbanismo)</li>
+<li>Estudo de Impacto de Vizinhança (EIV) para EAS de grande porte</li>
+<li>Licença ambiental (INEA estadual ou SMAC municipal, conforme porte)</li>
+<li>Aprovação do sistema de drenagem pluvial</li>
+</ul>
+
+<h2>6.8 Matriz de Interfaces Regulatórias</h2>
+<table>
+<thead><tr><th>Agente</th><th>Sistema</th><th>Documento exigido</th><th>Prazo típico</th><th>Responsável no edital</th></tr></thead>
+<tbody>
+<tr><td>SUVISA</td><td>Todos</td><td>PBA + projetos básicos</td><td>60–180 dias</td><td>Contratada</td></tr>
+<tr><td>CBMERJ</td><td>Incêndio</td><td>PSCIP + CA</td><td>45–90 dias</td><td>Contratada</td></tr>
+<tr><td>Light/ENEL</td><td>Elétrico MT</td><td>Proj. subestação + RECON</td><td>90–240 dias</td><td>Contratada</td></tr>
+<tr><td>Naturgy</td><td>Gás combustível</td><td>Proj. instalação gás</td><td>30–60 dias</td><td>Contratada</td></tr>
+<tr><td>CEDAE</td><td>Hidráulico</td><td>Certidão + ramal</td><td>30–90 dias</td><td>Contratada</td></tr>
+<tr><td>Município</td><td>Geral</td><td>Alvará + EIV</td><td>60–120 dias</td><td>Contratante/Contratada</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- M7 -->
+<div x-show="currentModule===6">
+<h2>7.1 Qual Lei Rege o Empreendimento?</h2>
+<table>
+<thead><tr><th>Regime</th><th>Entidade típica</th><th>Peculiaridade</th></tr></thead>
+<tbody>
+<tr><td>Lei 14.133/2021 (NLLC)</td><td>União, estados, municípios</td><td>Orçamento sigiloso (art. 24), projeto básico obrigatório antes da licitação</td></tr>
+<tr><td>Lei 13.303/2016</td><td>Empresas públicas e SEM</td><td>Regulamento próprio admitido, mais flexibilidade em critérios</td></tr>
+<tr><td>Regulamento próprio</td><td>OS, OSCIP, fundações</td><td>Deve respeitar princípios da NLLC; maior agilidade processual</td></tr>
+</tbody>
+</table>
+<p>A <strong>ficha de enquadramento jurídico-orçamentário</strong> deve registrar a entidade contratante, o regime legal aplicável, a necessidade de orçamento sigiloso, as bases de custo aceitas e o grau de detalhamento do projeto exigido para a modalidade de contratação escolhida.</p>
+
+<h2>7.2 Fase Preparatória da Lei 14.133/2021</h2>
+<ul>
+<li><strong>ETP:</strong> demonstra a necessidade e viabilidade da contratação; para hospitais deve incluir análise das condições existentes e justificativa para cada sistema</li>
+<li><strong>Anteprojeto ou Projeto Básico:</strong> define o objeto com precisão suficiente para formação do preço; instalações hospitalares exigem pelo menos projetos básicos de todos os sistemas</li>
+<li><strong>Projeto Executivo:</strong> pode ser exigido antes da licitação ou desenvolvido pelo contratado com aprovação do contratante</li>
+<li><strong>Caderno Técnico:</strong> detalha os requisitos técnicos para cada disciplina de instalações</li>
+</ul>
+
+<h2>7.3 Bases de Custo: SINAPI, EMOP-RJ e Alternativas</h2>
+<ul>
+<li><strong>SINAPI:</strong> base nacional com composições para instalações convencionais. Limitações: poucos itens hospitalares específicos, ausência de gases medicinais, HVAC crítico e sistemas IT-médico</li>
+<li><strong>EMOP-RJ:</strong> tabela do Estado do RJ, com itens regionalizados. Igualmente limitada para sistemas especiais</li>
+<li><strong>Cotações equalizadas:</strong> para sistemas sem composição nas tabelas, cotação com mínimo 3 fornecedores especializados, com planilha de equalização e memória de cálculo</li>
+<li><strong>Composições próprias:</strong> quando nenhuma opção acima é aplicável, elaborar composição com insumos, produtividades e encargos documentados</li>
+</ul>
+<div class="ibox"><strong>Sistemas sem composição adequada em SINAPI/EMOP-RJ:</strong> central de gases medicinais, redes de gases hospitalares, HVAC de área crítica (UTA com HEPA), sistema IT-médico, UPS/STS, automação hospitalar (BMS), chamada de enfermagem.</div>
+
+<h2>7.4 Estrutura da Planilha Orçamentária</h2>
+<p>A planilha deve ser estruturada por sistema, com desdobramento por setor: Nível 1 (Sistema) → Nível 2 (Subsistema) → Nível 3 (Setor) → Nível 4 (Item mensurável). Exemplo: 1 – Instalações Elétricas / 1.2 – Baixa Tensão / 1.2.3 – Centro Cirúrgico / 1.2.3.01 – Quadro de distribuição CC-Q01.</p>
+
+<h2>7.5 BDI, Encargos e Matriz de Riscos</h2>
+<p>O BDI em instalações hospitalares tende a ser maior que em obras convencionais (tipicamente 22% a 35%) pelos seguintes fatores: maior complexidade técnica, qualificação exigida, testes especializados, comissionamento rigoroso, responsabilidade técnica ampliada e maior risco operacional durante a execução.</p>
+<p>A <strong>matriz de riscos</strong> é obrigatória para obras de maior complexidade (art. 22 da NLLC) e deve alocar riscos como: variação de preços de materiais especiais (cobre para gases, equipamentos importados), atraso em aprovações regulatórias, interferências com operação existente e descobertas em as-built.</p>
+<p>O <strong>orçamento sigiloso</strong> (art. 24 da NLLC) permite que o valor estimado não seja divulgado no edital, sendo revelado apenas após a fase de habilitação. Isso exige um orçamento ainda mais rigoroso e auditável.</p>
+</div>
+
+<!-- M8 -->
+<div x-show="currentModule===7">
+<h2>8.1 Sistema Elétrico Hospitalar</h2>
+<p>O sistema elétrico de um hospital é fundamentalmente diferente de instalações convencionais pela obrigação de continuidade, pela exigência do sistema IT-médico e pela classificação rigorosa dos ambientes em grupos de risco (NBR IEC 60364-7-710):</p>
+<ul>
+<li><strong>Grupo 0:</strong> sem equipamentos elétricos aplicados ao paciente (corredores, áreas administrativas)</li>
+<li><strong>Grupo 1:</strong> equipamentos em contato externo com paciente (quartos, consultórios)</li>
+<li><strong>Grupo 2:</strong> equipamentos com aplicação intracardíaca ou em ambiente anestésico (CC, UTI, hemodinâmica) — <strong>exige IT-médico obrigatório</strong></li>
+</ul>
+<p>O <strong>sistema IT-médico</strong> consiste em um transformador de isolamento com monitor DSI que isola galvanicamente os equipamentos médicos da terra, reduzindo drasticamente o risco de microchoque em pacientes. Os geradores de emergência devem entrar em operação em no máximo 15 segundos (QTA ou STS). A SPDA deve ser dimensionada conforme NBR 5419 com classe de proteção compatível com o risco do local.</p>
+
+<h2>8.2 Sistema Hidráulico</h2>
+<ul>
+<li><strong>Água quente:</strong> mínimo 60°C em toda a rede de circulação forçada para prevenir Legionella (NBR 7198)</li>
+<li><strong>Esgoto especial:</strong> resíduos líquidos radioativos e quimioterápicos exigem tubulações e tratamento específicos antes do lançamento na rede pública</li>
+<li><strong>Água purificada:</strong> osmose reversa dupla para hemodiálise, água desmineralizada para CME, água ultrapura para laboratório</li>
+<li><strong>Reservatório:</strong> mínimo de 24h de autonomia, com sistema de desinfecção periódica</li>
+</ul>
+
+<h2>8.3 Gases Medicinais</h2>
+<table>
+<thead><tr><th>Gás</th><th>Uso principal</th><th>Cor da rede</th><th>Central típica</th></tr></thead>
+<tbody>
+<tr><td>Oxigênio (O₂)</td><td>Suporte ventilatório</td><td>Branco</td><td>Central criogênica ou concentradores</td></tr>
+<tr><td>Ar Medicinal</td><td>Ventilação mecânica</td><td>Amarelo/preto</td><td>Compressores médicos duplos</td></tr>
+<tr><td>Vácuo Clínico</td><td>Aspiração cirúrgica/clínica</td><td>Amarelo</td><td>Bombas de vácuo com reservatório</td></tr>
+<tr><td>Óxido Nitroso (N₂O)</td><td>Anestesia</td><td>Azul</td><td>Central de cilindros</td></tr>
+<tr><td>Dióxido de Carbono (CO₂)</td><td>Videocirurgia</td><td>Cinza</td><td>Central de cilindros</td></tr>
+<tr><td>Exaustão Anestésica (AGM)</td><td>Captação de gases anestésicos</td><td>Lilás</td><td>Bomba de vácuo dedicada</td></tr>
+</tbody>
+</table>
+<p>A rede deve ser em tubo de cobre sem costura com limpeza especial conforme NBR ISO 7396-1. O sistema de alarme monitora pressão, nível de reserva e falha de equipamentos com painéis em pontos estratégicos.</p>
+
+<h2>8.4 HVAC em Áreas Críticas</h2>
+<table>
+<thead><tr><th>Ambiente</th><th>Renov./h</th><th>Pressão</th><th>Filtragem</th><th>Temp. (°C)</th><th>UR (%)</th></tr></thead>
+<tbody>
+<tr><td>Sala cirúrgica</td><td>≥15 totais</td><td>Positiva</td><td>HEPA H14</td><td>16–26</td><td>45–60</td></tr>
+<tr><td>UTI</td><td>≥12 totais</td><td>Positiva</td><td>F7 + H14</td><td>21–24</td><td>45–60</td></tr>
+<tr><td>CME esterilização</td><td>≥10 totais</td><td>Negativa</td><td>F7</td><td>18–22</td><td>35–70</td></tr>
+<tr><td>Isolamento infectado</td><td>≥12 totais</td><td>Negativa</td><td>HEPA H14</td><td>21–24</td><td>45–60</td></tr>
+<tr><td>Sala de imagem</td><td>≥6 totais</td><td>Neutra</td><td>F5</td><td>18–22</td><td>50–60</td></tr>
+</tbody>
+</table>
+
+<h2>8.5 Proteção Contra Incêndio e Sistemas Eletrônicos</h2>
+<p>Hospitais têm características que tornam o projeto de incêndio mais complexo: pacientes com mobilidade reduzida, presença de gases inflamáveis (O₂, N₂O), equipamentos de alto valor e necessidade de continuidade operacional. Os sistemas obrigatórios são: detecção e alarme (NBR 17240), sprinklers automáticos (NBR 10897), hidrantes (NBR 13714), sinalização e iluminação de segurança.</p>
+<p>Os sistemas eletrônicos hospitalares incluem cabeamento estruturado (NBR 14565), Wi-Fi para equipamentos médicos, chamada de enfermagem integrada (leito-posto), CFTV, controle de acesso e o <strong>BMS</strong> (Building Management System) que integra monitoramento de HVAC, gases, elétrico e segurança em plataforma centralizada.</p>
+</div>
+
+<!-- M9 -->
+<div x-show="currentModule===8">
+<h2>9.1 Modelo de Matriz Normativa</h2>
+<table>
+<thead><tr><th>Código</th><th>Título</th><th>Edição</th><th>Status</th><th>Acionador</th><th>Sistema</th><th>Evidência</th></tr></thead>
+<tbody>
+<tr><td>NBR 13534</td><td>Instalações elétricas em EAS</td><td>2008</td><td>Vigente</td><td>Todo EAS</td><td>Elétrico</td><td>Projeto + ART</td></tr>
+<tr><td>NBR IEC 60364-7-710</td><td>Locais de uso médico (IT-médico)</td><td>2022</td><td>Vigente</td><td>CC, UTI, Hemodi.</td><td>Elétrico IT</td><td>Proj. + teste DSI</td></tr>
+<tr><td>NBR ISO 7396-1</td><td>Redes de gases medicinais</td><td>2020</td><td>Vigente</td><td>Qualquer gás médico</td><td>Gases med.</td><td>Proj. + cert. estanq.</td></tr>
+<tr><td>NBR 7256</td><td>Tratamento de ar em EAS</td><td>2021</td><td>Vigente</td><td>Todo EAS</td><td>HVAC</td><td>Proj. + medições</td></tr>
+<tr><td>NBR 17240</td><td>Detecção e alarme de incêndio</td><td>2010</td><td>Vigente</td><td>Toda edif. &gt;300m²</td><td>Incêndio</td><td>Proj. CBMERJ + CA</td></tr>
+<tr><td>RDC 50/2002</td><td>Projetos físicos de EAS</td><td>2002+atualizações</td><td>Vigente</td><td>Todo EAS</td><td>Geral</td><td>PBA aprovado SUVISA</td></tr>
+</tbody>
+</table>
+
+<h2>9.2 Checklist de Recebimento de Projetos</h2>
+<ul>
+<li>Projeto arquitetônico: plantas, cortes, fachadas, quadro de áreas (todas as revisões atualizadas)</li>
+<li>Projeto elétrico: diagrama unifilar, plantas, quadro de cargas, dimensionamento de IT-médico e gerador</li>
+<li>Projeto hidráulico: água fria, quente, esgoto, pluvial, água purificada</li>
+<li>Projeto de gases medicinais: isométrico de redes, central, pontos de utilização, alarmes</li>
+<li>Projeto de HVAC: diagramas de ar, planta de equipamentos, tabela de parâmetros por ambiente</li>
+<li>Projeto de incêndio: hidrantes, sprinklers, detecção, rotas de fuga, PSCIP completo</li>
+<li>Projeto de telecomunicações: cabeamento estruturado, chamada de enfermagem, CFTV</li>
+<li>Memórias de cálculo de todos os sistemas</li>
+<li>Lista de equipamentos médicos com especificações técnicas de instalações</li>
+<li>Programa assistencial aprovado e compatível com os projetos</li>
+</ul>
+
+<h2>9.3 Modelo de Escopo por Sistema — Gases Medicinais</h2>
+<ul>
+<li><strong>Objeto:</strong> fornecimento e instalação do sistema completo</li>
+<li><strong>Gases:</strong> O₂, Ar Medicinal, VAC, N₂O, CO₂ e AGM</li>
+<li><strong>Centrais:</strong> tipo, capacidade, redundância, local de instalação</li>
+<li><strong>Redes:</strong> material (cobre sem costura), diâmetros, trajetória, suportes, isolamento</li>
+<li><strong>Pontos de utilização:</strong> tipo, quantidade por ambiente, altura de instalação</li>
+<li><strong>Alarmes:</strong> painel de supervisão, nível de alerta/emergência</li>
+<li><strong>Testes:</strong> pressão, estanqueidade, pureza do gás, validação por empresa acreditada</li>
+<li><strong>Documentos de entrega:</strong> certificado de teste, as-built, manual, ART</li>
+</ul>
+
+<h2>9.4 Critérios de Medição por Sistema</h2>
+<table>
+<thead><tr><th>Sistema</th><th>Unidade</th><th>Condição de aceite</th></tr></thead>
+<tbody>
+<tr><td>Rede gases medicinais</td><td>Metro linear</td><td>Instalada, testada (NBR ISO 7396-1) e aprovada</td></tr>
+<tr><td>Quadros elétricos</td><td>Unidade</td><td>Instalado, identificado, testado e energizado</td></tr>
+<tr><td>Equipamentos HVAC</td><td>Unidade</td><td>Instalada, comissionada, parâmetros medidos e aprovados</td></tr>
+<tr><td>Rede hidráulica</td><td>Metro linear</td><td>Instalada, testada (pressão hidrostática) e inspecionada</td></tr>
+<tr><td>Sistema detecção incêndio</td><td>Unidade por central</td><td>Instalado, programado, testado e aprovado pelo CBMERJ</td></tr>
+</tbody>
+</table>
+
+<h2>9.5 Checklist Final — 12 Gates antes da Publicação</h2>
+<ol>
+<li><strong>Gate normativo:</strong> todas as normas identificadas e convertidas em itens</li>
+<li><strong>Gate de programa:</strong> programa assistencial aprovado e refletido nos projetos</li>
+<li><strong>Gate regulatório:</strong> todos os órgãos reguladores identificados e processos incluídos no cronograma</li>
+<li><strong>Gate de projetos:</strong> projetos básicos elaborados, compatibilizados e atualizados</li>
+<li><strong>Gate orçamentário:</strong> todos os sistemas na planilha com quantitativos e composições documentadas</li>
+<li><strong>Gate de BDI:</strong> BDI e encargos sociais justificados dentro dos parâmetros do TCU</li>
+<li><strong>Gate jurídico:</strong> enquadramento legal correto e edital atende à NLLC</li>
+<li><strong>Gate de risco:</strong> matriz de riscos elaborada e todos os riscos alocados</li>
+<li><strong>Gate ambiental:</strong> todas as licenças ambientais identificadas</li>
+<li><strong>Gate de comissionamento:</strong> protocolo de testes definido para todos os sistemas</li>
+<li><strong>Gate de prazo:</strong> cronograma inclui todos os prazos regulatórios (SUVISA, CBMERJ, Light, etc.)</li>
+<li><strong>Gate de completude:</strong> pacote documental completo — edital, projeto básico, planilha, memória, cronograma, caderno técnico, matriz de risco</li>
+</ol>
+<div class="sbox"><strong>Regra dos 12 gates:</strong> Se qualquer gate não puder ser marcado como "aprovado" com documentação de suporte, o edital não está pronto para publicação. Cada gate não aprovado representa risco concreto de questionamento posterior ou fracasso da contratação.</div>
+</div>
+
+</div><!-- /prose -->
+
+<div class="mt-10 bg-blue-50 border border-blue-100 rounded-2xl p-6 text-center">
+  <p class="font-semibold text-slate-800 mb-1">Concluiu a leitura?</p>
+  <p class="text-slate-500 text-sm mb-4">Teste seu conhecimento com 8 questões de múltipla escolha sobre este módulo.</p>
+  <button @click="startQuiz()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-8 py-3 rounded-xl transition-colors">Iniciar Quiz — Módulo <span x-text="currentModule+1"></span></button>
+</div>
+</div>
+</div>
+
+<!-- ===================== QUIZ ===================== -->
+<div x-show="view==='quiz'" class="min-h-screen bg-slate-50">
+<div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-sm">
+  <div class="max-w-3xl mx-auto px-4 h-14 flex items-center gap-3">
+    <button @click="view='module';window.scrollTo(0,0)" class="text-slate-500 hover:text-blue-600 transition-colors flex-shrink-0" x-show="!submitted">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+    </button>
+    <div class="flex-1 min-w-0">
+      <p class="text-xs text-slate-400">Quiz — Módulo <span x-text="currentModule+1"></span></p>
+      <p class="text-sm font-semibold text-slate-800 truncate" x-text="modules[currentModule].title"></p>
+    </div>
+    <span x-show="!submitted" class="text-xs text-slate-500 flex-shrink-0" x-text="Object.keys(answers).length+'/8 respondidas'"></span>
+  </div>
+</div>
+
+<div class="pt-14 max-w-3xl mx-auto px-4 py-8 pb-28">
+  <div x-show="submitted" class="mb-8 bg-white rounded-2xl shadow-sm border border-slate-100 p-6 text-center fu">
+    <div class="text-5xl font-bold mb-2" :class="getScore()>=6?'text-emerald-600':'text-orange-500'" x-text="getScore()+'/8'"></div>
+    <p class="font-semibold text-slate-800 text-lg" x-text="getScore()>=7?'Excelente!':getScore()>=5?'Bom resultado!':'Continue estudando!'"></p>
+    <p class="text-slate-500 text-sm mt-1" x-text="getScore()>=6?'Você demonstrou domínio do conteúdo deste módulo.':'Revise as questões incorretas e releia as seções relacionadas.'"></p>
+    <div class="flex gap-3 justify-center mt-5 flex-wrap">
+      <button @click="view='module';window.scrollTo(0,0)" class="border border-blue-200 text-blue-600 font-semibold px-5 py-2.5 rounded-xl hover:bg-blue-50 transition-colors text-sm">Rever módulo</button>
+      <button @click="nextModule()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-2.5 rounded-xl transition-colors text-sm" x-text="currentModule<8?'Próximo módulo →':'Concluir curso ✓'"></button>
+    </div>
+  </div>
+
+  <template x-for="(q,qi) in questions[currentModule]" :key="qi">
+    <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 mb-4 fu">
+      <p class="font-semibold text-slate-900 mb-4 leading-snug flex items-start gap-2">
+        <span class="flex-shrink-0 inline-flex items-center justify-center w-6 h-6 bg-blue-600 text-white text-xs font-bold rounded-full mt-0.5" x-text="qi+1"></span>
+        <span x-text="q.q"></span>
+      </p>
+      <div class="space-y-2">
+        <template x-for="(opt,oi) in q.opts" :key="oi">
+          <button @click="!submitted&&(answers[qi]=oi)" :disabled="submitted"
+            class="opt-btn w-full border rounded-xl px-4 py-3 text-sm text-slate-700 flex items-start gap-3"
+            :class="{
+              'opt-sel border-blue-400':!submitted&&answers[qi]===oi,
+              'border-slate-200 bg-slate-50':!submitted&&answers[qi]!==oi,
+              'opt-ok':submitted&&oi===q.correct,
+              'opt-err':submitted&&answers[qi]===oi&&oi!==q.correct,
+              'border-slate-200 bg-slate-50 opacity-40':submitted&&oi!==q.correct&&answers[qi]!==oi
+            }">
+            <span class="flex-shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center text-xs font-bold mt-0.5"
+              :class="{
+                'border-blue-600 bg-blue-600 text-white':!submitted&&answers[qi]===oi,
+                'border-slate-300 text-slate-400':!submitted&&answers[qi]!==oi,
+                'border-green-600 bg-green-600 text-white':submitted&&oi===q.correct,
+                'border-red-600 bg-red-600 text-white':submitted&&answers[qi]===oi&&oi!==q.correct,
+                'border-slate-200 text-slate-300':submitted&&oi!==q.correct&&answers[qi]!==oi
+              }"
+              x-text="['A','B','C','D'][oi]"></span>
+            <span x-text="opt"></span>
+          </button>
+        </template>
+      </div>
+      <div x-show="submitted" class="mt-3 text-xs rounded-lg px-3 py-2 font-medium"
+        :class="answers[qi]===q.correct?'bg-green-50 text-green-700':'bg-red-50 text-red-700'"
+        x-text="answers[qi]===q.correct?'✓ Correto!':'✗ Incorreto. Resposta certa: '+['A','B','C','D'][q.correct]+') '+q.opts[q.correct]">
+      </div>
+    </div>
+  </template>
+
+  <div x-show="!submitted" class="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 p-4 shadow-lg z-40">
+    <div class="max-w-3xl mx-auto">
+      <button @click="submitQuiz()" :disabled="Object.keys(answers).length<8"
+        class="w-full font-bold py-3 rounded-xl transition-colors text-white"
+        :class="Object.keys(answers).length===8?'bg-blue-600 hover:bg-blue-500':'bg-slate-300 cursor-not-allowed'">
+        <span x-text="Object.keys(answers).length===8?'Enviar respostas':'Responda mais '+(8-Object.keys(answers).length)+' questão(ões)'"></span>
+      </button>
+    </div>
+  </div>
+</div>
 </div>
 
 <script>
-  function courseApp() { return { navOpen: false } }
+function courseApp(){
+  return{
+    view:'home',currentModule:0,answers:{},submitted:false,
+    progress:JSON.parse(localStorage.getItem('hcProg')||'{"c":[],"s":{}}'),
+    modules:[
+      {title:'O Hospital e o Papel do Engenheiro Orçamentista',sub:'Risco operacional, 10 sistemas e competências do orçamentista',bg:'bg-blue-600',img:'https://images.unsplash.com/photo-1551190822-a9333d879b1f?w=1200&auto=format&fit=crop&q=80'},
+      {title:'Tipos de Intervenção Hospitalar',sub:'Obra nova, ampliação, reforma operacional e retrofit',bg:'bg-orange-500',img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&auto=format&fit=crop&q=80'},
+      {title:'Leitura do Programa de Necessidades Assistencial',sub:'As 6 camadas de análise e os 9 setores hospitalares',bg:'bg-emerald-600',img:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1200&auto=format&fit=crop&q=80'},
+      {title:'ANVISA, Vigilância Sanitária e Aprovação de Projetos',sub:'RDC 50/2002, RDC 51/2011, PBA e aprovação no RJ',bg:'bg-purple-600',img:'https://images.unsplash.com/photo-1434626881859-194d67b2b86f?w=1200&auto=format&fit=crop&q=80'},
+      {title:'Matriz de NBRs para Instalações Hospitalares',sub:'Das origens de obrigação ao item de edital',bg:'bg-indigo-600',img:'https://images.unsplash.com/photo-1568667256549-094345857637?w=1200&auto=format&fit=crop&q=80'},
+      {title:'Regras Específicas do Rio de Janeiro',sub:'SES-RJ/SUVISA, CBMERJ, Light, Naturgy, CEDAE e município',bg:'bg-teal-600',img:'https://images.unsplash.com/photo-1483729558449-99ef09a8c325?w=1200&auto=format&fit=crop&q=80'},
+      {title:'Contratação Pública e Orçamento Referencial',sub:'Lei 14.133/2021, SINAPI, EMOP-RJ e planilha defensável',bg:'bg-rose-600',img:'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&auto=format&fit=crop&q=80'},
+      {title:'Sistemas Críticos de Instalações Hospitalares',sub:'Elétrico, hidráulico, gases, HVAC, incêndio e eletrônicos',bg:'bg-cyan-700',img:'https://images.unsplash.com/photo-1530026405186-ed1f139313f8?w=1200&auto=format&fit=crop&q=80'},
+      {title:'Modelos Práticos para Uso em Edital',sub:'Matrizes, checklists, critérios de medição e 12 gates',bg:'bg-slate-700',img:'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1200&auto=format&fit=crop&q=80'},
+    ],
+    questions:[
+      [{q:'Por que instalações hospitalares são classificadas como risco operacional elevado?',opts:['Porque o custo de construção é muito mais alto','Porque uma falha pode comprometer diretamente a vida de pacientes','Por exigência estética da vigilância sanitária','Por terem maior número de andares'],correct:1},{q:'Qual dos sistemas a seguir é exclusivo de estabelecimentos de saúde?',opts:['Instalações hidráulicas prediais','Gases medicinais','Cabeamento estruturado de dados','Sistema de proteção contra descargas atmosféricas'],correct:1},{q:'Qual é a principal diferença entre o orçamentista de obra comum e o de hospital?',opts:['O de hospital usa softwares mais avançados','O de hospital interpreta o programa assistencial e domina normas específicas de EAS','O de hospital trabalha apenas com projetos menores','Não há diferença significativa entre os dois'],correct:1},{q:'Os sistemas de instalações hospitalares são interdependentes. Isso significa que:',opts:['Podem ser orçados separadamente sem impacto','Uma falha em um sistema pode comprometer outros sistemas críticos','São instalados obrigatoriamente na mesma fase','São regulados pela mesma norma'],correct:1},{q:'Qual documento representa o ponto de partida para o orçamento de instalações hospitalares?',opts:['A planilha SINAPI atualizada','O programa de necessidades assistencial','O memorial descritivo da arquitetura','O caderno de encargos do Estado'],correct:1},{q:'O sistema IT-médico é obrigatório em:',opts:['Todos os ambientes do hospital','Apenas áreas administrativas','Ambientes do Grupo 2 — CC, UTI e hemodinâmica','Somente em salas de imagem'],correct:2},{q:'Continuidade operacional em hospital significa:',opts:['Que a obra não pode ter interrupções','Que os sistemas não podem falhar durante a assistência, exigindo redundância','Que o mesmo empreiteiro executa todas as instalações','Que o hospital funciona apenas em dias úteis'],correct:1},{q:'Qual lei federal regula hoje as licitações de obras hospitalares públicas?',opts:['Lei 8.666/1993','Lei 10.520/2002','Lei 14.133/2021 (NLLC)','Lei 13.303/2016'],correct:2}],
+      [{q:'Qual modalidade parte do pressuposto de ausência de rede existente?',opts:['Retrofit','Reforma operacional','Obra nova','Ampliação'],correct:2},{q:'Em uma ampliação, o que é fundamental antes de projetar as instalações?',opts:['Pesquisa de preços de materiais','Diagnóstico de capacidade das redes existentes e pontos de interligação','Levantamento de preferência dos usuários','Estudo de viabilidade econômica'],correct:1},{q:'O que diferencia a reforma operacional de uma reforma convencional?',opts:['O valor do contrato','A execução com hospital em funcionamento, exigindo faseamento e provisórios','A necessidade de aprovação ANVISA','O uso de materiais importados'],correct:1},{q:'O retrofit hospitalar visa:',opts:['Reduzir o custo de operação apenas','Substituir sistemas obsoletos mantendo continuidade assistencial','Ampliar a capacidade do hospital','Adequar o layout ao novo programa'],correct:1},{q:'O maior risco de uma reforma operacional é:',opts:['Atraso na entrega de materiais','Interrupção não planejada de sistemas críticos durante a execução','Incompatibilidade de projetos','BDI elevado'],correct:1},{q:'Qual documento é indispensável antes de iniciar o projeto de uma ampliação?',opts:['EIV — Estudo de Impacto de Vizinhança','As-built e inventário das instalações existentes','CND do empreiteiro','ART de instalações elétricas'],correct:1},{q:'O plano de contingência é absolutamente obrigatório em:',opts:['Obra nova em terreno vazio','Reforma operacional com hospital em funcionamento','Retrofit em área desativada','Ampliação em bloco isolado'],correct:1},{q:'Migração planejada em retrofit significa:',opts:['Mudança de equipe durante a obra','Transferência gradual de cargas do sistema antigo para o novo','Alteração do escopo após o início','Relocação de pacientes'],correct:1}],
+      [{q:'Por que o programa assistencial é o ponto de partida do orçamento?',opts:['Porque define o prazo da obra','Porque determina serviços, capacidades e ambientes que geram as demandas de todos os sistemas','Porque especifica os materiais','Porque é exigido pela lei de licitações'],correct:1},{q:'Qual camada transforma leitos e salas em demandas de energia, gases e ar?',opts:['Camada 1 – Serviços','Camada 3 – Ambientes','Camada 2 – Métricas de capacidade','Camada 6 – Regime operacional'],correct:2},{q:'A Camada 5 (Equipamentos) é crítica porque:',opts:['Define o layout das salas','Determina demandas específicas de cada equipamento em energia, gases e climatização','Estabelece o número de funcionários','Classifica os ambientes por risco'],correct:1},{q:'Em qual setor todos os leitos exigem pontos de gases medicinais?',opts:['Internação geral','Pronto-Atendimento','UTI','Ambulatório'],correct:2},{q:'A Camada 6 (Regime operacional) impacta porque:',opts:['Determina a altura do edifício','Define necessidade de redundância e reserva de capacidade dos sistemas críticos','Especifica os projetos a entregar','Classifica o hospital por porte'],correct:1},{q:'O CME exige quais utilidades específicas?',opts:['Apenas energia elétrica e gás combustível','Água purificada, vapor, ar comprimido, vácuo e ventilação específica','Apenas HVAC e elétrica','Somente gases medicinais'],correct:1},{q:'No setor de imagem, o orçamentista deve verificar primeiro:',opts:['A área total do setor','O tipo de equipamento e suas demandas de blindagem, elétrica e climatização','A quantidade de janelas','O número de técnicos'],correct:1},{q:'Orçar instalações sem o programa assistencial resulta em:',opts:['Projetos mais rápidos','Omissões de sistemas, subdimensionamento e alto risco de aditivos','Menos aprovações sanitárias','Redução de custos de projeto'],correct:1}],
+      [{q:'Qual norma federal estabelece os requisitos físico-funcionais mínimos para EAS?',opts:['RDC 51/2011','RDC 50/2002','Lei 14.133/2021','NBR 13534'],correct:1},{q:'A RDC 51/2011 trata de:',opts:['Instalações elétricas em EAS','Projetos físicos de EAS e processo de licenciamento sanitário','Gases medicinais','Requisitos de climatização'],correct:1},{q:'O PBA deve incluir:',opts:['Apenas a planta baixa arquitetônica','Declaração dos sistemas de instalações previstos e especificações básicas','Somente memorial descritivo elétrico','O orçamento detalhado da obra'],correct:1},{q:'No RJ, quem analisa e aprova projetos físicos de EAS?',opts:['CBMERJ','ANVISA diretamente','SES-RJ / SUVISA','CREA-RJ'],correct:2},{q:'A aprovação sanitária deve ocorrer:',opts:['Após o início das obras','Antes da emissão do alvará e do início das obras','Só após a conclusão','É responsabilidade do empreiteiro'],correct:1},{q:'Quais sistemas exigem documentação no visto em planta sanitário?',opts:['Apenas elétrico e hidráulico','Elétrico, hidráulico, gases medicinais, HVAC e incêndio','Apenas gases e HVAC','Somente incêndio'],correct:1},{q:'Quem deve protocolar e acompanhar junto à SUVISA?',opts:['O fiscal do contrato','O órgão contratante diretamente','A empresa contratada, conforme o caderno técnico','O projetista de arquitetura'],correct:2},{q:'Não incluir aprovação sanitária no cronograma causa:',opts:['Multa automática','Atraso no início ou impossibilidade de operar até obter licença','Cancelamento da licitação','Novo projeto básico'],correct:1}],
+      [{q:'As 4 origens de obrigação normativa em edital hospitalar são:',opts:['Federal, estadual, municipal e contratual','Regulação sanitária, ABNT, exigência local e contratual','ANVISA, ABNT, CREA e TCU','NBR, NR, RDC e Portaria'],correct:1},{q:'A classificação "H" significa que a norma:',opts:['Foi publicada pelo Ministério da Saúde','Tem aplicação específica e exclusiva em EAS','É obrigatória apenas em hospitais públicos','Trata exclusivamente de HVAC'],correct:1},{q:'A NBR IEC 60364-7-710 trata de:',opts:['Gases medicinais em EAS','Instalações elétricas em locais de uso médico, incluindo o IT-médico','Climatização em áreas críticas','Sprinklers em hospitais'],correct:1},{q:'Para HVAC de Centro Cirúrgico, quais normas consultar?',opts:['Apenas NBR 7256','NBR 7256, NBR 16401 e NBR ISO 14644','Apenas NBR 16401','NBR 10897 e NBR 13714'],correct:1},{q:'Os campos obrigatórios da matriz normativa incluem:',opts:['Código, data e preço','Código, edição, status, motivo, sistema, responsável e evidência de atendimento','Código, setor e validade','Código, autor e país'],correct:1},{q:'O "acionador" nos 7 passos é:',opts:['O número do artigo da norma','O elemento do projeto que ativa a obrigação da norma','O profissional responsável','O custo estimado'],correct:1},{q:'A NBR ISO 7396-1 deve gerar no edital:',opts:['Apenas a especificação do tubo de cobre','Projeto de rede, especificação, pontos, alarmes e testes','Só o número de pontos de O₂','Apenas o modelo da central'],correct:1},{q:'Controlar edições das normas é crítico porque:',opts:['Reduz o BDI','Norma cancelada ou revisada pode gerar inconsistências e disputas contratuais','Facilita o julgamento das propostas','O TCU exige lista com data de acesso'],correct:1}],
+      [{q:'"Endereço + sistema = interface regulatória" significa que:',opts:['O endereço determina o BDI','Cada sistema pode ter agente regulatório diferente dependendo da localização','O sistema elétrico regula o endereço','Todas as concessionárias operam igual em todo o RJ'],correct:1},{q:'O CBMERJ aprova qual sistema?',opts:['Gases medicinais','Instalações elétricas de MT','Sistema de proteção contra incêndio (PSCIP)','HVAC'],correct:2},{q:'Hospital com subestação própria de MT deve consultar:',opts:['CEDAE','Naturgy','Light (ENEL)','CBMERJ'],correct:2},{q:'Para gás natural canalizado no RJ, qual agência reguladora estadual?',opts:['ANEEL','AGENERSA','ANP','INEA'],correct:1},{q:'A Certidão de Viabilidade da CEDAE é necessária para:',opts:['Aprovação do projeto elétrico','Confirmar disponibilidade de água e ligação de esgoto','Obter CA do CBMERJ','Protocolar PBA na SUVISA'],correct:1},{q:'A Matriz de Interfaces Regulatórias é documento-chave porque:',opts:['Substitui o projeto básico','Consolida agentes, documentos, custos e prazos em uma planilha','É exigida pelo TCU','Define o BDI por sistema'],correct:1},{q:'O edital deve definir sobre taxas de aprovação que:',opts:['São do projetista','São do contratante diretamente','São da contratada, com previsão no orçamento','Serão negociadas na obra'],correct:2},{q:'O CA do CBMERJ é:',opts:['Laudo de vistoria','Parecer sanitário','Certificado de Aprovação do sistema de incêndio','Habite-se do bombeiro'],correct:2}],
+      [{q:'A ficha de enquadramento jurídico serve para:',opts:['Calcular o BDI','Determinar qual lei de contratação rege o empreendimento','Listar as normas técnicas','Definir o prazo da obra'],correct:1},{q:'O ETP na Lei 14.133/2021 tem objetivo de:',opts:['Elaborar a planilha definitiva','Demonstrar viabilidade técnica e necessidade antes do projeto','Definir critérios de medição','Aprovar o projeto nos órgãos'],correct:1},{q:'Para sistemas sem composição em SINAPI ou EMOP-RJ, a estratégia correta é:',opts:['Usar preço da última obra sem justificativa','Cotação com 3+ fornecedores, equalização e memória de cálculo','Aplicar fator sobre preços convencionais','Omitir e incluir em contingência'],correct:1},{q:'O BDI em instalações hospitalares é maior porque:',opts:['O prazo é menor','Maior complexidade, qualificação exigida, testes especializados e risco operacional','Normas fixam BDI mínimo','SINAPI já prevê BDI diferenciado'],correct:1},{q:'A curva ABC de instalações hospitalares serve para:',opts:['Definir o cronograma','Identificar itens de maior valor para controle mais rigoroso','Calcular encargos sociais','Verificar conformidade com orçamento sigiloso'],correct:1},{q:'Orçamento sigiloso (art. 24 NLLC) significa:',opts:['Nunca será divulgado','Valor não divulgado no edital, revelado após a habilitação','Só o TCU acessa','Pode ser elaborado sem memória de cálculo'],correct:1},{q:'A memória de quantitativos é obrigatória porque:',opts:['Serve para calcular o BDI','Permite auditar os quantitativos, demonstrando como foram calculados','É requisito exclusivo do SINAPI','Substitui o projeto executivo'],correct:1},{q:'Omitir um sistema da planilha hospitalar resulta em:',opts:['Multa automática da ANVISA','Aditivo elevado, questionamento dos órgãos de controle e possível paralisia','Descumprimento do BDI','Impossibilidade de usar SINAPI'],correct:1}],
+      [{q:'O sistema IT-médico é obrigatório em ambientes do Grupo 2. Qual é Grupo 2?',opts:['Sala de espera','Consultório médico','Sala de cirurgia','Copa de enfermagem'],correct:2},{q:'O gerador de emergência deve atender prioritariamente:',opts:['Ar condicionado de todas as áreas','Suporte de vida, iluminação de segurança, equipamentos críticos e gases medicinais','Elevadores e alarme de incêndio','Apenas UTI e CC'],correct:1},{q:'Para controle de legionella na água quente, a temperatura deve ser:',opts:['Mínimo 45°C','Mínimo 60°C em toda a rede de circulação','Máximo 55°C','Não há regulação específica'],correct:1},{q:'O vácuo clínico tem a função de:',opts:['Fornecer ar medicinal para ventilação','Aspirar fluidos e secreções em procedimentos médicos e cirúrgicos','Alimentar centrais de O₂','Pressurizar salas de isolamento positivo'],correct:1},{q:'O número de renovações de ar/hora em CC é parâmetro de qual norma?',opts:['RDC 50/2002','NBR 5410','NBR 7256','NBR ISO 7396-1'],correct:2},{q:'Filtragem HEPA é obrigatória em:',opts:['Todos os ambientes sem exceção','CC, UTI, CME e áreas de imunossuprimidos','Apenas laboratórios','Só isolamento de infectologia'],correct:1},{q:'O BMS em hospital:',opts:['Gerencia o faturamento','Monitora e controla centralmente os sistemas prediais (HVAC, elétrico, gases, segurança)','Controla estoque de materiais','Gerencia prontuário eletrônico'],correct:1},{q:'A rede de gases medicinais deve ser executada em:',opts:['Tubo de aço galvanizado','Tubo de cobre sem costura com limpeza especial conforme NBR ISO 7396-1','Tubo de PVC rígido','Tubo de alumínio'],correct:1}],
+      [{q:'A Matriz Normativa deve ser construída antes de:',opts:['O memorial descritivo de arquitetura','A planilha orçamentária, pois define quais projetos e itens devem existir','A aprovação sanitária do PBA','Todos os projetos executivos entregues'],correct:1},{q:'O Checklist de Recebimento de Projetos serve para:',opts:['Aprovar junto à SUVISA','Verificar se documentos necessários ao orçamento estão presentes e consistentes','Calcular honorários do projetista','Validar o BDI da contratada'],correct:1},{q:'No escopo de gases medicinais, o que deve ser descrito?',opts:['Apenas o número de pontos de O₂','Tipo de gases, centrais, redes, pontos, alarmes, testes e documentos de entrega','Só o tipo de central e diâmetro dos tubos','Apenas equipamentos importados'],correct:1},{q:'A codificação da planilha por sistema e setor facilita:',opts:['O cálculo do BDI','Rastreabilidade, controle de medição e auditoria pelos órgãos de controle','Aprovação junto à ANVISA','Cronograma físico-financeiro'],correct:1},{q:'O critério de medição de gases medicinais deve vincular pagamento a:',opts:['Dias trabalhados','Metro de rede instalada, testada e aprovada conforme NBR ISO 7396-1','Pontos instalados sem teste','Percentual da obra global'],correct:1},{q:'O protocolo de comissionamento deve definir:',opts:['Apenas quem realiza os testes','O que testar, quem testa, quem recebe, parâmetros de aceite e documentação de conclusão','Só o prazo de garantia','A quantidade de técnicos'],correct:1},{q:'Qual NÃO é um gate típico do checklist final?',opts:['Verificação da consistência normativa','Verificação do número de funcionários da empresa contratada','Verificação do enquadramento jurídico','Verificação da completude orçamentária'],correct:1},{q:'Um Anexo Técnico de Edital bem estruturado deve conter:',opts:['Apenas especificação dos materiais','Objeto, normas, escopo, especificações, garantia, testes e documentos de entrega','Só o projeto executivo','Apenas planilha e BDI'],correct:1}],
+    ],
+    startModule(idx){this.currentModule=idx;this.view='module';this.answers={};this.submitted=false;window.scrollTo(0,0)},
+    startQuiz(){this.answers={};this.submitted=false;this.view='quiz';window.scrollTo(0,0)},
+    allAnswered(){return Object.keys(this.answers).length===8},
+    getScore(){const qs=this.questions[this.currentModule];return qs.reduce((s,q,i)=>s+(this.answers[i]===q.correct?1:0),0)},
+    submitQuiz(){
+      if(!this.allAnswered())return;
+      this.submitted=true;
+      const sc=this.getScore();
+      if(!this.progress.c)this.progress.c=[];
+      if(!this.progress.s)this.progress.s={};
+      if(!this.progress.c.includes(this.currentModule))this.progress.c.push(this.currentModule);
+      this.progress.s[this.currentModule]=Math.max(this.progress.s[this.currentModule]||0,sc);
+      localStorage.setItem('hcProg',JSON.stringify(this.progress));
+      window.scrollTo(0,0);
+    },
+    nextModule(){const n=this.currentModule+1;if(n<9)this.startModule(n);else{this.view='home';window.scrollTo(0,0);}},
+    isCompleted(idx){return(this.progress.c||[]).includes(idx)},
+    getSavedScore(idx){return this.progress.s?.[idx]??0},
+    completedCount(){return(this.progress.c||[]).length},
+    resetProgress(){this.progress={c:[],s:{}};localStorage.removeItem('hcProg')}
+  }
+}
 </script>
-
 </body>
 </html>
