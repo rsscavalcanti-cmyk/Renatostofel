@@ -35,6 +35,27 @@ html{scroll-behavior:smooth}
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased" x-data="courseApp()" x-cloak>
 
+<!-- ACCESS GATE -->
+<div x-show="!unlocked" class="fixed inset-0 z-[100] bg-slate-900 flex flex-col items-center justify-center p-6">
+  <div class="w-full max-w-sm">
+    <div class="flex items-center justify-center mb-6">
+      <div class="w-14 h-14 rounded-2xl bg-blue-600 flex items-center justify-center text-white font-bold text-2xl">EO</div>
+    </div>
+    <h1 class="text-white text-xl font-bold text-center mb-2">Acesso ao Curso</h1>
+    <p class="text-slate-400 text-sm text-center mb-6">Digite o código de acesso recebido após a compra</p>
+    <input x-model="accessCode" @keydown.enter="checkAccess()"
+      type="text" placeholder="Ex.: CURSO2025"
+      class="w-full bg-slate-800 text-white rounded-xl px-4 py-3 text-center text-lg font-mono tracking-widest uppercase mb-3 focus:outline-none focus:ring-2 focus:ring-blue-500/40 border"
+      :class="accessError?'border-red-500':'border-slate-600'"/>
+    <p x-show="accessError" class="text-red-400 text-sm text-center mb-3">Código inválido. Verifique o e-mail de confirmação da compra.</p>
+    <button @click="checkAccess()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 rounded-xl transition-colors mb-4">Acessar o curso</button>
+    <p class="text-slate-500 text-xs text-center">Ainda não tem acesso? <a href="index.html" class="text-blue-400 hover:text-blue-300 underline">Adquira aqui</a></p>
+  </div>
+</div>
+
+<!-- COURSE CONTENT -->
+<div x-show="unlocked">
+
 <!-- ===================== HOME ===================== -->
 <div x-show="view==='home'">
 <nav class="fixed top-0 left-0 right-0 z-50 bg-slate-900/96 backdrop-blur-sm shadow-lg">
@@ -709,10 +730,20 @@ html{scroll-behavior:smooth}
   </div>
 </div>
 </div>
+</div><!-- /course-content -->
 
 <script>
 function courseApp(){
   return{
+    unlocked:localStorage.getItem('hcUnlocked')==='1',
+    accessCode:'',accessError:false,
+    VALID_CODES:['CURSO2025','HOSP2025'],
+    checkAccess(){
+      if(this.VALID_CODES.includes(this.accessCode.trim().toUpperCase())){
+        localStorage.setItem('hcUnlocked','1');
+        this.unlocked=true;this.accessError=false;
+      }else{this.accessError=true;}
+    },
     view:'home',currentModule:0,answers:{},submitted:false,
     progress:JSON.parse(localStorage.getItem('hcProg')||'{"c":[],"s":{}}'),
     modules:[
