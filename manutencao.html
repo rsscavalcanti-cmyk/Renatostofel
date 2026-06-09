@@ -14,9 +14,6 @@
       theme: {
         extend: {
           colors: {
-            navy:     '#1A1A1A',
-            'navy-light': '#2d2d2d',
-            brand:    '#C8201C',
             snormal:  '#16a34a',
             swarning: '#d97706',
             sdanger:  '#dc2626',
@@ -78,12 +75,12 @@
   <div x-show="view==='dashboard'" class="min-h-screen flex flex-col">
 
     <!-- Top bar -->
-    <header class="bg-navy text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
+    <header class="text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30" style="background-color:#1A1A1A">
       <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center">
-        <svg viewBox="0 0 38 42" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="34" height="38">
-          <rect x="0" y="0" width="38" height="10"/>
-          <rect x="0" y="0" width="10" height="28"/>
-          <rect x="0" y="31" width="15" height="11"/>
+        <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="32" height="36">
+          <rect x="0" y="0" width="48" height="14"/>
+          <rect x="0" y="0" width="14" height="44"/>
+          <rect x="0" y="51" width="24" height="21"/>
         </svg>
       </div>
       <div>
@@ -93,10 +90,10 @@
     </header>
 
     <!-- Install banner -->
-    <div x-show="showInstallBanner" class="bg-brand text-white px-4 py-3 flex items-center justify-between gap-3">
+    <div x-show="showInstallBanner" class="bg-[#C8201C] text-white px-4 py-3 flex items-center justify-between gap-3">
       <span class="text-sm font-medium">Adicione à tela inicial para uso offline</span>
       <div class="flex gap-2">
-        <button @click="installApp()" class="bg-white text-brand text-xs font-bold px-3 py-1.5 rounded-full">Instalar</button>
+        <button @click="installApp()" class="bg-white text-[#C8201C] text-xs font-bold px-3 py-1.5 rounded-full">Instalar</button>
         <button @click="showInstallBanner=false" class="text-white/70 text-xs">✕</button>
       </div>
     </div>
@@ -106,12 +103,12 @@
 
       <!-- Empty state -->
       <div x-show="reports.length === 0" class="flex flex-col items-center justify-center py-20 text-center">
-        <div class="w-20 h-20 rounded-full bg-navy/10 flex items-center justify-center mb-4">
-          <svg class="w-10 h-10 text-navy/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-20 h-20 rounded-full bg-zinc-900/10 flex items-center justify-center mb-4">
+          <svg class="w-10 h-10 text-zinc-900/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
         </div>
-        <h2 class="text-navy font-semibold text-lg mb-1">Nenhum relatório ainda</h2>
+        <h2 class="text-zinc-900 font-semibold text-lg mb-1">Nenhum relatório ainda</h2>
         <p class="text-slate-400 text-sm">Toque no botão + para criar seu primeiro relatório de manutenção</p>
       </div>
 
@@ -120,7 +117,7 @@
         <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Relatórios salvos (<span x-text="reports.length"></span>)</h2>
         <template x-for="r in reportsSorted" :key="r.id">
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <div class="bg-navy px-4 py-3 flex items-center justify-between">
+            <div class="bg-zinc-900 px-4 py-3 flex items-center justify-between">
               <div>
                 <span class="font-bold text-white text-sm" x-text="r.reportNumber || 'SEM Nº'"></span>
                 <span x-show="r.client" class="text-gray-400 text-xs ml-2" x-text="' · ' + r.client"></span>
@@ -152,7 +149,7 @@
               <div class="flex gap-2">
                 <button
                   @click="editReport(r.id)"
-                  class="flex-1 bg-navy text-white text-sm font-medium py-2 rounded-xl flex items-center justify-center gap-1.5"
+                  class="flex-1 bg-zinc-900 text-white text-sm font-medium py-2 rounded-xl flex items-center justify-center gap-1.5"
                 >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                   Editar
@@ -180,7 +177,7 @@
     <!-- FAB -->
     <button
       @click="newReport()"
-      class="fixed bottom-6 right-6 w-14 h-14 bg-brand rounded-full shadow-xl flex items-center justify-center z-40 active:scale-95 transition-transform"
+      class="fixed bottom-6 right-6 w-14 h-14 bg-[#C8201C] rounded-full shadow-xl flex items-center justify-center z-40 active:scale-95 transition-transform"
     >
       <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
@@ -208,7 +205,7 @@
   <div x-show="view==='form'" class="min-h-screen flex flex-col">
 
     <!-- Top bar -->
-    <header class="bg-navy text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
+    <header class="bg-zinc-900 text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
       <button @click="goToDashboard()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 active:bg-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </button>
@@ -216,7 +213,7 @@
         <p class="font-semibold text-sm leading-tight" x-text="activeReport ? (activeReport.reportNumber || 'Novo Relatório') : 'Relatório'"></p>
         <p class="text-xs text-gray-400" x-text="lastSavedAt ? 'Salvo às ' + formatTime(lastSavedAt) : 'Não salvo'"></p>
       </div>
-      <button @click="goToPreview()" class="bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+      <button @click="goToPreview()" class="bg-[#C8201C] text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
         Exportar
       </button>
@@ -226,7 +223,7 @@
 
       <!-- Section: Dados do Relatório -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="bg-navy px-4 py-3 flex items-center gap-2">
+        <div class="bg-zinc-900 px-4 py-3 flex items-center gap-2">
           <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span class="text-white font-semibold text-sm">Dados do Relatório</span>
         </div>
@@ -235,31 +232,31 @@
             <div>
               <label class="text-xs text-slate-500 font-medium block mb-1">Nº do Relatório</label>
               <input type="text" x-model="activeReport.reportNumber" @input="scheduleSave()"
-                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
             </div>
             <div>
               <label class="text-xs text-slate-500 font-medium block mb-1">Data da Vistoria</label>
               <input type="date" x-model="activeReport.inspectionDate" @change="scheduleSave()"
-                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
             </div>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Cliente / Edifício</label>
             <input type="text" x-model="activeReport.client" @input="scheduleSave()"
               placeholder="Nome do cliente ou edifício"
-              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Endereço</label>
             <input type="text" x-model="activeReport.address" @input="scheduleSave()"
               placeholder="Endereço completo"
-              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Técnico Responsável</label>
             <input type="text" x-model="activeReport.technician" @input="scheduleSave()"
               placeholder="Nome do técnico"
-              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
         </div>
       </div>
@@ -267,7 +264,7 @@
       <!-- Section: Equipamentos -->
       <div class="space-y-3">
         <div class="flex items-center justify-between px-1">
-          <h2 class="text-sm font-semibold text-navy">Equipamentos Vistoriados</h2>
+          <h2 class="text-sm font-semibold text-zinc-900">Equipamentos Vistoriados</h2>
           <span class="text-xs text-slate-400" x-text="activeReport.equipments.length + ' item(s)'"></span>
         </div>
 
@@ -275,7 +272,7 @@
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
 
             <!-- Equipment header -->
-            <div class="bg-navy-light px-4 py-2.5 flex items-center justify-between">
+            <div class="bg-zinc-800 px-4 py-2.5 flex items-center justify-between">
               <span class="text-white font-semibold text-sm">
                 Equipamento <span x-text="idx + 1"></span>
                 <span x-show="eq.name" class="font-normal text-gray-400" x-text="' — ' + eq.name"></span>
@@ -303,13 +300,13 @@
                 <label class="text-xs text-slate-500 font-medium block mb-1">Nome do Equipamento</label>
                 <input type="text" x-model="eq.name" @input="scheduleSave()"
                   placeholder="Ex.: Bomba Principal, Painel QD-02"
-                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
               </div>
 
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-1">Tipo</label>
                 <select x-model="eq.type" @change="scheduleSave()"
-                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy bg-white">
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 bg-white">
                   <option value="">— Selecione o tipo —</option>
                   <template x-for="t in EQUIPMENT_TYPES" :key="t"><option :value="t" x-text="t"></option></template>
                 </select>
@@ -319,7 +316,7 @@
                 <label class="text-xs text-slate-500 font-medium block mb-1">Especifique o tipo</label>
                 <input type="text" x-model="eq.typeOther" @input="scheduleSave()"
                   placeholder="Descreva o tipo de equipamento"
-                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
               </div>
 
               <!-- Location -->
@@ -327,7 +324,7 @@
                 <label class="text-xs text-slate-500 font-medium block mb-1">Localização / Pavimento</label>
                 <input type="text" x-model="eq.location" @input="scheduleSave()"
                   placeholder="Ex.: Subsolo, Cobertura, Pavimento 3"
-                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
               </div>
 
               <!-- Status -->
@@ -380,7 +377,7 @@
                 <label class="text-xs text-slate-500 font-medium block mb-1">Observações Técnicas</label>
                 <textarea x-model="eq.observations" @input="scheduleSave()" rows="3"
                   placeholder="Descreva as condições observadas, anomalias, medições..."
-                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy resize-none"></textarea>
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 resize-none"></textarea>
               </div>
 
               <!-- Recommended action -->
@@ -388,7 +385,7 @@
                 <label class="text-xs text-slate-500 font-medium block mb-1">Ação Recomendada</label>
                 <textarea x-model="eq.recommendedAction" @input="scheduleSave()" rows="2"
                   placeholder="Descreva a ação necessária ou recomendada..."
-                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy resize-none"></textarea>
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 resize-none"></textarea>
               </div>
 
             </div>
@@ -397,7 +394,7 @@
 
         <!-- Add equipment button -->
         <button @click="addEquipment()"
-          class="w-full border-2 border-dashed border-navy/30 text-navy font-semibold text-sm py-4 rounded-2xl flex items-center justify-center gap-2 active:bg-navy/5 transition-colors">
+          class="w-full border-2 border-dashed border-zinc-900/30 text-zinc-900 font-semibold text-sm py-4 rounded-2xl flex items-center justify-center gap-2 active:bg-zinc-900/5 transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
           Adicionar Equipamento
         </button>
@@ -405,7 +402,7 @@
 
       <!-- Section: Conclusão -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="bg-navy px-4 py-3 flex items-center gap-2">
+        <div class="bg-zinc-900 px-4 py-3 flex items-center gap-2">
           <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
           <span class="text-white font-semibold text-sm">Conclusão</span>
         </div>
@@ -414,12 +411,12 @@
             <label class="text-xs text-slate-500 font-medium block mb-1">Observações Gerais</label>
             <textarea x-model="activeReport.generalObservations" @input="scheduleSave()" rows="4"
               placeholder="Observações gerais sobre o estado da edificação..."
-              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy resize-none"></textarea>
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 resize-none"></textarea>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Data da Próxima Vistoria</label>
             <input type="date" x-model="activeReport.nextInspectionDate" @change="scheduleSave()"
-              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
         </div>
       </div>
@@ -431,7 +428,7 @@
   <div x-show="view==='preview'" class="min-h-screen flex flex-col">
 
     <!-- Top bar -->
-    <header class="bg-navy text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
+    <header class="bg-zinc-900 text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
       <button @click="goToForm()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 active:bg-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </button>
@@ -442,7 +439,7 @@
       <button
         @click="generatePDF()"
         :disabled="pdfGenerating"
-        class="bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 disabled:opacity-60"
+        class="bg-[#C8201C] text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 disabled:opacity-60"
       >
         <svg x-show="!pdfGenerating" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
         <svg x-show="pdfGenerating" class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
@@ -454,13 +451,13 @@
       <div id="preview-content" class="max-w-2xl mx-auto space-y-3">
 
         <!-- Cover card -->
-        <div class="bg-navy rounded-2xl overflow-hidden shadow-md">
+        <div class="rounded-2xl overflow-hidden shadow-md" style="background-color:#1A1A1A">
           <div class="px-5 pt-5 pb-4 flex items-start gap-4">
             <div class="w-14 h-14 flex-shrink-0 flex items-center justify-center">
-              <svg viewBox="0 0 38 42" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="44" height="48">
-                <rect x="0" y="0" width="38" height="10"/>
-                <rect x="0" y="0" width="10" height="28"/>
-                <rect x="0" y="31" width="15" height="11"/>
+              <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="44" height="50">
+                <rect x="0" y="0" width="48" height="14"/>
+                <rect x="0" y="0" width="14" height="44"/>
+                <rect x="0" y="51" width="24" height="21"/>
               </svg>
             </div>
             <div>
@@ -468,7 +465,7 @@
               <p class="text-gray-400 text-xs">Relatório de Manutenção Predial</p>
             </div>
           </div>
-          <div class="bg-navy-light mx-4 mb-4 rounded-xl px-4 py-3 space-y-1.5">
+          <div class="mx-4 mb-4 rounded-xl px-4 py-3 space-y-1.5" style="background-color:#2d2d2d">
             <div class="flex justify-between text-xs">
               <span class="text-gray-400">Nº Relatório</span>
               <span class="text-white font-semibold" x-text="activeReport.reportNumber || '—'"></span>
@@ -492,7 +489,7 @@
           </div>
 
           <!-- Status summary -->
-          <div class="grid grid-cols-4 gap-px bg-navy-light mx-4 mb-4 rounded-xl overflow-hidden text-center">
+          <div class="grid grid-cols-4 gap-px bg-zinc-800 mx-4 mb-4 rounded-xl overflow-hidden text-center">
             <template x-for="s in getStatusSummary(activeReport)" :key="s.value">
               <div class="py-2.5 px-1" :class="s.bg">
                 <p class="font-bold text-lg leading-none" :class="s.textColor" x-text="s.count"></p>
@@ -506,7 +503,7 @@
         <template x-for="eq in activeReport.equipments" :key="eq.id">
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <!-- Eq header -->
-            <div class="px-4 py-3 flex items-center justify-between" :class="getStatusBg(eq.status)">
+            <div class="px-4 py-3 flex items-center justify-between" :style="getStatusBgStyle(eq.status)">
               <div>
                 <p class="font-semibold text-sm text-white" x-text="eq.name || 'Equipamento sem nome'"></p>
                 <p class="text-xs text-white/70" x-text="(eq.type === 'Outro' ? eq.typeOther : eq.type) + (eq.location ? ' · ' + eq.location : '')"></p>
@@ -521,9 +518,7 @@
               <!-- Photos grid 2col -->
               <div x-show="eq.photos.length > 0" class="grid grid-cols-2 gap-2">
                 <template x-for="ph in eq.photos" :key="ph.id">
-                  <div class="rounded-xl overflow-hidden bg-slate-100" style="aspect-ratio:4/3">
-                    <img :src="ph.dataUrl" class="w-full h-full object-cover"/>
-                  </div>
+                  <img :src="ph.dataUrl" class="w-full h-auto rounded-xl block"/>
                 </template>
               </div>
 
@@ -861,13 +856,13 @@
 
             // ── Page 1: Cover ─────────────────────────────
             // Logo mark (SVG-like via jsPDF rects — System Engenharia geometric mark)
+            // Logo mark — proportional to SVG viewBox 64×72
             const LX = P.M, LY = y;
-            const LW = 14, LH = 16;   // bounding box in mm
-            const barH = LH * 0.24, barW = LW * 0.26;
+            const LW = 12.8, LH = 14.4; // 64:72 ratio, ~13mm wide
             doc.setFillColor(200, 32, 28); // #C8201C
-            doc.rect(LX, LY, LW, barH, 'F');                                   // top bar
-            doc.rect(LX, LY, barW, LH * 0.67, 'F');                            // left bar
-            doc.rect(LX, LY + LH * 0.74, LW * 0.40, LH * 0.26, 'F');          // small square
+            doc.rect(LX,          LY,                    LW*(48/64), LH*(14/72), 'F'); // top bar
+            doc.rect(LX,          LY,                    LW*(14/64), LH*(44/72), 'F'); // left bar
+            doc.rect(LX,          LY + LH*(51/72),       LW*(24/64), LH*(21/72), 'F'); // small sq
 
             // Wordmark
             doc.setFont('helvetica', 'bold');
@@ -1029,31 +1024,18 @@
                 y += 4;
 
                 const PHOTO_W = (UW - 4) / 2; // ~89mm each
-                let col = 0;
-                let rowStartY = y;
-
-                for (const ph of eq.photos) {
-                  if (col === 0) rowStartY = y;
-                  const ratio = ph.height / ph.width;
-                  const pH = Math.min(PHOTO_W * ratio, 70);
-                  const pX = P.M + col * (PHOTO_W + 4);
-
-                  checkPage(pH + 4);
-                  if (col === 0 && y !== rowStartY) rowStartY = y;
-
-                  try {
-                    doc.addImage(ph.dataUrl, 'JPEG', pX, rowStartY, PHOTO_W, pH);
-                  } catch {}
-
-                  col++;
-                  if (col >= 2) {
-                    col = 0;
-                    y = rowStartY + Math.min(PHOTO_W * (ph.height / ph.width), 70) + 3;
+                for (let pi = 0; pi < eq.photos.length; pi += 2) {
+                  const ph1 = eq.photos[pi];
+                  const ph2 = eq.photos[pi + 1];
+                  const h1 = Math.min(PHOTO_W * (ph1.height / ph1.width), 65);
+                  const h2 = ph2 ? Math.min(PHOTO_W * (ph2.height / ph2.width), 65) : 0;
+                  const rowH = ph2 ? Math.max(h1, h2) : h1;
+                  checkPage(rowH + 4);
+                  try { doc.addImage(ph1.dataUrl, 'JPEG', P.M, y, PHOTO_W, h1); } catch {}
+                  if (ph2) {
+                    try { doc.addImage(ph2.dataUrl, 'JPEG', P.M + PHOTO_W + 4, y, PHOTO_W, h2); } catch {}
                   }
-                }
-                if (col === 1) {
-                  const lastPh = eq.photos[eq.photos.length - 1];
-                  y = rowStartY + Math.min(PHOTO_W * (lastPh.height / lastPh.width), 70) + 3;
+                  y += rowH + 4;
                 }
                 y += 2;
               }
@@ -1146,14 +1128,14 @@
           return s ? s.label : status;
         },
 
-        getStatusBg(status) {
+        getStatusBgStyle(status) {
           const map = {
-            normal:     'bg-snormal',
-            atencao:    'bg-swarning',
-            urgente:    'bg-sdanger',
-            inoperante: 'bg-sinop'
+            normal:     '#16a34a',
+            atencao:    '#d97706',
+            urgente:    '#dc2626',
+            inoperante: '#6b7280'
           };
-          return map[status] || 'bg-navy';
+          return `background-color:${map[status] || '#1A1A1A'}`;
         },
 
         getStatusSummary(report) {
