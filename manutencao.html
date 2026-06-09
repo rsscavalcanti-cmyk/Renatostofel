@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
   <title>System Engenharia — Relatórios de Manutenção</title>
   <link rel="manifest" href="./manifest.json"/>
-  <meta name="theme-color" content="#1e3a5f"/>
+  <meta name="theme-color" content="#1A1A1A"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
   <meta name="apple-mobile-web-app-title" content="SysE Relatórios"/>
@@ -14,9 +14,9 @@
       theme: {
         extend: {
           colors: {
-            navy:     '#1e3a5f',
-            'navy-light': '#274d80',
-            brand:    '#f97316',
+            navy:     '#1A1A1A',
+            'navy-light': '#2d2d2d',
+            brand:    '#C8201C',
             snormal:  '#16a34a',
             swarning: '#d97706',
             sdanger:  '#dc2626',
@@ -79,10 +79,16 @@
 
     <!-- Top bar -->
     <header class="bg-navy text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
-      <div class="w-9 h-9 rounded-lg bg-brand flex items-center justify-center font-bold text-white text-sm flex-shrink-0">SE</div>
+      <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center">
+        <svg viewBox="0 0 38 42" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="34" height="38">
+          <rect x="0" y="0" width="38" height="10"/>
+          <rect x="0" y="0" width="10" height="28"/>
+          <rect x="0" y="31" width="15" height="11"/>
+        </svg>
+      </div>
       <div>
-        <p class="font-semibold text-sm leading-tight">System Engenharia</p>
-        <p class="text-xs text-blue-200">Relatórios de Manutenção</p>
+        <p class="font-semibold text-sm leading-tight tracking-wide">SYSTEM <span class="font-normal">ENGENHARIA</span></p>
+        <p class="text-xs text-gray-400">Relatórios de Manutenção</p>
       </div>
     </header>
 
@@ -117,9 +123,9 @@
             <div class="bg-navy px-4 py-3 flex items-center justify-between">
               <div>
                 <span class="font-bold text-white text-sm" x-text="r.reportNumber || 'SEM Nº'"></span>
-                <span x-show="r.client" class="text-blue-200 text-xs ml-2" x-text="' · ' + r.client"></span>
+                <span x-show="r.client" class="text-gray-400 text-xs ml-2" x-text="' · ' + r.client"></span>
               </div>
-              <span class="text-blue-200 text-xs" x-text="formatDate(r.inspectionDate)"></span>
+              <span class="text-gray-400 text-xs" x-text="formatDate(r.inspectionDate)"></span>
             </div>
             <div class="px-4 py-3">
               <p x-show="r.address" class="text-slate-500 text-xs mb-2" x-text="r.address"></p>
@@ -208,7 +214,7 @@
       </button>
       <div class="flex-1">
         <p class="font-semibold text-sm leading-tight" x-text="activeReport ? (activeReport.reportNumber || 'Novo Relatório') : 'Relatório'"></p>
-        <p class="text-xs text-blue-200" x-text="lastSavedAt ? 'Salvo às ' + formatTime(lastSavedAt) : 'Não salvo'"></p>
+        <p class="text-xs text-gray-400" x-text="lastSavedAt ? 'Salvo às ' + formatTime(lastSavedAt) : 'Não salvo'"></p>
       </div>
       <button @click="goToPreview()" class="bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
@@ -221,7 +227,7 @@
       <!-- Section: Dados do Relatório -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
         <div class="bg-navy px-4 py-3 flex items-center gap-2">
-          <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span class="text-white font-semibold text-sm">Dados do Relatório</span>
         </div>
         <div class="p-4 space-y-3">
@@ -272,7 +278,7 @@
             <div class="bg-navy-light px-4 py-2.5 flex items-center justify-between">
               <span class="text-white font-semibold text-sm">
                 Equipamento <span x-text="idx + 1"></span>
-                <span x-show="eq.name" class="font-normal text-blue-200" x-text="' — ' + eq.name"></span>
+                <span x-show="eq.name" class="font-normal text-gray-400" x-text="' — ' + eq.name"></span>
               </span>
               <div class="flex items-center gap-1">
                 <button x-show="idx > 0" @click="moveEquipmentUp(idx)"
@@ -400,7 +406,7 @@
       <!-- Section: Conclusão -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
         <div class="bg-navy px-4 py-3 flex items-center gap-2">
-          <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+          <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
           <span class="text-white font-semibold text-sm">Conclusão</span>
         </div>
         <div class="p-4 space-y-3">
@@ -431,7 +437,7 @@
       </button>
       <div class="flex-1">
         <p class="font-semibold text-sm">Prévia do Relatório</p>
-        <p class="text-xs text-blue-200" x-text="activeReport ? activeReport.reportNumber : ''"></p>
+        <p class="text-xs text-gray-400" x-text="activeReport ? activeReport.reportNumber : ''"></p>
       </div>
       <button
         @click="generatePDF()"
@@ -450,31 +456,37 @@
         <!-- Cover card -->
         <div class="bg-navy rounded-2xl overflow-hidden shadow-md">
           <div class="px-5 pt-5 pb-4 flex items-start gap-4">
-            <div class="w-14 h-14 rounded-xl bg-brand flex items-center justify-center font-bold text-white text-xl flex-shrink-0">SE</div>
+            <div class="w-14 h-14 flex-shrink-0 flex items-center justify-center">
+              <svg viewBox="0 0 38 42" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="44" height="48">
+                <rect x="0" y="0" width="38" height="10"/>
+                <rect x="0" y="0" width="10" height="28"/>
+                <rect x="0" y="31" width="15" height="11"/>
+              </svg>
+            </div>
             <div>
-              <h1 class="text-white font-bold text-lg leading-tight">System Engenharia</h1>
-              <p class="text-blue-200 text-xs">Relatório de Manutenção Predial</p>
+              <h1 class="text-white font-bold text-lg leading-tight tracking-wide">SYSTEM <span class="font-normal">ENGENHARIA</span></h1>
+              <p class="text-gray-400 text-xs">Relatório de Manutenção Predial</p>
             </div>
           </div>
           <div class="bg-navy-light mx-4 mb-4 rounded-xl px-4 py-3 space-y-1.5">
             <div class="flex justify-between text-xs">
-              <span class="text-blue-200">Nº Relatório</span>
+              <span class="text-gray-400">Nº Relatório</span>
               <span class="text-white font-semibold" x-text="activeReport.reportNumber || '—'"></span>
             </div>
             <div class="flex justify-between text-xs">
-              <span class="text-blue-200">Data da Vistoria</span>
+              <span class="text-gray-400">Data da Vistoria</span>
               <span class="text-white font-semibold" x-text="formatDate(activeReport.inspectionDate)"></span>
             </div>
             <div class="flex justify-between text-xs">
-              <span class="text-blue-200">Técnico Responsável</span>
+              <span class="text-gray-400">Técnico Responsável</span>
               <span class="text-white font-semibold" x-text="activeReport.technician || '—'"></span>
             </div>
             <div class="flex justify-between text-xs">
-              <span class="text-blue-200">Cliente / Edifício</span>
+              <span class="text-gray-400">Cliente / Edifício</span>
               <span class="text-white font-semibold" x-text="activeReport.client || '—'"></span>
             </div>
             <div x-show="activeReport.address" class="flex justify-between text-xs">
-              <span class="text-blue-200">Endereço</span>
+              <span class="text-gray-400">Endereço</span>
               <span class="text-white font-semibold text-right max-w-[60%]" x-text="activeReport.address"></span>
             </div>
           </div>
@@ -848,21 +860,27 @@
             const statusPdfColors = this.STATUS_PDF_COLORS;
 
             // ── Page 1: Cover ─────────────────────────────
-            // Logo placeholder
-            doc.setFillColor(30, 58, 95);
-            doc.roundedRect(P.M, y, 18, 18, 2, 2, 'F');
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(11);
-            doc.setTextColor(249, 115, 22);
-            doc.text('SE', P.M + 9, y + 12, { align: 'center' });
+            // Logo mark (SVG-like via jsPDF rects — System Engenharia geometric mark)
+            const LX = P.M, LY = y;
+            const LW = 14, LH = 16;   // bounding box in mm
+            const barH = LH * 0.24, barW = LW * 0.26;
+            doc.setFillColor(200, 32, 28); // #C8201C
+            doc.rect(LX, LY, LW, barH, 'F');                                   // top bar
+            doc.rect(LX, LY, barW, LH * 0.67, 'F');                            // left bar
+            doc.rect(LX, LY + LH * 0.74, LW * 0.40, LH * 0.26, 'F');          // small square
 
-            doc.setTextColor(30, 58, 95);
+            // Wordmark
+            doc.setFont('helvetica', 'bold');
             doc.setFontSize(16);
-            doc.text('System Engenharia', P.M + 22, y + 7);
+            doc.setTextColor(26, 26, 26); // #1A1A1A
+            doc.text('SYSTEM', P.M + 18, y + 7);
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(9);
+            doc.setFontSize(10);
+            doc.setTextColor(26, 26, 26);
+            doc.text('ENGENHARIA', P.M + 18, y + 13);
+            doc.setFontSize(8);
             doc.setTextColor(100, 116, 139);
-            doc.text('Relatório de Manutenção Predial', P.M + 22, y + 13);
+            doc.text('Relatório de Manutenção Predial', P.M + 18, y + 18.5);
             y += 24;
 
             // Divider
@@ -910,7 +928,7 @@
             checkPage(22);
             doc.setFontSize(8);
             doc.setFont('helvetica', 'bold');
-            doc.setTextColor(30, 58, 95);
+            doc.setTextColor(100, 116, 139);
             doc.text('RESUMO DE STATUS', P.M, y);
             y += 4;
             summary.forEach((s, i) => {
@@ -938,7 +956,7 @@
 
               // Equipment header bar
               const sColor = statusPdfColors[eq.status] || [107, 114, 128];
-              doc.setFillColor(30, 58, 95);
+              doc.setFillColor(26, 26, 26);
               doc.roundedRect(P.M, y, UW, 16, 2, 2, 'F');
               doc.setFont('helvetica', 'bold');
               doc.setFontSize(10);
@@ -947,7 +965,7 @@
               const typeTxt = eq.type === 'Outro' ? (eq.typeOther || 'Outro') : (eq.type || '');
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(8);
-              doc.setTextColor(190, 210, 240);
+              doc.setTextColor(160, 160, 160);
               doc.text(typeTxt + (eq.location ? ' · ' + eq.location : ''), P.M + 4, y + 12.5);
 
               // Status badge
@@ -1050,7 +1068,7 @@
             y += 5;
             doc.setFont('helvetica', 'bold');
             doc.setFontSize(11);
-            doc.setTextColor(30, 58, 95);
+            doc.setTextColor(200, 32, 28);
             doc.text('CONCLUSÃO', P.M, y);
             y += 6;
 
@@ -1076,7 +1094,7 @@
               checkPage(10);
               doc.setFont('helvetica', 'bold');
               doc.setFontSize(9);
-              doc.setTextColor(30, 58, 95);
+              doc.setTextColor(26, 26, 26);
               doc.text('Próxima Vistoria: ', P.M, y);
               doc.setFont('helvetica', 'normal');
               doc.text(this.formatDate(report.nextInspectionDate), P.M + 35, y);
@@ -1087,11 +1105,11 @@
             const totalPages = doc.internal.getNumberOfPages();
             for (let p = 1; p <= totalPages; p++) {
               doc.setPage(p);
-              doc.setFillColor(30, 58, 95);
+              doc.setFillColor(26, 26, 26);
               doc.rect(0, P.H - 10, P.W, 10, 'F');
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(7);
-              doc.setTextColor(190, 210, 240);
+              doc.setTextColor(160, 160, 160);
               doc.text('System Engenharia · ' + (report.reportNumber || '') + ' · ' + this.formatDate(report.inspectionDate), P.M, P.H - 3.5);
               doc.text(`Pág. ${p}/${totalPages}`, P.W - P.M, P.H - 3.5, { align: 'right' });
             }
@@ -1130,12 +1148,12 @@
 
         getStatusBg(status) {
           const map = {
-            normal: 'bg-snormal',
-            atencao: 'bg-swarning',
-            urgente: 'bg-sdanger',
+            normal:     'bg-snormal',
+            atencao:    'bg-swarning',
+            urgente:    'bg-sdanger',
             inoperante: 'bg-sinop'
           };
-          return map[status] || 'bg-sinop';
+          return map[status] || 'bg-navy';
         },
 
         getStatusSummary(report) {
