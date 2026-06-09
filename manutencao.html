@@ -78,9 +78,9 @@
     <header class="bg-white px-4 py-3 flex items-center gap-3 shadow-sm border-b border-slate-100 sticky top-0 z-30">
       <div class="w-11 h-11 flex-shrink-0 flex items-center justify-center">
         <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="38" height="43">
-          <rect x="0" y="0" width="51" height="14"/>
-          <rect x="0" y="0" width="14" height="52"/>
-          <rect x="0" y="58" width="24" height="14"/>
+          <rect x="0" y="0" width="50" height="18"/>
+          <rect x="0" y="0" width="18" height="52"/>
+          <rect x="0" y="60" width="24" height="12"/>
         </svg>
       </div>
       <div>
@@ -452,48 +452,55 @@
 
         <!-- Cover card -->
         <div class="rounded-2xl overflow-hidden shadow-md" style="background-color:#1A1A1A">
-          <div class="px-5 pt-5 pb-4 flex items-start gap-4">
-            <div class="w-14 h-14 flex-shrink-0 flex items-center justify-center">
-              <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="44" height="50">
-                <rect x="0" y="0" width="51" height="14"/>
-                <rect x="0" y="0" width="14" height="52"/>
-                <rect x="0" y="58" width="24" height="14"/>
+          <!-- Red accent stripe -->
+          <div class="h-1.5" style="background:#C8201C"></div>
+          <!-- Header: logo + wordmark -->
+          <div class="px-5 pt-4 pb-3 flex items-center gap-4">
+            <div class="flex-shrink-0">
+              <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="54" height="62">
+                <rect x="0" y="0" width="50" height="18"/>
+                <rect x="0" y="0" width="18" height="52"/>
+                <rect x="0" y="60" width="24" height="12"/>
               </svg>
             </div>
             <div>
-              <h1 class="text-white font-bold text-lg leading-tight tracking-wide">SYSTEM <span class="font-normal">ENGENHARIA</span></h1>
-              <p class="text-gray-400 text-xs">Relatório de Manutenção Predial</p>
+              <h1 class="text-white font-bold text-xl leading-tight tracking-widest">SYSTEM <span class="font-light">ENGENHARIA</span></h1>
+              <p class="text-xs mt-0.5 font-semibold tracking-widest" style="color:#C8201C">RELATÓRIO DE MANUTENÇÃO PREDIAL</p>
             </div>
           </div>
-          <div class="mx-4 mb-4 rounded-xl px-4 py-3 space-y-1.5" style="background-color:#2d2d2d">
-            <div class="flex justify-between text-xs">
-              <span class="text-gray-400">Nº Relatório</span>
-              <span class="text-white font-semibold" x-text="activeReport.reportNumber || '—'"></span>
+          <!-- Info table -->
+          <div class="mx-4 mb-4 rounded-xl overflow-hidden" style="background-color:#2d2d2d">
+            <div class="flex items-center justify-between px-4 py-2.5 border-b" style="border-color:#3d3d3d">
+              <span class="text-gray-400 text-xs">Nº Relatório</span>
+              <span class="text-white font-bold text-sm" x-text="activeReport.reportNumber || '—'"></span>
             </div>
-            <div class="flex justify-between text-xs">
-              <span class="text-gray-400">Data da Vistoria</span>
-              <span class="text-white font-semibold" x-text="formatDate(activeReport.inspectionDate)"></span>
+            <div class="flex items-center justify-between px-4 py-2.5 border-b" style="border-color:#3d3d3d">
+              <span class="text-gray-400 text-xs">Data da Vistoria</span>
+              <span class="text-white font-semibold text-xs" x-text="formatDate(activeReport.inspectionDate)"></span>
             </div>
-            <div class="flex justify-between text-xs">
-              <span class="text-gray-400">Técnico Responsável</span>
-              <span class="text-white font-semibold" x-text="activeReport.technician || '—'"></span>
+            <div class="flex items-center justify-between px-4 py-2.5 border-b" style="border-color:#3d3d3d">
+              <span class="text-gray-400 text-xs">Técnico</span>
+              <span class="text-white font-semibold text-xs" x-text="activeReport.technician || '—'"></span>
             </div>
-            <div class="flex justify-between text-xs">
-              <span class="text-gray-400">Cliente / Edifício</span>
-              <span class="text-white font-semibold" x-text="activeReport.client || '—'"></span>
+            <div class="flex items-center justify-between px-4 py-2.5 border-b" style="border-color:#3d3d3d">
+              <span class="text-gray-400 text-xs">Cliente / Edifício</span>
+              <span class="text-white font-semibold text-xs text-right max-w-[55%]" x-text="activeReport.client || '—'"></span>
             </div>
-            <div x-show="activeReport.address" class="flex justify-between text-xs">
-              <span class="text-gray-400">Endereço</span>
-              <span class="text-white font-semibold text-right max-w-[60%]" x-text="activeReport.address"></span>
+            <div x-show="activeReport.address" class="flex items-center justify-between px-4 py-2.5">
+              <span class="text-gray-400 text-xs">Endereço</span>
+              <span class="text-white font-semibold text-xs text-right max-w-[55%]" x-text="activeReport.address"></span>
             </div>
           </div>
 
           <!-- Status summary -->
-          <div class="grid grid-cols-4 gap-px bg-zinc-800 mx-4 mb-4 rounded-xl overflow-hidden text-center">
+          <div class="px-4 mb-1">
+            <p class="text-xs font-bold tracking-widest mb-2" style="color:#C8201C">EQUIPAMENTOS VISTORIADOS</p>
+          </div>
+          <div class="grid grid-cols-4 gap-px mx-4 mb-4 rounded-xl overflow-hidden text-center" style="background-color:#3d3d3d">
             <template x-for="s in getStatusSummary(activeReport)" :key="s.value">
-              <div class="py-2.5 px-1" :class="s.bg">
-                <p class="font-bold text-lg leading-none" :class="s.textColor" x-text="s.count"></p>
-                <p class="text-xs mt-0.5" :class="s.textColor" x-text="s.label"></p>
+              <div class="py-3 px-1" :class="s.bg">
+                <p class="font-bold text-xl leading-none" :class="s.textColor" x-text="s.count"></p>
+                <p class="text-xs mt-1 font-medium" :class="s.textColor" x-text="s.label"></p>
               </div>
             </template>
           </div>
@@ -503,32 +510,33 @@
         <template x-for="eq in activeReport.equipments" :key="eq.id">
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <!-- Eq header -->
-            <div class="px-4 py-3 flex items-center justify-between" :style="getStatusBgStyle(eq.status)">
-              <div>
-                <p class="font-semibold text-sm text-white" x-text="eq.name || 'Equipamento sem nome'"></p>
-                <p class="text-xs text-white/70" x-text="(eq.type === 'Outro' ? eq.typeOther : eq.type) + (eq.location ? ' · ' + eq.location : '')"></p>
+            <div class="px-4 py-4 flex items-start justify-between" :style="getStatusBgStyle(eq.status)">
+              <div class="flex-1 min-w-0 pr-3">
+                <p class="font-bold text-base text-white leading-tight" x-text="eq.name || 'Equipamento sem nome'"></p>
+                <p class="text-xs text-white/80 mt-0.5" x-text="(eq.type === 'Outro' ? eq.typeOther : eq.type) + (eq.location ? ' · ' + eq.location : '')"></p>
               </div>
-              <span
-                class="text-xs font-bold px-2.5 py-1 rounded-full bg-white/20 text-white"
-                x-text="getStatusLabel(eq.status)"
-              ></span>
+              <span class="flex-shrink-0 text-xs font-bold px-3 py-1.5 rounded-full bg-white/25 text-white border border-white/30"
+                x-text="getStatusLabel(eq.status)"></span>
             </div>
 
-            <div class="p-4 space-y-3">
-              <!-- Photos grid 2col -->
-              <div x-show="eq.photos.length > 0" class="grid grid-cols-2 gap-2">
-                <template x-for="ph in eq.photos" :key="ph.id">
-                  <img :src="ph.dataUrl" class="w-full h-auto rounded-xl block"/>
-                </template>
+            <div class="p-4 space-y-4">
+              <!-- Photos -->
+              <div x-show="eq.photos.length > 0">
+                <p class="text-xs font-bold tracking-widest mb-2" style="color:#C8201C">REGISTRO FOTOGRÁFICO</p>
+                <div class="grid grid-cols-2 gap-2">
+                  <template x-for="ph in eq.photos" :key="ph.id">
+                    <img :src="ph.dataUrl" class="w-full h-auto rounded-lg block shadow-sm"/>
+                  </template>
+                </div>
               </div>
 
               <div x-show="eq.observations">
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Observações</p>
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Observações Técnicas</p>
                 <p class="text-sm text-slate-700 leading-relaxed" x-text="eq.observations"></p>
               </div>
 
-              <div x-show="eq.recommendedAction">
-                <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Ação Recomendada</p>
+              <div x-show="eq.recommendedAction" class="pt-3 border-t border-slate-100">
+                <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Ação Recomendada</p>
                 <p class="text-sm text-slate-700 leading-relaxed" x-text="eq.recommendedAction"></p>
               </div>
 
@@ -539,22 +547,23 @@
         </template>
 
         <!-- Footer card -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div class="bg-slate-700 px-4 py-3">
-            <p class="text-white font-semibold text-sm">Conclusão</p>
+        <div class="rounded-2xl shadow-sm overflow-hidden" style="background-color:#1A1A1A">
+          <div class="h-1" style="background:#C8201C"></div>
+          <div class="px-4 py-3">
+            <p class="text-white font-bold text-sm tracking-widest">CONCLUSÃO</p>
           </div>
-          <div class="p-4 space-y-3">
+          <div class="bg-white px-4 py-4 space-y-4">
             <div x-show="activeReport.generalObservations">
-              <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Observações Gerais</p>
+              <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Observações Gerais</p>
               <p class="text-sm text-slate-700 leading-relaxed" x-text="activeReport.generalObservations"></p>
             </div>
-            <div x-show="activeReport.nextInspectionDate" class="flex items-center gap-2">
-              <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            <div x-show="activeReport.nextInspectionDate" class="flex items-center gap-2 p-3 rounded-xl bg-slate-50">
+              <svg class="w-4 h-4 flex-shrink-0" style="color:#C8201C" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               <span class="text-sm text-slate-600">Próxima vistoria: <strong x-text="formatDate(activeReport.nextInspectionDate)"></strong></span>
             </div>
-            <div class="border-t border-slate-100 pt-3 mt-3 text-center">
-              <p class="text-xs text-slate-400">Relatório emitido por <span class="font-semibold text-slate-600">System Engenharia</span></p>
-              <p class="text-xs text-slate-300 mt-0.5" x-text="activeReport.reportNumber + ' · ' + formatDate(activeReport.inspectionDate)"></p>
+            <div class="border-t border-slate-100 pt-3 flex items-center justify-between">
+              <p class="text-xs text-slate-400">System <span class="font-semibold text-slate-600">Engenharia</span></p>
+              <p class="text-xs text-slate-400" x-text="activeReport.reportNumber + ' · ' + formatDate(activeReport.inspectionDate)"></p>
             </div>
           </div>
         </div>
@@ -844,7 +853,7 @@
             let y = P.M;
 
             const checkPage = (needed) => {
-              if (y + needed > P.H - P.M) { doc.addPage(); y = P.M; }
+              if (y + needed > P.H - 16) { doc.addPage(); y = P.M; }
             };
 
             const wrapText = (text, maxW, fontSize = 10) => {
@@ -855,35 +864,43 @@
             const statusPdfColors = this.STATUS_PDF_COLORS;
 
             // ── Page 1: Cover ─────────────────────────────
-            // Logo mark (SVG-like via jsPDF rects — System Engenharia geometric mark)
+            // Red top stripe
+            doc.setFillColor(200, 32, 28);
+            doc.rect(0, 0, P.W, 8, 'F');
+            y = 12;
+
             // Logo mark — proportional to SVG viewBox 64×72
             const LX = P.M, LY = y;
-            const LW = 12.8, LH = 14.4; // 64:72 ratio, ~13mm wide
-            doc.setFillColor(200, 32, 28); // #C8201C
-            doc.rect(LX,          LY,                    LW*(51/64), LH*(14/72), 'F'); // top bar
-            doc.rect(LX,          LY,                    LW*(14/64), LH*(52/72), 'F'); // left bar
-            doc.rect(LX,          LY + LH*(58/72),       LW*(24/64), LH*(14/72), 'F'); // small sq
+            const LW = 14, LH = 15.75; // slightly larger than before
+            doc.setFillColor(200, 32, 28);
+            doc.rect(LX,          LY,                    LW*(50/64), LH*(18/72), 'F'); // top bar
+            doc.rect(LX,          LY,                    LW*(18/64), LH*(52/72), 'F'); // left bar
+            doc.rect(LX,          LY + LH*(60/72),       LW*(24/64), LH*(12/72), 'F'); // small sq
 
             // Wordmark
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(16);
-            doc.setTextColor(26, 26, 26); // #1A1A1A
-            doc.text('SYSTEM', P.M + 18, y + 7);
-            doc.setFont('helvetica', 'normal');
-            doc.setFontSize(10);
+            doc.setFontSize(18);
             doc.setTextColor(26, 26, 26);
-            doc.text('ENGENHARIA', P.M + 18, y + 13);
-            doc.setFontSize(8);
-            doc.setTextColor(100, 116, 139);
-            doc.text('Relatório de Manutenção Predial', P.M + 18, y + 18.5);
-            y += 24;
+            doc.text('SYSTEM', P.M + 19, y + 7.5);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(11);
+            doc.setTextColor(26, 26, 26);
+            doc.text('ENGENHARIA', P.M + 19, y + 14);
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(7);
+            doc.setTextColor(200, 32, 28);
+            doc.text('RELATÓRIO DE MANUTENÇÃO PREDIAL', P.M + 19, y + 19.5);
+            y += 26;
 
             // Divider
-            doc.setDrawColor(226, 232, 240);
+            doc.setDrawColor(200, 32, 28);
+            doc.setLineWidth(0.5);
             doc.line(P.M, y, P.W - P.M, y);
-            y += 6;
+            doc.setLineWidth(0.2);
+            doc.setDrawColor(226, 232, 240);
+            y += 7;
 
-            // Report info table
+            // Report info table — two-column label/value rows with separator lines
             const infoRows = [
               ['Nº do Relatório', report.reportNumber || '—'],
               ['Data da Vistoria', this.formatDate(report.inspectionDate)],
@@ -892,23 +909,30 @@
               ['Endereço', report.address || '—'],
             ];
 
-            infoRows.forEach(([label, value]) => {
-              checkPage(8);
+            infoRows.forEach(([label, value], idx) => {
+              checkPage(9);
+              const rowH = 8;
+              if (idx > 0) {
+                doc.setDrawColor(226, 232, 240);
+                doc.line(P.M, y - 1, P.W - P.M, y - 1);
+              }
               doc.setFont('helvetica', 'normal');
-              doc.setFontSize(8);
+              doc.setFontSize(7.5);
               doc.setTextColor(100, 116, 139);
-              doc.text(label + ':', P.M, y);
+              doc.text(label, P.M, y + 4);
               doc.setFont('helvetica', 'bold');
               doc.setFontSize(9);
-              doc.setTextColor(30, 41, 59);
-              const lines = wrapText(value, UW - 52, 9);
-              doc.text(lines, P.M + 52, y);
-              y += 4 * Math.max(lines.length, 1) + 3;
+              doc.setTextColor(26, 26, 26);
+              const lines = wrapText(value, UW - 55, 9);
+              doc.text(lines, P.M + 55, y + 4);
+              y += rowH * Math.max(lines.length, 1);
             });
 
-            y += 4;
-            doc.setDrawColor(226, 232, 240);
+            y += 6;
+            doc.setDrawColor(200, 32, 28);
+            doc.setLineWidth(0.5);
             doc.line(P.M, y, P.W - P.M, y);
+            doc.setLineWidth(0.2);
             y += 6;
 
             // Status summary
@@ -920,67 +944,70 @@
               urgente:    [254, 226, 226],
               inoperante: [243, 244, 246]
             };
-            checkPage(22);
-            doc.setFontSize(8);
+            checkPage(28);
+            doc.setFontSize(7.5);
             doc.setFont('helvetica', 'bold');
-            doc.setTextColor(100, 116, 139);
-            doc.text('RESUMO DE STATUS', P.M, y);
-            y += 4;
+            doc.setTextColor(200, 32, 28);
+            doc.text('EQUIPAMENTOS VISTORIADOS', P.M, y);
+            y += 5;
             summary.forEach((s, i) => {
               const x = P.M + i * (boxW + 2);
               const bgC = statusBgColors[s.value];
               const txtC = statusPdfColors[s.value];
               doc.setFillColor(...bgC);
-              doc.roundedRect(x, y, boxW, 16, 2, 2, 'F');
+              doc.roundedRect(x, y, boxW, 18, 2, 2, 'F');
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(16);
+              doc.setFontSize(18);
               doc.setTextColor(...txtC);
-              doc.text(String(s.count), x + boxW / 2, y + 9, { align: 'center' });
+              doc.text(String(s.count), x + boxW / 2, y + 10, { align: 'center' });
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(7);
-              doc.text(s.label, x + boxW / 2, y + 14, { align: 'center' });
+              doc.text(s.label, x + boxW / 2, y + 16, { align: 'center' });
             });
-            y += 22;
+            y += 24;
 
             // ── Equipment pages ────────────────────────────
             for (const eq of report.equipments) {
-              checkPage(30);
-              doc.setDrawColor(226, 232, 240);
+              checkPage(35);
+              // Red separator line before each equipment
+              doc.setDrawColor(200, 32, 28);
+              doc.setLineWidth(0.5);
               doc.line(P.M, y, P.W - P.M, y);
-              y += 5;
+              doc.setLineWidth(0.2);
+              y += 6;
 
-              // Equipment header bar
+              // Equipment header bar (status-colored background)
               const sColor = statusPdfColors[eq.status] || [107, 114, 128];
-              doc.setFillColor(26, 26, 26);
-              doc.roundedRect(P.M, y, UW, 16, 2, 2, 'F');
+              doc.setFillColor(...sColor);
+              doc.roundedRect(P.M, y, UW, 20, 2, 2, 'F');
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(10);
+              doc.setFontSize(12);
               doc.setTextColor(255, 255, 255);
-              doc.text(eq.name || 'Equipamento sem nome', P.M + 4, y + 7);
+              doc.text(eq.name || 'Equipamento sem nome', P.M + 4, y + 8);
               const typeTxt = eq.type === 'Outro' ? (eq.typeOther || 'Outro') : (eq.type || '');
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(8);
-              doc.setTextColor(160, 160, 160);
-              doc.text(typeTxt + (eq.location ? ' · ' + eq.location : ''), P.M + 4, y + 12.5);
+              doc.setTextColor(255, 255, 255);
+              doc.text(typeTxt + (eq.location ? ' · ' + eq.location : ''), P.M + 4, y + 15);
 
               // Status badge
               const statusLabel = this.getStatusLabel(eq.status);
-              doc.setFillColor(...sColor);
-              doc.roundedRect(P.W - P.M - 28, y + 4, 26, 8, 2, 2, 'F');
+              doc.setFillColor(255, 255, 255);
+              doc.roundedRect(P.W - P.M - 32, y + 5, 30, 10, 2, 2, 'F');
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(7);
-              doc.setTextColor(255, 255, 255);
-              doc.text(statusLabel, P.W - P.M - 15, y + 9.5, { align: 'center' });
+              doc.setFontSize(8);
+              doc.setTextColor(...sColor);
+              doc.text(statusLabel, P.W - P.M - 17, y + 11.5, { align: 'center' });
 
-              y += 20;
+              y += 25;
 
               // Observations
               if (eq.observations) {
                 checkPage(12);
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(8);
+                doc.setFontSize(7.5);
                 doc.setTextColor(100, 116, 139);
-                doc.text('OBSERVAÇÕES', P.M, y);
+                doc.text('OBSERVAÇÕES TÉCNICAS', P.M, y);
                 y += 4;
                 const lines = wrapText(eq.observations, UW, 9);
                 doc.setFont('helvetica', 'normal');
@@ -998,7 +1025,7 @@
               if (eq.recommendedAction) {
                 checkPage(12);
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(8);
+                doc.setFontSize(7.5);
                 doc.setTextColor(100, 116, 139);
                 doc.text('AÇÃO RECOMENDADA', P.M, y);
                 y += 4;
@@ -1018,8 +1045,8 @@
               if (eq.photos.length > 0) {
                 checkPage(12);
                 doc.setFont('helvetica', 'bold');
-                doc.setFontSize(8);
-                doc.setTextColor(100, 116, 139);
+                doc.setFontSize(7.5);
+                doc.setTextColor(200, 32, 28);
                 doc.text('REGISTRO FOTOGRÁFICO', P.M, y);
                 y += 4;
 
@@ -1044,15 +1071,17 @@
             }
 
             // ── Conclusion page ────────────────────────────
-            checkPage(30);
-            doc.setDrawColor(226, 232, 240);
+            checkPage(35);
+            doc.setDrawColor(200, 32, 28);
+            doc.setLineWidth(0.5);
             doc.line(P.M, y, P.W - P.M, y);
-            y += 5;
+            doc.setLineWidth(0.2);
+            y += 6;
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(11);
+            doc.setFontSize(12);
             doc.setTextColor(200, 32, 28);
             doc.text('CONCLUSÃO', P.M, y);
-            y += 6;
+            y += 7;
 
             if (report.generalObservations) {
               doc.setFont('helvetica', 'bold');
@@ -1087,13 +1116,17 @@
             const totalPages = doc.internal.getNumberOfPages();
             for (let p = 1; p <= totalPages; p++) {
               doc.setPage(p);
+              // Red line above footer
+              doc.setFillColor(200, 32, 28);
+              doc.rect(0, P.H - 13, P.W, 1.5, 'F');
+              // Dark footer bar
               doc.setFillColor(26, 26, 26);
-              doc.rect(0, P.H - 10, P.W, 10, 'F');
+              doc.rect(0, P.H - 11.5, P.W, 11.5, 'F');
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(7);
               doc.setTextColor(160, 160, 160);
-              doc.text('System Engenharia · ' + (report.reportNumber || '') + ' · ' + this.formatDate(report.inspectionDate), P.M, P.H - 3.5);
-              doc.text(`Pág. ${p}/${totalPages}`, P.W - P.M, P.H - 3.5, { align: 'right' });
+              doc.text('System Engenharia · ' + (report.reportNumber || '') + ' · ' + this.formatDate(report.inspectionDate), P.M, P.H - 4);
+              doc.text(`Pág. ${p} / ${totalPages}`, P.W - P.M, P.H - 4, { align: 'right' });
             }
 
             const filename = 'relatorio-' + (report.reportNumber || 'SE').replace(/[^a-z0-9]/gi, '-').toLowerCase() + '.pdf';
