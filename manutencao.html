@@ -14,9 +14,6 @@
       theme: {
         extend: {
           colors: {
-            navy:     '#1A1A1A',
-            'navy-light': '#2d2d2d',
-            brand:    '#C8201C',
             snormal:  '#16a34a',
             swarning: '#d97706',
             sdanger:  '#dc2626',
@@ -47,7 +44,7 @@
       border: 2px dashed #cbd5e1; border-radius: 0.75rem; padding: 1rem;
       cursor: pointer; transition: border-color 0.2s;
     }
-    .upload-area:hover { border-color: #C8201C; }
+    .upload-area:hover { border-color: #f97316; }
 
     body { -webkit-tap-highlight-color: transparent; }
 
@@ -60,7 +57,7 @@
 </head>
 <body x-data="reportApp()" x-cloak class="bg-slate-100 min-h-screen font-sans">
 
-  <!-- TOAST -->
+  <!-- ░░░░░░░░░░░░░░ TOAST ░░░░░░░░░░░░░░ -->
   <div
     x-show="toast.show"
     x-transition:enter="transition ease-out duration-200"
@@ -74,15 +71,16 @@
     x-text="toast.msg"
   ></div>
 
-  <!-- VIEW: DASHBOARD -->
+  <!-- ░░░░░░░░░░░░░░ VIEW: DASHBOARD ░░░░░░░░░░░░░░ -->
   <div x-show="view==='dashboard'" class="min-h-screen flex flex-col">
 
-    <header class="bg-navy text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
+    <!-- Top bar -->
+    <header class="text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30" style="background-color:#1A1A1A">
       <div class="w-9 h-9 flex-shrink-0 flex items-center justify-center">
-        <svg viewBox="0 0 38 42" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="34" height="38">
-          <rect x="0" y="0" width="38" height="10"/>
-          <rect x="0" y="0" width="10" height="28"/>
-          <rect x="0" y="31" width="15" height="11"/>
+        <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="32" height="36">
+          <rect x="0" y="0" width="48" height="14"/>
+          <rect x="0" y="0" width="14" height="44"/>
+          <rect x="0" y="51" width="24" height="21"/>
         </svg>
       </div>
       <div>
@@ -91,31 +89,35 @@
       </div>
     </header>
 
-    <div x-show="showInstallBanner" class="bg-brand text-white px-4 py-3 flex items-center justify-between gap-3">
+    <!-- Install banner -->
+    <div x-show="showInstallBanner" class="bg-[#C8201C] text-white px-4 py-3 flex items-center justify-between gap-3">
       <span class="text-sm font-medium">Adicione à tela inicial para uso offline</span>
       <div class="flex gap-2">
-        <button @click="installApp()" class="bg-white text-brand text-xs font-bold px-3 py-1.5 rounded-full">Instalar</button>
+        <button @click="installApp()" class="bg-white text-[#C8201C] text-xs font-bold px-3 py-1.5 rounded-full">Instalar</button>
         <button @click="showInstallBanner=false" class="text-white/70 text-xs">✕</button>
       </div>
     </div>
 
+    <!-- Body -->
     <main class="flex-1 p-4 pb-24">
 
+      <!-- Empty state -->
       <div x-show="reports.length === 0" class="flex flex-col items-center justify-center py-20 text-center">
-        <div class="w-20 h-20 rounded-full bg-navy/10 flex items-center justify-center mb-4">
-          <svg class="w-10 h-10 text-navy/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="w-20 h-20 rounded-full bg-zinc-900/10 flex items-center justify-center mb-4">
+          <svg class="w-10 h-10 text-zinc-900/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
           </svg>
         </div>
-        <h2 class="text-navy font-semibold text-lg mb-1">Nenhum relatório ainda</h2>
+        <h2 class="text-zinc-900 font-semibold text-lg mb-1">Nenhum relatório ainda</h2>
         <p class="text-slate-400 text-sm">Toque no botão + para criar seu primeiro relatório de manutenção</p>
       </div>
 
+      <!-- Reports list -->
       <div x-show="reports.length > 0" class="space-y-3">
         <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Relatórios salvos (<span x-text="reports.length"></span>)</h2>
         <template x-for="r in reportsSorted" :key="r.id">
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <div class="bg-navy px-4 py-3 flex items-center justify-between">
+            <div class="bg-zinc-900 px-4 py-3 flex items-center justify-between">
               <div>
                 <span class="font-bold text-white text-sm" x-text="r.reportNumber || 'SEM Nº'"></span>
                 <span x-show="r.client" class="text-gray-400 text-xs ml-2" x-text="' · ' + r.client"></span>
@@ -127,25 +129,42 @@
               <p x-show="r.technician" class="text-slate-500 text-xs mb-3">
                 <span class="text-slate-400">Técnico: </span><span x-text="r.technician"></span>
               </p>
+
+              <!-- Status summary -->
               <div class="flex gap-1.5 flex-wrap mb-3">
                 <template x-for="s in getStatusSummary(r)" :key="s.value">
-                  <span x-show="s.count > 0" class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full" :class="`status-badge-${s.value}`">
+                  <span
+                    x-show="s.count > 0"
+                    class="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full"
+                    :class="`status-badge-${s.value}`"
+                  >
                     <span x-text="s.count"></span>
                     <span x-text="s.label"></span>
                   </span>
                 </template>
                 <span x-show="r.equipments.length === 0" class="text-slate-400 text-xs">Sem equipamentos</span>
               </div>
+
+              <!-- Actions -->
               <div class="flex gap-2">
-                <button @click="editReport(r.id)" class="flex-1 bg-navy text-white text-sm font-medium py-2 rounded-xl flex items-center justify-center gap-1.5">
+                <button
+                  @click="editReport(r.id)"
+                  class="flex-1 bg-zinc-900 text-white text-sm font-medium py-2 rounded-xl flex items-center justify-center gap-1.5"
+                >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
                   Editar
                 </button>
-                <button @click="previewReport(r.id)" class="flex-1 bg-slate-100 text-slate-700 text-sm font-medium py-2 rounded-xl flex items-center justify-center gap-1.5">
+                <button
+                  @click="previewReport(r.id)"
+                  class="flex-1 bg-slate-100 text-slate-700 text-sm font-medium py-2 rounded-xl flex items-center justify-center gap-1.5"
+                >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
                   Exportar
                 </button>
-                <button @click="confirmDeleteId = r.id" class="w-10 h-10 bg-red-50 text-red-400 rounded-xl flex items-center justify-center">
+                <button
+                  @click="confirmDeleteId = r.id"
+                  class="w-10 h-10 bg-red-50 text-red-400 rounded-xl flex items-center justify-center"
+                >
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                 </button>
               </div>
@@ -155,13 +174,22 @@
       </div>
     </main>
 
-    <button @click="newReport()" class="fixed bottom-6 right-6 w-14 h-14 bg-brand rounded-full shadow-xl flex items-center justify-center z-40 active:scale-95 transition-transform">
+    <!-- FAB -->
+    <button
+      @click="newReport()"
+      class="fixed bottom-6 right-6 w-14 h-14 bg-[#C8201C] rounded-full shadow-xl flex items-center justify-center z-40 active:scale-95 transition-transform"
+    >
       <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
       </svg>
     </button>
 
-    <div x-show="confirmDeleteId !== null" class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center p-4" @click.self="confirmDeleteId=null">
+    <!-- Delete confirmation modal -->
+    <div
+      x-show="confirmDeleteId !== null"
+      class="fixed inset-0 bg-black/50 z-50 flex items-end justify-center p-4"
+      @click.self="confirmDeleteId=null"
+    >
       <div class="bg-white rounded-2xl p-5 w-full max-w-sm">
         <h3 class="font-semibold text-slate-800 mb-1">Excluir relatório?</h3>
         <p class="text-slate-500 text-sm mb-5">Esta ação não pode ser desfeita. Todas as fotos e dados serão removidos.</p>
@@ -173,10 +201,11 @@
     </div>
   </div>
 
-  <!-- VIEW: FORM -->
+  <!-- ░░░░░░░░░░░░░░ VIEW: FORM ░░░░░░░░░░░░░░ -->
   <div x-show="view==='form'" class="min-h-screen flex flex-col">
 
-    <header class="bg-navy text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
+    <!-- Top bar -->
+    <header class="bg-zinc-900 text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
       <button @click="goToDashboard()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 active:bg-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </button>
@@ -184,7 +213,7 @@
         <p class="font-semibold text-sm leading-tight" x-text="activeReport ? (activeReport.reportNumber || 'Novo Relatório') : 'Relatório'"></p>
         <p class="text-xs text-gray-400" x-text="lastSavedAt ? 'Salvo às ' + formatTime(lastSavedAt) : 'Não salvo'"></p>
       </div>
-      <button @click="goToPreview()" class="bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
+      <button @click="goToPreview()" class="bg-[#C8201C] text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5">
         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
         Exportar
       </button>
@@ -192,8 +221,9 @@
 
     <main class="flex-1 p-4 pb-6 space-y-4" x-show="activeReport">
 
+      <!-- Section: Dados do Relatório -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="bg-navy px-4 py-3 flex items-center gap-2">
+        <div class="bg-zinc-900 px-4 py-3 flex items-center gap-2">
           <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span class="text-white font-semibold text-sm">Dados do Relatório</span>
         </div>
@@ -201,94 +231,136 @@
           <div class="grid grid-cols-2 gap-3">
             <div>
               <label class="text-xs text-slate-500 font-medium block mb-1">Nº do Relatório</label>
-              <input type="text" x-model="activeReport.reportNumber" @input="scheduleSave()" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+              <input type="text" x-model="activeReport.reportNumber" @input="scheduleSave()"
+                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
             </div>
             <div>
               <label class="text-xs text-slate-500 font-medium block mb-1">Data da Vistoria</label>
-              <input type="date" x-model="activeReport.inspectionDate" @change="scheduleSave()" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+              <input type="date" x-model="activeReport.inspectionDate" @change="scheduleSave()"
+                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
             </div>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Cliente / Edifício</label>
-            <input type="text" x-model="activeReport.client" @input="scheduleSave()" placeholder="Nome do cliente ou edifício" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+            <input type="text" x-model="activeReport.client" @input="scheduleSave()"
+              placeholder="Nome do cliente ou edifício"
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Endereço</label>
-            <input type="text" x-model="activeReport.address" @input="scheduleSave()" placeholder="Endereço completo" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+            <input type="text" x-model="activeReport.address" @input="scheduleSave()"
+              placeholder="Endereço completo"
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Técnico Responsável</label>
-            <input type="text" x-model="activeReport.technician" @input="scheduleSave()" placeholder="Nome do técnico" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+            <input type="text" x-model="activeReport.technician" @input="scheduleSave()"
+              placeholder="Nome do técnico"
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
         </div>
       </div>
 
+      <!-- Section: Equipamentos -->
       <div class="space-y-3">
         <div class="flex items-center justify-between px-1">
-          <h2 class="text-sm font-semibold text-navy">Equipamentos Vistoriados</h2>
+          <h2 class="text-sm font-semibold text-zinc-900">Equipamentos Vistoriados</h2>
           <span class="text-xs text-slate-400" x-text="activeReport.equipments.length + ' item(s)'"></span>
         </div>
 
         <template x-for="(eq, idx) in activeReport.equipments" :key="eq.id">
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <div class="bg-navy-light px-4 py-2.5 flex items-center justify-between">
+
+            <!-- Equipment header -->
+            <div class="bg-zinc-800 px-4 py-2.5 flex items-center justify-between">
               <span class="text-white font-semibold text-sm">
                 Equipamento <span x-text="idx + 1"></span>
                 <span x-show="eq.name" class="font-normal text-gray-400" x-text="' — ' + eq.name"></span>
               </span>
               <div class="flex items-center gap-1">
-                <button x-show="idx > 0" @click="moveEquipmentUp(idx)" class="w-7 h-7 rounded bg-white/10 flex items-center justify-center text-white active:bg-white/20">
+                <button x-show="idx > 0" @click="moveEquipmentUp(idx)"
+                  class="w-7 h-7 rounded bg-white/10 flex items-center justify-center text-white active:bg-white/20">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/></svg>
                 </button>
-                <button x-show="idx < activeReport.equipments.length - 1" @click="moveEquipmentDown(idx)" class="w-7 h-7 rounded bg-white/10 flex items-center justify-center text-white active:bg-white/20">
+                <button x-show="idx < activeReport.equipments.length - 1" @click="moveEquipmentDown(idx)"
+                  class="w-7 h-7 rounded bg-white/10 flex items-center justify-center text-white active:bg-white/20">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
                 </button>
-                <button @click="removeEquipment(eq.id)" class="w-7 h-7 rounded bg-red-500/80 flex items-center justify-center text-white active:bg-red-500 ml-1">
+                <button @click="removeEquipment(eq.id)"
+                  class="w-7 h-7 rounded bg-red-500/80 flex items-center justify-center text-white active:bg-red-500 ml-1">
                   <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
               </div>
             </div>
+
             <div class="p-4 space-y-3">
+
+              <!-- Name + Type -->
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-1">Nome do Equipamento</label>
-                <input type="text" x-model="eq.name" @input="scheduleSave()" placeholder="Ex.: Bomba Principal, Painel QD-02" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                <input type="text" x-model="eq.name" @input="scheduleSave()"
+                  placeholder="Ex.: Bomba Principal, Painel QD-02"
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
               </div>
+
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-1">Tipo</label>
-                <select x-model="eq.type" @change="scheduleSave()" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy bg-white">
+                <select x-model="eq.type" @change="scheduleSave()"
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 bg-white">
                   <option value="">— Selecione o tipo —</option>
                   <template x-for="t in EQUIPMENT_TYPES" :key="t"><option :value="t" x-text="t"></option></template>
                 </select>
               </div>
+
               <div x-show="eq.type === 'Outro'">
                 <label class="text-xs text-slate-500 font-medium block mb-1">Especifique o tipo</label>
-                <input type="text" x-model="eq.typeOther" @input="scheduleSave()" placeholder="Descreva o tipo de equipamento" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                <input type="text" x-model="eq.typeOther" @input="scheduleSave()"
+                  placeholder="Descreva o tipo de equipamento"
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
               </div>
+
+              <!-- Location -->
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-1">Localização / Pavimento</label>
-                <input type="text" x-model="eq.location" @input="scheduleSave()" placeholder="Ex.: Subsolo, Cobertura, Pavimento 3" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+                <input type="text" x-model="eq.location" @input="scheduleSave()"
+                  placeholder="Ex.: Subsolo, Cobertura, Pavimento 3"
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
               </div>
+
+              <!-- Status -->
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-2">Status</label>
                 <div class="flex gap-2 flex-wrap">
                   <template x-for="s in STATUS_OPTIONS" :key="s.value">
-                    <label class="flex-1 min-w-[5.5rem] text-center py-2 px-2 rounded-xl text-xs font-semibold cursor-pointer transition-all" :class="[`status-badge-${s.value}`, eq.status === s.value ? `ring-${s.value}` : 'opacity-50']">
+                    <label
+                      class="flex-1 min-w-[5.5rem] text-center py-2 px-2 rounded-xl text-xs font-semibold cursor-pointer transition-all"
+                      :class="[`status-badge-${s.value}`, eq.status === s.value ? `ring-${s.value}` : 'opacity-50']"
+                    >
                       <input type="radio" :name="'status-'+eq.id" x-model="eq.status" :value="s.value" @change="scheduleSave()" class="sr-only"/>
                       <span x-text="s.label"></span>
                     </label>
                   </template>
                 </div>
               </div>
+
+              <!-- Photos -->
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-2">Fotos (<span x-text="eq.photos.length"></span>)</label>
+
+                <!-- Photo grid -->
                 <div x-show="eq.photos.length > 0" class="grid grid-cols-3 gap-2 mb-2">
                   <template x-for="ph in eq.photos" :key="ph.id">
                     <div class="relative rounded-lg overflow-hidden bg-slate-100" style="aspect-ratio:1">
                       <img :src="ph.dataUrl" class="w-full h-full object-cover"/>
-                      <button @click="removePhoto(eq.id, ph.id)" class="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center shadow text-xs font-bold">×</button>
+                      <button @click="removePhoto(eq.id, ph.id)"
+                        class="absolute top-1 right-1 w-5 h-5 rounded-full bg-red-500 text-white flex items-center justify-center shadow text-xs font-bold">
+                        ×
+                      </button>
                     </div>
                   </template>
                 </div>
+
+                <!-- Upload area -->
                 <label class="upload-area">
                   <input type="file" accept="image/*" multiple class="hidden" @change="handlePhotoInput($event, eq.id)"/>
                   <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -299,37 +371,52 @@
                   <span class="text-xs text-slate-300 mt-0.5">Toque para adicionar fotos</span>
                 </label>
               </div>
+
+              <!-- Observations -->
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-1">Observações Técnicas</label>
-                <textarea x-model="eq.observations" @input="scheduleSave()" rows="3" placeholder="Descreva as condições observadas, anomalias, medições..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy resize-none"></textarea>
+                <textarea x-model="eq.observations" @input="scheduleSave()" rows="3"
+                  placeholder="Descreva as condições observadas, anomalias, medições..."
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 resize-none"></textarea>
               </div>
+
+              <!-- Recommended action -->
               <div>
                 <label class="text-xs text-slate-500 font-medium block mb-1">Ação Recomendada</label>
-                <textarea x-model="eq.recommendedAction" @input="scheduleSave()" rows="2" placeholder="Descreva a ação necessária ou recomendada..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy resize-none"></textarea>
+                <textarea x-model="eq.recommendedAction" @input="scheduleSave()" rows="2"
+                  placeholder="Descreva a ação necessária ou recomendada..."
+                  class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 resize-none"></textarea>
               </div>
+
             </div>
           </div>
         </template>
 
-        <button @click="addEquipment()" class="w-full border-2 border-dashed border-navy/30 text-navy font-semibold text-sm py-4 rounded-2xl flex items-center justify-center gap-2 active:bg-navy/5 transition-colors">
+        <!-- Add equipment button -->
+        <button @click="addEquipment()"
+          class="w-full border-2 border-dashed border-zinc-900/30 text-zinc-900 font-semibold text-sm py-4 rounded-2xl flex items-center justify-center gap-2 active:bg-zinc-900/5 transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
           Adicionar Equipamento
         </button>
       </div>
 
+      <!-- Section: Conclusão -->
       <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-        <div class="bg-navy px-4 py-3 flex items-center gap-2">
+        <div class="bg-zinc-900 px-4 py-3 flex items-center gap-2">
           <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
           <span class="text-white font-semibold text-sm">Conclusão</span>
         </div>
         <div class="p-4 space-y-3">
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Observações Gerais</label>
-            <textarea x-model="activeReport.generalObservations" @input="scheduleSave()" rows="4" placeholder="Observações gerais sobre o estado da edificação..." class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy resize-none"></textarea>
+            <textarea x-model="activeReport.generalObservations" @input="scheduleSave()" rows="4"
+              placeholder="Observações gerais sobre o estado da edificação..."
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900 resize-none"></textarea>
           </div>
           <div>
             <label class="text-xs text-slate-500 font-medium block mb-1">Data da Próxima Vistoria</label>
-            <input type="date" x-model="activeReport.nextInspectionDate" @change="scheduleSave()" class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-navy"/>
+            <input type="date" x-model="activeReport.nextInspectionDate" @change="scheduleSave()"
+              class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm focus:outline-none focus:border-zinc-900"/>
           </div>
         </div>
       </div>
@@ -337,10 +424,11 @@
     </main>
   </div>
 
-  <!-- VIEW: PREVIEW -->
+  <!-- ░░░░░░░░░░░░░░ VIEW: PREVIEW ░░░░░░░░░░░░░░ -->
   <div x-show="view==='preview'" class="min-h-screen flex flex-col">
 
-    <header class="bg-navy text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
+    <!-- Top bar -->
+    <header class="bg-zinc-900 text-white px-4 py-3 flex items-center gap-3 shadow-md sticky top-0 z-30">
       <button @click="goToForm()" class="w-8 h-8 flex items-center justify-center rounded-lg bg-white/10 active:bg-white/20">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
       </button>
@@ -348,7 +436,11 @@
         <p class="font-semibold text-sm">Prévia do Relatório</p>
         <p class="text-xs text-gray-400" x-text="activeReport ? activeReport.reportNumber : ''"></p>
       </div>
-      <button @click="generatePDF()" :disabled="pdfGenerating" class="bg-brand text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 disabled:opacity-60">
+      <button
+        @click="generatePDF()"
+        :disabled="pdfGenerating"
+        class="bg-[#C8201C] text-white text-xs font-semibold px-3 py-1.5 rounded-lg flex items-center gap-1.5 disabled:opacity-60"
+      >
         <svg x-show="!pdfGenerating" class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
         <svg x-show="pdfGenerating" class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
         <span x-text="pdfGenerating ? 'Gerando...' : 'Gerar PDF'"></span>
@@ -358,13 +450,14 @@
     <main class="flex-1 p-3 pb-6" x-show="activeReport">
       <div id="preview-content" class="max-w-2xl mx-auto space-y-3">
 
-        <div class="bg-navy rounded-2xl overflow-hidden shadow-md">
+        <!-- Cover card -->
+        <div class="rounded-2xl overflow-hidden shadow-md" style="background-color:#1A1A1A">
           <div class="px-5 pt-5 pb-4 flex items-start gap-4">
             <div class="w-14 h-14 flex-shrink-0 flex items-center justify-center">
-              <svg viewBox="0 0 38 42" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="44" height="48">
-                <rect x="0" y="0" width="38" height="10"/>
-                <rect x="0" y="0" width="10" height="28"/>
-                <rect x="0" y="31" width="15" height="11"/>
+              <svg viewBox="0 0 64 72" xmlns="http://www.w3.org/2000/svg" fill="#C8201C" width="44" height="50">
+                <rect x="0" y="0" width="48" height="14"/>
+                <rect x="0" y="0" width="14" height="44"/>
+                <rect x="0" y="51" width="24" height="21"/>
               </svg>
             </div>
             <div>
@@ -372,14 +465,31 @@
               <p class="text-gray-400 text-xs">Relatório de Manutenção Predial</p>
             </div>
           </div>
-          <div class="bg-navy-light mx-4 mb-4 rounded-xl px-4 py-3 space-y-1.5">
-            <div class="flex justify-between text-xs"><span class="text-gray-400">Nº Relatório</span><span class="text-white font-semibold" x-text="activeReport.reportNumber || '—'"></span></div>
-            <div class="flex justify-between text-xs"><span class="text-gray-400">Data da Vistoria</span><span class="text-white font-semibold" x-text="formatDate(activeReport.inspectionDate)"></span></div>
-            <div class="flex justify-between text-xs"><span class="text-gray-400">Técnico Responsável</span><span class="text-white font-semibold" x-text="activeReport.technician || '—'"></span></div>
-            <div class="flex justify-between text-xs"><span class="text-gray-400">Cliente / Edifício</span><span class="text-white font-semibold" x-text="activeReport.client || '—'"></span></div>
-            <div x-show="activeReport.address" class="flex justify-between text-xs"><span class="text-gray-400">Endereço</span><span class="text-white font-semibold text-right max-w-[60%]" x-text="activeReport.address"></span></div>
+          <div class="mx-4 mb-4 rounded-xl px-4 py-3 space-y-1.5" style="background-color:#2d2d2d">
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">Nº Relatório</span>
+              <span class="text-white font-semibold" x-text="activeReport.reportNumber || '—'"></span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">Data da Vistoria</span>
+              <span class="text-white font-semibold" x-text="formatDate(activeReport.inspectionDate)"></span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">Técnico Responsável</span>
+              <span class="text-white font-semibold" x-text="activeReport.technician || '—'"></span>
+            </div>
+            <div class="flex justify-between text-xs">
+              <span class="text-gray-400">Cliente / Edifício</span>
+              <span class="text-white font-semibold" x-text="activeReport.client || '—'"></span>
+            </div>
+            <div x-show="activeReport.address" class="flex justify-between text-xs">
+              <span class="text-gray-400">Endereço</span>
+              <span class="text-white font-semibold text-right max-w-[60%]" x-text="activeReport.address"></span>
+            </div>
           </div>
-          <div class="grid grid-cols-4 gap-px bg-navy-light mx-4 mb-4 rounded-xl overflow-hidden text-center">
+
+          <!-- Status summary -->
+          <div class="grid grid-cols-4 gap-px bg-zinc-800 mx-4 mb-4 rounded-xl overflow-hidden text-center">
             <template x-for="s in getStatusSummary(activeReport)" :key="s.value">
               <div class="py-2.5 px-1" :class="s.bg">
                 <p class="font-bold text-lg leading-none" :class="s.textColor" x-text="s.count"></p>
@@ -389,38 +499,50 @@
           </div>
         </div>
 
+        <!-- Equipment cards -->
         <template x-for="eq in activeReport.equipments" :key="eq.id">
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-            <div class="px-4 py-3 flex items-center justify-between" :class="getStatusBg(eq.status)">
+            <!-- Eq header -->
+            <div class="px-4 py-3 flex items-center justify-between" :style="getStatusBgStyle(eq.status)">
               <div>
                 <p class="font-semibold text-sm text-white" x-text="eq.name || 'Equipamento sem nome'"></p>
                 <p class="text-xs text-white/70" x-text="(eq.type === 'Outro' ? eq.typeOther : eq.type) + (eq.location ? ' · ' + eq.location : '')"></p>
               </div>
-              <span class="text-xs font-bold px-2.5 py-1 rounded-full bg-white/20 text-white" x-text="getStatusLabel(eq.status)"></span>
+              <span
+                class="text-xs font-bold px-2.5 py-1 rounded-full bg-white/20 text-white"
+                x-text="getStatusLabel(eq.status)"
+              ></span>
             </div>
+
             <div class="p-4 space-y-3">
+              <!-- Photos grid 2col -->
               <div x-show="eq.photos.length > 0" class="grid grid-cols-2 gap-2">
                 <template x-for="ph in eq.photos" :key="ph.id">
-                  <div class="rounded-xl overflow-hidden bg-slate-100" style="aspect-ratio:4/3">
-                    <img :src="ph.dataUrl" class="w-full h-full object-cover"/>
-                  </div>
+                  <img :src="ph.dataUrl" class="w-full h-auto rounded-xl block"/>
                 </template>
               </div>
+
               <div x-show="eq.observations">
                 <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Observações</p>
                 <p class="text-sm text-slate-700 leading-relaxed" x-text="eq.observations"></p>
               </div>
+
               <div x-show="eq.recommendedAction">
                 <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Ação Recomendada</p>
                 <p class="text-sm text-slate-700 leading-relaxed" x-text="eq.recommendedAction"></p>
               </div>
-              <div x-show="!eq.observations && !eq.recommendedAction && eq.photos.length === 0" class="text-center py-4 text-slate-300 text-sm">Sem informações adicionais</div>
+
+              <div x-show="!eq.observations && !eq.recommendedAction && eq.photos.length === 0"
+                class="text-center py-4 text-slate-300 text-sm">Sem informações adicionais</div>
             </div>
           </div>
         </template>
 
+        <!-- Footer card -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <div class="bg-slate-700 px-4 py-3"><p class="text-white font-semibold text-sm">Conclusão</p></div>
+          <div class="bg-slate-700 px-4 py-3">
+            <p class="text-white font-semibold text-sm">Conclusão</p>
+          </div>
           <div class="p-4 space-y-3">
             <div x-show="activeReport.generalObservations">
               <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-1">Observações Gerais</p>
@@ -455,8 +577,10 @@
         deferredInstallPrompt: null,
         showInstallBanner: false,
         toast: { show: false, msg: '', type: 'success' },
+
         STORAGE_KEY: 'syse_reports',
         COUNTER_KEY: 'syse_counter',
+
         EQUIPMENT_TYPES: [
           "Bomba d'água", "Bomba de recalque", "Bomba de incêndio",
           "Painel Elétrico", "Quadro de Distribuição", "Gerador",
@@ -466,18 +590,21 @@
           "Sistema Hidráulico", "Cisterna / Reservatório",
           "Subestação Elétrica", "No-Break / UPS", "Outro"
         ],
+
         STATUS_OPTIONS: [
           { value: 'normal',     label: 'Normal',     bg: '#dcfce7', text: '#15803d' },
           { value: 'atencao',    label: 'Atenção',    bg: '#fef3c7', text: '#b45309' },
           { value: 'urgente',    label: 'Urgente',    bg: '#fee2e2', text: '#b91c1c' },
           { value: 'inoperante', label: 'Inoperante', bg: '#f3f4f6', text: '#374151' }
         ],
+
         STATUS_PDF_COLORS: {
           normal:     [22, 163, 74],
           atencao:    [217, 119, 6],
           urgente:    [220, 38, 38],
           inoperante: [107, 114, 128]
         },
+
         init() {
           this.loadReports();
           if ('serviceWorker' in navigator) {
@@ -489,12 +616,18 @@
             this.showInstallBanner = true;
           });
         },
+
+        // ── Persistence ──────────────────────────────────────────
+
         loadReports() {
           try {
             const raw = localStorage.getItem(this.STORAGE_KEY);
             this.reports = raw ? JSON.parse(raw) : [];
-          } catch { this.reports = []; }
+          } catch {
+            this.reports = [];
+          }
         },
+
         saveReports() {
           try {
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.reports));
@@ -505,10 +638,12 @@
             }
           }
         },
+
         scheduleSave() {
           clearTimeout(this.saveTimer);
           this.saveTimer = setTimeout(() => this.saveActiveReport(), 1000);
         },
+
         saveActiveReport() {
           if (!this.activeReport) return;
           this.activeReport.updatedAt = new Date().toISOString();
@@ -516,21 +651,28 @@
           if (idx !== -1) this.reports[idx] = { ...this.activeReport };
           this.saveReports();
         },
+
+        // ── Report CRUD ───────────────────────────────────────────
+
         getNextReportNumber() {
           const n = parseInt(localStorage.getItem(this.COUNTER_KEY) || '0') + 1;
           localStorage.setItem(this.COUNTER_KEY, String(n));
           return 'REL-' + String(n).padStart(4, '0');
         },
+
         newReport() {
           const report = {
             id: 'syse_' + Date.now(),
             reportNumber: this.getNextReportNumber(),
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
-            client: '', address: '',
+            client: '',
+            address: '',
             inspectionDate: new Date().toISOString().split('T')[0],
-            technician: '', equipments: [],
-            generalObservations: '', nextInspectionDate: ''
+            technician: '',
+            equipments: [],
+            generalObservations: '',
+            nextInspectionDate: ''
           };
           this.reports = [report, ...this.reports];
           this.saveReports();
@@ -540,6 +682,7 @@
           this.view = 'form';
           window.scrollTo(0, 0);
         },
+
         editReport(id) {
           const r = this.reports.find(r => r.id === id);
           if (!r) return;
@@ -549,6 +692,7 @@
           this.view = 'form';
           window.scrollTo(0, 0);
         },
+
         previewReport(id) {
           const r = this.reports.find(r => r.id === id);
           if (!r) return;
@@ -556,12 +700,16 @@
           this.view = 'preview';
           window.scrollTo(0, 0);
         },
+
         deleteReport(id) {
           this.reports = this.reports.filter(r => r.id !== id);
           this.saveReports();
           this.confirmDeleteId = null;
           this.showToast('Relatório excluído');
         },
+
+        // ── Navigation ────────────────────────────────────────────
+
         goToDashboard() {
           clearTimeout(this.saveTimer);
           this.saveActiveReport();
@@ -569,22 +717,37 @@
           this.view = 'dashboard';
           window.scrollTo(0, 0);
         },
-        goToForm() { this.view = 'form'; window.scrollTo(0, 0); },
+
+        goToForm() {
+          this.view = 'form';
+          window.scrollTo(0, 0);
+        },
+
         goToPreview() {
           clearTimeout(this.saveTimer);
           this.saveActiveReport();
           this.view = 'preview';
           window.scrollTo(0, 0);
         },
+
+        // ── Equipments ────────────────────────────────────────────
+
         addEquipment() {
-          const eq = { id: 'eq_' + Date.now(), name: '', type: '', typeOther: '', location: '', status: 'normal', photos: [], observations: '', recommendedAction: '' };
+          const eq = {
+            id: 'eq_' + Date.now(),
+            name: '', type: '', typeOther: '', location: '',
+            status: 'normal', photos: [],
+            observations: '', recommendedAction: ''
+          };
           this.activeReport.equipments = [...this.activeReport.equipments, eq];
           this.scheduleSave();
         },
+
         removeEquipment(eqId) {
           this.activeReport.equipments = this.activeReport.equipments.filter(e => e.id !== eqId);
           this.scheduleSave();
         },
+
         moveEquipmentUp(idx) {
           if (idx === 0) return;
           const arr = [...this.activeReport.equipments];
@@ -592,6 +755,7 @@
           this.activeReport.equipments = arr;
           this.scheduleSave();
         },
+
         moveEquipmentDown(idx) {
           const arr = [...this.activeReport.equipments];
           if (idx >= arr.length - 1) return;
@@ -599,20 +763,33 @@
           this.activeReport.equipments = arr;
           this.scheduleSave();
         },
+
+        // ── Photos ────────────────────────────────────────────────
+
         async handlePhotoInput(event, eqId) {
           const files = Array.from(event.target.files);
           if (!files.length) return;
           const eq = this.activeReport.equipments.find(e => e.id === eqId);
           if (!eq) return;
+
           for (const file of files) {
             try {
               const compressed = await this.compressImage(file);
-              eq.photos = [...eq.photos, { id: 'ph_' + Date.now() + '_' + Math.random().toString(36).slice(2), dataUrl: compressed.dataUrl, width: compressed.width, height: compressed.height, caption: '' }];
-            } catch { this.showToast('Erro ao processar foto', 'error'); }
+              eq.photos = [...eq.photos, {
+                id: 'ph_' + Date.now() + '_' + Math.random().toString(36).slice(2),
+                dataUrl: compressed.dataUrl,
+                width: compressed.width,
+                height: compressed.height,
+                caption: ''
+              }];
+            } catch (err) {
+              this.showToast('Erro ao processar foto', 'error');
+            }
           }
           event.target.value = '';
           this.scheduleSave();
         },
+
         compressImage(file) {
           return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -637,42 +814,76 @@
             reader.readAsDataURL(file);
           });
         },
+
         removePhoto(eqId, photoId) {
           const eq = this.activeReport.equipments.find(e => e.id === eqId);
           if (!eq) return;
           eq.photos = eq.photos.filter(p => p.id !== photoId);
           this.scheduleSave();
         },
+
+        // ── PDF Generation ────────────────────────────────────────
+
         async generatePDF() {
           if (this.pdfGenerating) return;
-          if (typeof window.jspdf === 'undefined') { this.showToast('Biblioteca PDF não carregada. Tente novamente.', 'error'); return; }
+          if (typeof window.jspdf === 'undefined') {
+            this.showToast('Biblioteca PDF não carregada. Tente novamente.', 'error');
+            return;
+          }
+
           this.pdfGenerating = true;
           this.showToast('Gerando PDF...', 'success', 60000);
+
           try {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
             const report = this.activeReport;
+
             const P = { W: 210, H: 297, M: 14 };
-            const UW = P.W - P.M * 2;
+            const UW = P.W - P.M * 2; // usable width = 182mm
             let y = P.M;
-            const checkPage = (needed) => { if (y + needed > P.H - P.M) { doc.addPage(); y = P.M; } };
-            const wrapText = (text, maxW, fontSize = 10) => { doc.setFontSize(fontSize); return doc.splitTextToSize(text || '', maxW); };
+
+            const checkPage = (needed) => {
+              if (y + needed > P.H - P.M) { doc.addPage(); y = P.M; }
+            };
+
+            const wrapText = (text, maxW, fontSize = 10) => {
+              doc.setFontSize(fontSize);
+              return doc.splitTextToSize(text || '', maxW);
+            };
+
             const statusPdfColors = this.STATUS_PDF_COLORS;
+
+            // ── Page 1: Cover ─────────────────────────────
+            // Logo mark (SVG-like via jsPDF rects — System Engenharia geometric mark)
+            // Logo mark — proportional to SVG viewBox 64×72
             const LX = P.M, LY = y;
-            const LW = 14, LH = 16;
-            const barH = LH * 0.24, barW = LW * 0.26;
-            doc.setFillColor(200, 32, 28);
-            doc.rect(LX, LY, LW, barH, 'F');
-            doc.rect(LX, LY, barW, LH * 0.67, 'F');
-            doc.rect(LX, LY + LH * 0.74, LW * 0.40, LH * 0.26, 'F');
-            doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(26, 26, 26);
+            const LW = 12.8, LH = 14.4; // 64:72 ratio, ~13mm wide
+            doc.setFillColor(200, 32, 28); // #C8201C
+            doc.rect(LX,          LY,                    LW*(48/64), LH*(14/72), 'F'); // top bar
+            doc.rect(LX,          LY,                    LW*(14/64), LH*(44/72), 'F'); // left bar
+            doc.rect(LX,          LY + LH*(51/72),       LW*(24/64), LH*(21/72), 'F'); // small sq
+
+            // Wordmark
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(16);
+            doc.setTextColor(26, 26, 26); // #1A1A1A
             doc.text('SYSTEM', P.M + 18, y + 7);
-            doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(26, 26, 26);
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(26, 26, 26);
             doc.text('ENGENHARIA', P.M + 18, y + 13);
-            doc.setFontSize(8); doc.setTextColor(100, 116, 139);
+            doc.setFontSize(8);
+            doc.setTextColor(100, 116, 139);
             doc.text('Relatório de Manutenção Predial', P.M + 18, y + 18.5);
             y += 24;
-            doc.setDrawColor(226, 232, 240); doc.line(P.M, y, P.W - P.M, y); y += 6;
+
+            // Divider
+            doc.setDrawColor(226, 232, 240);
+            doc.line(P.M, y, P.W - P.M, y);
+            y += 6;
+
+            // Report info table
             const infoRows = [
               ['Nº do Relatório', report.reportNumber || '—'],
               ['Data da Vistoria', this.formatDate(report.inspectionDate)],
@@ -680,126 +891,224 @@
               ['Cliente / Edifício', report.client || '—'],
               ['Endereço', report.address || '—'],
             ];
+
             infoRows.forEach(([label, value]) => {
               checkPage(8);
-              doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(100, 116, 139);
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(8);
+              doc.setTextColor(100, 116, 139);
               doc.text(label + ':', P.M, y);
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(30, 41, 59);
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(9);
+              doc.setTextColor(30, 41, 59);
               const lines = wrapText(value, UW - 52, 9);
               doc.text(lines, P.M + 52, y);
               y += 4 * Math.max(lines.length, 1) + 3;
             });
-            y += 4; doc.setDrawColor(226, 232, 240); doc.line(P.M, y, P.W - P.M, y); y += 6;
+
+            y += 4;
+            doc.setDrawColor(226, 232, 240);
+            doc.line(P.M, y, P.W - P.M, y);
+            y += 6;
+
+            // Status summary
             const summary = this.getStatusSummary(report);
             const boxW = (UW - 6) / 4;
-            const statusBgColors = { normal: [220,252,231], atencao: [254,243,199], urgente: [254,226,226], inoperante: [243,244,246] };
+            const statusBgColors = {
+              normal:     [220, 252, 231],
+              atencao:    [254, 243, 199],
+              urgente:    [254, 226, 226],
+              inoperante: [243, 244, 246]
+            };
             checkPage(22);
-            doc.setFontSize(8); doc.setFont('helvetica', 'bold'); doc.setTextColor(100, 116, 139);
-            doc.text('RESUMO DE STATUS', P.M, y); y += 4;
+            doc.setFontSize(8);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(100, 116, 139);
+            doc.text('RESUMO DE STATUS', P.M, y);
+            y += 4;
             summary.forEach((s, i) => {
               const x = P.M + i * (boxW + 2);
-              doc.setFillColor(...statusBgColors[s.value]);
+              const bgC = statusBgColors[s.value];
+              const txtC = statusPdfColors[s.value];
+              doc.setFillColor(...bgC);
               doc.roundedRect(x, y, boxW, 16, 2, 2, 'F');
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(16); doc.setTextColor(...statusPdfColors[s.value]);
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(16);
+              doc.setTextColor(...txtC);
               doc.text(String(s.count), x + boxW / 2, y + 9, { align: 'center' });
-              doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(7);
               doc.text(s.label, x + boxW / 2, y + 14, { align: 'center' });
             });
             y += 22;
+
+            // ── Equipment pages ────────────────────────────
             for (const eq of report.equipments) {
               checkPage(30);
-              doc.setDrawColor(226, 232, 240); doc.line(P.M, y, P.W - P.M, y); y += 5;
+              doc.setDrawColor(226, 232, 240);
+              doc.line(P.M, y, P.W - P.M, y);
+              y += 5;
+
+              // Equipment header bar
               const sColor = statusPdfColors[eq.status] || [107, 114, 128];
               doc.setFillColor(26, 26, 26);
               doc.roundedRect(P.M, y, UW, 16, 2, 2, 'F');
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(10); doc.setTextColor(255, 255, 255);
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(10);
+              doc.setTextColor(255, 255, 255);
               doc.text(eq.name || 'Equipamento sem nome', P.M + 4, y + 7);
               const typeTxt = eq.type === 'Outro' ? (eq.typeOther || 'Outro') : (eq.type || '');
-              doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(160, 160, 160);
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(8);
+              doc.setTextColor(160, 160, 160);
               doc.text(typeTxt + (eq.location ? ' · ' + eq.location : ''), P.M + 4, y + 12.5);
+
+              // Status badge
               const statusLabel = this.getStatusLabel(eq.status);
               doc.setFillColor(...sColor);
               doc.roundedRect(P.W - P.M - 28, y + 4, 26, 8, 2, 2, 'F');
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(7); doc.setTextColor(255, 255, 255);
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(7);
+              doc.setTextColor(255, 255, 255);
               doc.text(statusLabel, P.W - P.M - 15, y + 9.5, { align: 'center' });
+
               y += 20;
+
+              // Observations
               if (eq.observations) {
                 checkPage(12);
-                doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(100, 116, 139);
-                doc.text('OBSERVAÇÕES', P.M, y); y += 4;
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text('OBSERVAÇÕES', P.M, y);
+                y += 4;
                 const lines = wrapText(eq.observations, UW, 9);
-                doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(30, 41, 59);
-                lines.forEach(line => { checkPage(6); doc.text(line, P.M, y); y += 5; });
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(30, 41, 59);
+                lines.forEach(line => {
+                  checkPage(6);
+                  doc.text(line, P.M, y);
+                  y += 5;
+                });
                 y += 2;
               }
+
+              // Recommended action
               if (eq.recommendedAction) {
                 checkPage(12);
-                doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(100, 116, 139);
-                doc.text('AÇÃO RECOMENDADA', P.M, y); y += 4;
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text('AÇÃO RECOMENDADA', P.M, y);
+                y += 4;
                 const lines = wrapText(eq.recommendedAction, UW, 9);
-                doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(30, 41, 59);
-                lines.forEach(line => { checkPage(6); doc.text(line, P.M, y); y += 5; });
+                doc.setFont('helvetica', 'normal');
+                doc.setFontSize(9);
+                doc.setTextColor(30, 41, 59);
+                lines.forEach(line => {
+                  checkPage(6);
+                  doc.text(line, P.M, y);
+                  y += 5;
+                });
                 y += 2;
               }
+
+              // Photos (2-col grid)
               if (eq.photos.length > 0) {
                 checkPage(12);
-                doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(100, 116, 139);
-                doc.text('REGISTRO FOTOGRÁFICO', P.M, y); y += 4;
-                const PHOTO_W = (UW - 4) / 2;
-                let col = 0, rowStartY = y;
-                for (const ph of eq.photos) {
-                  if (col === 0) rowStartY = y;
-                  const ratio = ph.height / ph.width;
-                  const pH = Math.min(PHOTO_W * ratio, 70);
-                  const pX = P.M + col * (PHOTO_W + 4);
-                  checkPage(pH + 4);
-                  if (col === 0 && y !== rowStartY) rowStartY = y;
-                  try { doc.addImage(ph.dataUrl, 'JPEG', pX, rowStartY, PHOTO_W, pH); } catch {}
-                  col++;
-                  if (col >= 2) { col = 0; y = rowStartY + Math.min(PHOTO_W * (ph.height / ph.width), 70) + 3; }
+                doc.setFont('helvetica', 'bold');
+                doc.setFontSize(8);
+                doc.setTextColor(100, 116, 139);
+                doc.text('REGISTRO FOTOGRÁFICO', P.M, y);
+                y += 4;
+
+                const PHOTO_W = (UW - 4) / 2; // ~89mm each
+                for (let pi = 0; pi < eq.photos.length; pi += 2) {
+                  const ph1 = eq.photos[pi];
+                  const ph2 = eq.photos[pi + 1];
+                  const h1 = Math.min(PHOTO_W * (ph1.height / ph1.width), 65);
+                  const h2 = ph2 ? Math.min(PHOTO_W * (ph2.height / ph2.width), 65) : 0;
+                  const rowH = ph2 ? Math.max(h1, h2) : h1;
+                  checkPage(rowH + 4);
+                  try { doc.addImage(ph1.dataUrl, 'JPEG', P.M, y, PHOTO_W, h1); } catch {}
+                  if (ph2) {
+                    try { doc.addImage(ph2.dataUrl, 'JPEG', P.M + PHOTO_W + 4, y, PHOTO_W, h2); } catch {}
+                  }
+                  y += rowH + 4;
                 }
-                if (col === 1) { const lastPh = eq.photos[eq.photos.length - 1]; y = rowStartY + Math.min(PHOTO_W * (lastPh.height / lastPh.width), 70) + 3; }
                 y += 2;
               }
+
               y += 4;
             }
+
+            // ── Conclusion page ────────────────────────────
             checkPage(30);
-            doc.setDrawColor(226, 232, 240); doc.line(P.M, y, P.W - P.M, y); y += 5;
-            doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.setTextColor(200, 32, 28);
-            doc.text('CONCLUSÃO', P.M, y); y += 6;
+            doc.setDrawColor(226, 232, 240);
+            doc.line(P.M, y, P.W - P.M, y);
+            y += 5;
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(11);
+            doc.setTextColor(200, 32, 28);
+            doc.text('CONCLUSÃO', P.M, y);
+            y += 6;
+
             if (report.generalObservations) {
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(8); doc.setTextColor(100, 116, 139);
-              doc.text('OBSERVAÇÕES GERAIS', P.M, y); y += 4;
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(8);
+              doc.setTextColor(100, 116, 139);
+              doc.text('OBSERVAÇÕES GERAIS', P.M, y);
+              y += 4;
               const lines = wrapText(report.generalObservations, UW, 9);
-              doc.setFont('helvetica', 'normal'); doc.setFontSize(9); doc.setTextColor(30, 41, 59);
-              lines.forEach(line => { checkPage(6); doc.text(line, P.M, y); y += 5; });
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(9);
+              doc.setTextColor(30, 41, 59);
+              lines.forEach(line => {
+                checkPage(6);
+                doc.text(line, P.M, y);
+                y += 5;
+              });
               y += 4;
             }
+
             if (report.nextInspectionDate) {
               checkPage(10);
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(9); doc.setTextColor(26, 26, 26);
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(9);
+              doc.setTextColor(26, 26, 26);
               doc.text('Próxima Vistoria: ', P.M, y);
               doc.setFont('helvetica', 'normal');
               doc.text(this.formatDate(report.nextInspectionDate), P.M + 35, y);
               y += 8;
             }
+
+            // Footer on all pages
             const totalPages = doc.internal.getNumberOfPages();
             for (let p = 1; p <= totalPages; p++) {
               doc.setPage(p);
               doc.setFillColor(26, 26, 26);
               doc.rect(0, P.H - 10, P.W, 10, 'F');
-              doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(160, 160, 160);
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(7);
+              doc.setTextColor(160, 160, 160);
               doc.text('System Engenharia · ' + (report.reportNumber || '') + ' · ' + this.formatDate(report.inspectionDate), P.M, P.H - 3.5);
               doc.text(`Pág. ${p}/${totalPages}`, P.W - P.M, P.H - 3.5, { align: 'right' });
             }
+
             const filename = 'relatorio-' + (report.reportNumber || 'SE').replace(/[^a-z0-9]/gi, '-').toLowerCase() + '.pdf';
             doc.save(filename);
             this.showToast('PDF gerado com sucesso!', 'success');
           } catch (err) {
             console.error('PDF error:', err);
             this.showToast('Erro ao gerar PDF. Tente novamente.', 'error');
-          } finally { this.pdfGenerating = false; }
+          } finally {
+            this.pdfGenerating = false;
+          }
         },
+
+        // ── PWA ───────────────────────────────────────────
+
         async installApp() {
           if (!this.deferredInstallPrompt) return;
           this.deferredInstallPrompt.prompt();
@@ -807,34 +1116,64 @@
           this.deferredInstallPrompt = null;
           this.showInstallBanner = false;
         },
+
+        // ── Helpers ───────────────────────────────────────
+
         get reportsSorted() {
           return [...this.reports].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
         },
+
         getStatusLabel(status) {
           const s = this.STATUS_OPTIONS.find(x => x.value === status);
           return s ? s.label : status;
         },
-        getStatusBg(status) {
-          const map = { normal: 'bg-snormal', atencao: 'bg-swarning', urgente: 'bg-sdanger', inoperante: 'bg-sinop' };
-          return map[status] || 'bg-navy';
+
+        getStatusBgStyle(status) {
+          const map = {
+            normal:     '#16a34a',
+            atencao:    '#d97706',
+            urgente:    '#dc2626',
+            inoperante: '#6b7280'
+          };
+          return `background-color:${map[status] || '#1A1A1A'}`;
         },
+
         getStatusSummary(report) {
-          const bgMap = { normal: 'bg-green-50', atencao: 'bg-amber-50', urgente: 'bg-red-50', inoperante: 'bg-gray-50' };
-          const textMap = { normal: 'text-green-700', atencao: 'text-amber-700', urgente: 'text-red-700', inoperante: 'text-gray-700' };
+          const bgMap = {
+            normal:     'bg-green-50',
+            atencao:    'bg-amber-50',
+            urgente:    'bg-red-50',
+            inoperante: 'bg-gray-50'
+          };
+          const textMap = {
+            normal:     'text-green-700',
+            atencao:    'text-amber-700',
+            urgente:    'text-red-700',
+            inoperante: 'text-gray-700'
+          };
           return this.STATUS_OPTIONS.map(s => ({
             ...s,
             count: report.equipments.filter(e => e.status === s.value).length,
-            bg: bgMap[s.value], textColor: textMap[s.value]
+            bg: bgMap[s.value],
+            textColor: textMap[s.value]
           }));
         },
+
         formatDate(dateStr) {
           if (!dateStr) return '—';
-          try { const [y, m, d] = dateStr.split('-'); return `${d}/${m}/${y}`; } catch { return dateStr; }
+          try {
+            const [y, m, d] = dateStr.split('-');
+            return `${d}/${m}/${y}`;
+          } catch { return dateStr; }
         },
+
         formatTime(date) {
           if (!date) return '';
-          try { return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }); } catch { return ''; }
+          try {
+            return date.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+          } catch { return ''; }
         },
+
         showToast(msg, type = 'success', duration = 2500) {
           clearTimeout(this._toastTimer);
           this.toast = { show: true, msg, type };
