@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>System Engenharia — Relatórios de Manutenção</title>
   <link rel="manifest" href="./manifest.json"/>
   <meta name="theme-color" content="#1A1A1A"/>
@@ -110,7 +110,21 @@
 
       <!-- Reports list -->
       <div x-show="reports.length > 0" class="space-y-3">
-        <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-3">Relatórios salvos (<span x-text="reports.length"></span>)</h2>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Relatórios salvos (<span x-text="reports.length"></span>)</h2>
+          <div class="flex gap-1.5">
+            <button @click="importBackup()" title="Importar backup"
+              class="text-xs text-slate-500 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 flex items-center gap-1 active:bg-slate-50">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"/></svg>
+              Importar
+            </button>
+            <button @click="exportBackup()" title="Exportar backup"
+              class="text-xs text-slate-500 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 flex items-center gap-1 active:bg-slate-50">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l4 4m-4-4v12"/></svg>
+              Backup
+            </button>
+          </div>
+        </div>
         <template x-for="r in reportsSorted" :key="r.id">
           <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <div class="bg-zinc-900 px-4 py-3 flex items-center justify-between">
@@ -645,6 +659,22 @@
             this.deferredInstallPrompt = e;
             this.showInstallBanner = true;
           });
+          // Flush save when app goes to background (field use)
+          document.addEventListener('visibilitychange', () => {
+            if (document.hidden) { clearTimeout(this.saveTimer); this.saveActiveReport(); }
+          });
+          // History API for Android back button in PWA
+          history.replaceState({ view: 'dashboard' }, '');
+          window.addEventListener('popstate', e => {
+            const v = e.state?.view || 'dashboard';
+            if (v === 'dashboard') {
+              clearTimeout(this.saveTimer); this.saveActiveReport();
+              this.activeReport = null; this.view = 'dashboard';
+            } else {
+              this.view = v;
+            }
+            window.scrollTo(0, 0);
+          });
         },
 
         // ── Persistence ──────────────────────────────────────────
@@ -663,8 +693,8 @@
             localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.reports));
             this.lastSavedAt = new Date();
           } catch (e) {
-            if (e.name === 'QuotaExceededError') {
-              this.showToast('Armazenamento cheio! Remova fotos ou exporte relatórios antigos.', 'error', 5000);
+            if (e.name === 'QuotaExceededError' || e.name === 'NS_ERROR_DOM_QUOTA_REACHED' || e.code === 22) {
+              this.showToast('Armazenamento cheio! Exporte um backup e remova relatórios antigos.', 'error', 6000);
             }
           }
         },
@@ -745,11 +775,13 @@
           this.saveActiveReport();
           this.activeReport = null;
           this.view = 'dashboard';
+          history.pushState({ view: 'dashboard' }, '');
           window.scrollTo(0, 0);
         },
 
         goToForm() {
           this.view = 'form';
+          history.pushState({ view: 'form' }, '');
           window.scrollTo(0, 0);
         },
 
@@ -757,6 +789,7 @@
           clearTimeout(this.saveTimer);
           this.saveActiveReport();
           this.view = 'preview';
+          history.pushState({ view: 'preview' }, '');
           window.scrollTo(0, 0);
         },
 
@@ -864,6 +897,7 @@
 
           this.pdfGenerating = true;
           this.showToast('Gerando PDF...', 'success', 60000);
+          await new Promise(r => setTimeout(r, 80)); // yield so spinner renders
 
           try {
             const { jsPDF } = window.jspdf;
@@ -994,12 +1028,14 @@
               doc.setFont('helvetica', 'bold');
               doc.setFontSize(12);
               doc.setTextColor(255, 255, 255);
-              doc.text(eq.name || 'Equipamento sem nome', P.M + 4, y + 8);
+              const nameLine = doc.splitTextToSize(eq.name || 'Equipamento sem nome', UW - 40)[0];
+              doc.text(nameLine, P.M + 4, y + 8);
               const typeTxt = eq.type === 'Outro' ? (eq.typeOther || 'Outro') : (eq.type || '');
+              const subtitleLine = doc.splitTextToSize(typeTxt + (eq.location ? ' · ' + eq.location : ''), UW - 40)[0];
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(8);
               doc.setTextColor(255, 255, 255);
-              doc.text(typeTxt + (eq.location ? ' · ' + eq.location : ''), P.M + 4, y + 15);
+              doc.text(subtitleLine, P.M + 4, y + 15);
 
               // Status badge
               const statusLabel = this.getStatusLabel(eq.status);
@@ -1061,17 +1097,28 @@
                 doc.text('REGISTRO FOTOGRÁFICO', P.M, y);
                 y += 4;
 
-                const PHOTO_W = (UW - 4) / 2; // ~89mm each
+                const PHOTO_W = (UW - 4) / 2; // ~89mm per column
                 for (let pi = 0; pi < eq.photos.length; pi += 2) {
                   const ph1 = eq.photos[pi];
                   const ph2 = eq.photos[pi + 1];
-                  const h1 = Math.min(PHOTO_W * (ph1.height / ph1.width), 65);
-                  const h2 = ph2 ? Math.min(PHOTO_W * (ph2.height / ph2.width), 65) : 0;
-                  const rowH = ph2 ? Math.max(h1, h2) : h1;
+
+                  // Fit each photo within PHOTO_W × 65mm, preserving aspect ratio
+                  const fit = (ph) => {
+                    let w = PHOTO_W, h = PHOTO_W * (ph.height / ph.width);
+                    if (h > 65) { h = 65; w = 65 * (ph.width / ph.height); }
+                    return { w, h };
+                  };
+                  const f1 = fit(ph1);
+                  const f2 = ph2 ? fit(ph2) : null;
+                  const rowH = f2 ? Math.max(f1.h, f2.h) : f1.h;
                   checkPage(rowH + 4);
-                  try { doc.addImage(ph1.dataUrl, 'JPEG', P.M, y, PHOTO_W, h1); } catch {}
-                  if (ph2) {
-                    try { doc.addImage(ph2.dataUrl, 'JPEG', P.M + PHOTO_W + 4, y, PHOTO_W, h2); } catch {}
+
+                  // Center photo in its column
+                  const x1 = P.M + (PHOTO_W - f1.w) / 2;
+                  try { doc.addImage(ph1.dataUrl, 'JPEG', x1, y, f1.w, f1.h); } catch {}
+                  if (ph2 && f2) {
+                    const x2 = P.M + PHOTO_W + 4 + (PHOTO_W - f2.w) / 2;
+                    try { doc.addImage(ph2.dataUrl, 'JPEG', x2, y, f2.w, f2.h); } catch {}
                   }
                   y += rowH + 4;
                 }
@@ -1184,8 +1231,20 @@
             }
 
             const filename = 'relatorio-' + (report.reportNumber || 'SE').replace(/[^a-z0-9]/gi, '-').toLowerCase() + '.pdf';
-            doc.save(filename);
-            this.showToast('PDF gerado com sucesso!', 'success');
+            const pdfBlob = doc.output('blob');
+            const pdfFile = new File([pdfBlob], filename, { type: 'application/pdf' });
+            if (navigator.canShare?.({ files: [pdfFile] })) {
+              try {
+                await navigator.share({ files: [pdfFile], title: report.reportNumber || 'Relatório', text: 'Relatório de Manutenção — System Engenharia' });
+                this.showToast('PDF compartilhado!', 'success');
+              } catch (shareErr) {
+                if (shareErr.name !== 'AbortError') { doc.save(filename); }
+                this.showToast('PDF pronto!', 'success');
+              }
+            } else {
+              doc.save(filename);
+              this.showToast('PDF gerado com sucesso!', 'success');
+            }
           } catch (err) {
             console.error('PDF error:', err);
             this.showToast('Erro ao gerar PDF. Tente novamente.', 'error');
@@ -1208,6 +1267,48 @@
 
         get reportsSorted() {
           return [...this.reports].sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+        },
+
+        // ── Backup / Restore ──────────────────────────────────────
+
+        exportBackup() {
+          const data = JSON.stringify({
+            version: 1,
+            exportedAt: new Date().toISOString(),
+            reports: this.reports,
+            counter: localStorage.getItem(this.COUNTER_KEY)
+          });
+          const blob = new Blob([data], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'syse-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+          a.click();
+          URL.revokeObjectURL(url);
+          this.showToast('Backup exportado!');
+        },
+
+        importBackup() {
+          const input = document.createElement('input');
+          input.type = 'file';
+          input.accept = '.json,application/json';
+          input.onchange = async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            try {
+              const text = await file.text();
+              const data = JSON.parse(text);
+              if (!Array.isArray(data.reports)) throw new Error('Formato inválido');
+              if (!confirm(`Importar ${data.reports.length} relatório(s)? Os dados atuais serão SUBSTITUÍDOS.`)) return;
+              this.reports = data.reports;
+              if (data.counter) localStorage.setItem(this.COUNTER_KEY, data.counter);
+              this.saveReports();
+              this.showToast(`${data.reports.length} relatório(s) importado(s)!`);
+            } catch {
+              this.showToast('Erro ao importar backup.', 'error');
+            }
+          };
+          input.click();
         },
 
         getStatusLabel(status) {

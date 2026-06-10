@@ -1,4 +1,4 @@
-const CACHE = 'syse-v1';
+const CACHE = 'syse-v2';
 const ASSETS = [
   './manutencao.html',
   './manifest.json',
@@ -24,7 +24,24 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request).catch(() => caches.match('./manutencao.html')))
-  );
+  const url = new URL(e.request.url);
+  const isHtml = url.pathname.endsWith('.html') || url.pathname.endsWith('/');
+
+  if (isHtml) {
+    // Network-first for HTML so updates are always received
+    e.respondWith(
+      fetch(e.request)
+        .then(r => {
+          const clone = r.clone();
+          caches.open(CACHE).then(c => c.put(e.request, clone));
+          return r;
+        })
+        .catch(() => caches.match(e.request))
+    );
+  } else {
+    // Cache-first for CDN assets and static files
+    e.respondWith(
+      caches.match(e.request).then(r => r || fetch(e.request))
+    );
+  }
 });
