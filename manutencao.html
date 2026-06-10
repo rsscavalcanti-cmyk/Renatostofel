@@ -356,16 +356,28 @@
                   </template>
                 </div>
 
-                <!-- Upload area -->
-                <label class="upload-area">
-                  <input type="file" accept="image/*" multiple class="hidden" @change="handlePhotoInput($event, eq.id)"/>
-                  <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  </svg>
-                  <span class="text-xs text-slate-400 font-medium">Câmera ou Galeria</span>
-                  <span class="text-xs text-slate-300 mt-0.5">Toque para adicionar fotos</span>
-                </label>
+                <!-- Upload area: two buttons for camera and gallery -->
+                <div class="grid grid-cols-2 gap-2">
+                  <!-- Camera button -->
+                  <label class="upload-area">
+                    <input type="file" accept="image/*" capture="environment" class="hidden" @change="handlePhotoInput($event, eq.id)"/>
+                    <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    </svg>
+                    <span class="text-xs text-slate-400 font-medium">Câmera</span>
+                    <span class="text-xs text-slate-300 mt-0.5">Tirar foto</span>
+                  </label>
+                  <!-- Gallery button -->
+                  <label class="upload-area">
+                    <input type="file" accept="image/*" multiple class="hidden" @change="handlePhotoInput($event, eq.id)"/>
+                    <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                    </svg>
+                    <span class="text-xs text-slate-400 font-medium">Galeria</span>
+                    <span class="text-xs text-slate-300 mt-0.5">Escolher fotos</span>
+                  </label>
+                </div>
               </div>
 
               <!-- Observations -->
