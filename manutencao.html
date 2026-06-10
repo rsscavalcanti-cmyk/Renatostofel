@@ -937,10 +937,10 @@
             const sectionLabel = (txt, color = [100, 116, 139]) => {
               checkPage(8);
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(7.5);
+              doc.setFontSize(9);
               doc.setTextColor(...color);
-              doc.text(txt, P.M, y);
-              y += 4.5;
+              doc.text(txt, P.M, y, { charSpace: 0.3 });
+              y += 5.5;
             };
 
             const statusPdfColors = this.STATUS_PDF_COLORS;
@@ -1035,8 +1035,29 @@
             // ══════════════════════════════════════════════
 
             report.equipments.forEach((eq, eqIdx) => {
-              // Ensure header + at least 20mm content fits
-              checkPage(46);
+              // ── Pass 1: pre-calculate minimum height so the header is
+              //    never orphaned from its first photo row / first text ──
+              const GAP    = 5;
+              const PH_W   = (UW - GAP) / 2;
+              const MAX_H  = 80;
+              const fit = ph => {
+                let w = PH_W, h = PH_W * (ph.height / ph.width);
+                if (h > MAX_H) { h = MAX_H; w = MAX_H * (ph.width / ph.height); }
+                return { w, h };
+              };
+
+              let minNeeded = 5 + 26 + 4;
+              if (eq.photos.length > 0) {
+                const f1 = fit(eq.photos[0]);
+                const f2 = eq.photos[1] ? fit(eq.photos[1]) : null;
+                const firstRowH = f2 ? Math.max(f1.h, f2.h) : f1.h;
+                minNeeded += 8 + firstRowH + 5;
+              } else if (eq.observations || eq.recommendedAction) {
+                minNeeded += 14;
+              }
+
+              // ── Pass 2: render ──
+              checkPage(minNeeded);
 
               // Red thin hairline separator
               doc.setFillColor(200, 32, 28);
@@ -1046,7 +1067,7 @@
               // Coloured header bar
               const sColor = statusPdfColors[eq.status] || [107, 114, 128];
               doc.setFillColor(...sColor);
-              doc.roundedRect(P.M, y, UW, 24, 2, 2, 'F');
+              doc.roundedRect(P.M, y, UW, 26, 2, 2, 'F');
 
               // Equipment number pill
               const eqNum = String(eqIdx + 1).padStart(2, '0');
@@ -1054,12 +1075,12 @@
               doc.setFont('helvetica', 'bold');
               doc.setFontSize(8);
               doc.setTextColor(255, 255, 255);
-              doc.text(`#${eqNum}`, P.M + 4, y + 7);
+              doc.text(`#${eqNum}`, P.M + 4, y + 8);
 
               // Equipment name
-              doc.setFontSize(13);
+              doc.setFontSize(15);
               const nameStr = doc.splitTextToSize(eq.name || 'Equipamento sem nome', UW - 48)[0];
-              doc.text(nameStr, P.M + 14, y + 9);
+              doc.text(nameStr, P.M + 14, y + 10);
 
               // Type + location subtitle
               const typeTxt = eq.type === 'Outro' ? (eq.typeOther || 'Outro') : (eq.type || '');
@@ -1069,19 +1090,19 @@
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(9);
               doc.setTextColor(255, 255, 255);
-              doc.text(subtitleStr, P.M + 14, y + 17);
+              doc.text(subtitleStr, P.M + 14, y + 19);
 
               // Status badge (white pill, right side)
               const statusLabel = this.getStatusLabel(eq.status);
               const badgeW = 30, badgeX = P.W - P.M - badgeW - 2;
               doc.setFillColor(255, 255, 255);
-              doc.roundedRect(badgeX, y + 7, badgeW, 9, 2, 2, 'F');
+              doc.roundedRect(badgeX, y + 8, badgeW, 10, 2, 2, 'F');
               doc.setFont('helvetica', 'bold');
               doc.setFontSize(8.5);
               doc.setTextColor(...sColor);
-              doc.text(statusLabel, badgeX + badgeW / 2, y + 13, { align: 'center' });
+              doc.text(statusLabel, badgeX + badgeW / 2, y + 14, { align: 'center' });
 
-              y += 28;
+              y += 30;
 
               // Observations
               if (eq.observations) {
@@ -1116,16 +1137,6 @@
                   y += 4;
                 }
                 sectionLabel('REGISTRO FOTOGRÁFICO', [200, 32, 28]);
-
-                const GAP    = 5;                   // gap between columns
-                const PH_W   = (UW - GAP) / 2;     // ~88.5mm each column
-                const MAX_H  = 80;                  // max photo height mm
-
-                const fit = ph => {
-                  let w = PH_W, h = PH_W * (ph.height / ph.width);
-                  if (h > MAX_H) { h = MAX_H; w = MAX_H * (ph.width / ph.height); }
-                  return { w, h };
-                };
 
                 for (let pi = 0; pi < eq.photos.length; pi += 2) {
                   const ph1 = eq.photos[pi];
