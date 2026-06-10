@@ -904,330 +904,357 @@
             const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
             const report = this.activeReport;
 
-            const P = { W: 210, H: 297, M: 14 };
-            const UW = P.W - P.M * 2; // usable width = 182mm
-            let y = P.M;
+            // ── Layout constants ───────────────────────────
+            const P    = { W: 210, H: 297, M: 14 };
+            const UW   = P.W - P.M * 2;          // 182 mm usable width
+            const FH   = 16;                      // footer reserve (mm)
+            const BODY = P.H - FH;                // last usable y before footer
+            const LH   = 5.5;                     // body line height (mm)
+            let   y    = P.M;
 
+            // Ensure there's room; add page if not
             const checkPage = (needed) => {
-              if (y + needed > P.H - 16) { doc.addPage(); y = P.M; }
+              if (y + needed > BODY) { doc.addPage(); y = P.M; }
             };
 
-            const wrapText = (text, maxW, fontSize = 10) => {
-              doc.setFontSize(fontSize);
+            // Split text and return array of lines
+            const split = (text, maxW, size) => {
+              doc.setFontSize(size);
               return doc.splitTextToSize(text || '', maxW);
+            };
+
+            // Draw body text block, page-breaking per line
+            const drawText = (text, maxW, size = 10, color = [30, 41, 59]) => {
+              const lines = split(text, maxW, size);
+              doc.setFont('helvetica', 'normal');
+              doc.setFontSize(size);
+              doc.setTextColor(...color);
+              lines.forEach(line => { checkPage(LH); doc.text(line, P.M, y); y += LH; });
+              return lines.length;
+            };
+
+            // Draw section label (small caps style)
+            const sectionLabel = (txt, color = [100, 116, 139]) => {
+              checkPage(8);
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(7.5);
+              doc.setTextColor(...color);
+              doc.text(txt, P.M, y);
+              y += 4.5;
             };
 
             const statusPdfColors = this.STATUS_PDF_COLORS;
 
-            // ── Page 1: Cover ─────────────────────────────
+            // ══════════════════════════════════════════════
+            // PAGE 1 — COVER
+            // ══════════════════════════════════════════════
+
             // Red top stripe
             doc.setFillColor(200, 32, 28);
             doc.rect(0, 0, P.W, 8, 'F');
-            y = 12;
+            y = 13;
 
-            // Logo image (real PNG embedded)
-            const LOGO_H = 14; // mm
-            const LOGO_W = LOGO_H * (353/85); // preserve aspect ratio: 353x85px
-            try { doc.addImage(LOGO_DATA_URL, 'PNG', P.M, y, LOGO_W, LOGO_H); } catch(e) {}
+            // Logo
+            const LOGO_H = 18;
+            const LOGO_W = LOGO_H * (353 / 85);
+            try { doc.addImage(LOGO_DATA_URL, 'PNG', P.M, y, LOGO_W, LOGO_H); } catch {}
 
-            // Report type label
+            // Report type label (right-aligned, vertically centred with logo)
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(7);
+            doc.setFontSize(8.5);
             doc.setTextColor(200, 32, 28);
-            doc.text('RELATÓRIO DE MANUTENÇÃO PREDIAL', P.M, y + LOGO_H + 4);
-            y += LOGO_H + 10;
+            doc.text('RELATÓRIO DE MANUTENÇÃO PREDIAL', P.W - P.M, y + LOGO_H / 2 + 1.5, { align: 'right' });
+            y += LOGO_H + 7;
 
-            // Divider
-            doc.setDrawColor(200, 32, 28);
-            doc.setLineWidth(0.5);
-            doc.line(P.M, y, P.W - P.M, y);
-            doc.setLineWidth(0.2);
-            doc.setDrawColor(226, 232, 240);
-            y += 7;
+            // Full-width red divider
+            doc.setFillColor(200, 32, 28);
+            doc.rect(P.M, y, UW, 0.8, 'F');
+            y += 5;
 
-            // Report info table — two-column label/value rows with separator lines
+            // Info table — alternating row backgrounds
             const infoRows = [
-              ['Nº do Relatório', report.reportNumber || '—'],
-              ['Data da Vistoria', this.formatDate(report.inspectionDate)],
+              ['Nº do Relatório',    report.reportNumber || '—'],
+              ['Data da Vistoria',   this.formatDate(report.inspectionDate)],
               ['Técnico Responsável', report.technician || '—'],
               ['Cliente / Edifício', report.client || '—'],
-              ['Endereço', report.address || '—'],
+              ['Endereço',           report.address || '—'],
             ];
-
-            infoRows.forEach(([label, value], idx) => {
-              checkPage(9);
-              const rowH = 8;
-              if (idx > 0) {
-                doc.setDrawColor(226, 232, 240);
-                doc.line(P.M, y - 1, P.W - P.M, y - 1);
+            const ROW_H = 8.5;
+            infoRows.forEach(([label, value], i) => {
+              checkPage(ROW_H + 2);
+              if (i % 2 === 0) {
+                doc.setFillColor(248, 250, 252);
+                doc.rect(P.M, y, UW, ROW_H, 'F');
               }
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(7.5);
               doc.setTextColor(100, 116, 139);
-              doc.text(label, P.M, y + 4);
+              doc.text(label, P.M + 3, y + 5.5);
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(9);
+              doc.setFontSize(10);
               doc.setTextColor(26, 26, 26);
-              const lines = wrapText(value, UW - 55, 9);
-              doc.text(lines, P.M + 55, y + 4);
-              y += rowH * Math.max(lines.length, 1);
+              const vLines = split(value, UW - 58, 10);
+              doc.text(vLines[0] || '', P.M + 58, y + 5.5);
+              y += ROW_H * Math.max(vLines.length > 1 ? 1.5 : 1, 1);
             });
 
-            y += 6;
-            doc.setDrawColor(200, 32, 28);
-            doc.setLineWidth(0.5);
-            doc.line(P.M, y, P.W - P.M, y);
-            doc.setLineWidth(0.2);
-            y += 6;
+            y += 4;
+            doc.setFillColor(200, 32, 28);
+            doc.rect(P.M, y, UW, 0.8, 'F');
+            y += 7;
 
-            // Status summary
+            // Status summary boxes
+            sectionLabel('RESUMO DA VISTORIA', [200, 32, 28]);
+            y += 1;
             const summary = this.getStatusSummary(report);
-            const boxW = (UW - 6) / 4;
-            const statusBgColors = {
-              normal:     [220, 252, 231],
-              atencao:    [254, 243, 199],
-              urgente:    [254, 226, 226],
-              inoperante: [243, 244, 246]
+            const boxW = (UW - 9) / 4;
+            const statusBgC = {
+              normal: [220,252,231], atencao: [254,243,199],
+              urgente:[254,226,226], inoperante:[243,244,246]
             };
-            checkPage(28);
-            doc.setFontSize(7.5);
-            doc.setFont('helvetica', 'bold');
-            doc.setTextColor(200, 32, 28);
-            doc.text('EQUIPAMENTOS VISTORIADOS', P.M, y);
-            y += 5;
+            checkPage(24);
             summary.forEach((s, i) => {
-              const x = P.M + i * (boxW + 2);
-              const bgC = statusBgColors[s.value];
-              const txtC = statusPdfColors[s.value];
-              doc.setFillColor(...bgC);
-              doc.roundedRect(x, y, boxW, 18, 2, 2, 'F');
+              const bx = P.M + i * (boxW + 3);
+              doc.setFillColor(...statusBgC[s.value]);
+              doc.roundedRect(bx, y, boxW, 20, 2, 2, 'F');
+              doc.setFillColor(...statusPdfColors[s.value]);
+              doc.rect(bx, y, boxW, 2.5, 'F');
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(18);
-              doc.setTextColor(...txtC);
-              doc.text(String(s.count), x + boxW / 2, y + 10, { align: 'center' });
+              doc.setFontSize(22);
+              doc.setTextColor(...statusPdfColors[s.value]);
+              doc.text(String(s.count), bx + boxW / 2, y + 13, { align: 'center' });
               doc.setFont('helvetica', 'normal');
               doc.setFontSize(7);
-              doc.text(s.label, x + boxW / 2, y + 16, { align: 'center' });
+              doc.setTextColor(...statusPdfColors[s.value]);
+              doc.text(s.label, bx + boxW / 2, y + 18.5, { align: 'center' });
             });
-            y += 24;
+            y += 26;
 
-            // ── Equipment pages ────────────────────────────
-            for (const eq of report.equipments) {
-              checkPage(35);
-              // Red separator line before each equipment
-              doc.setDrawColor(200, 32, 28);
-              doc.setLineWidth(0.5);
-              doc.line(P.M, y, P.W - P.M, y);
-              doc.setLineWidth(0.2);
-              y += 6;
+            // ══════════════════════════════════════════════
+            // EQUIPMENT SECTIONS
+            // ══════════════════════════════════════════════
 
-              // Equipment header bar (status-colored background)
+            report.equipments.forEach((eq, eqIdx) => {
+              // Ensure header + at least 20mm content fits
+              checkPage(46);
+
+              // Red thin hairline separator
+              doc.setFillColor(200, 32, 28);
+              doc.rect(P.M, y, UW, 0.5, 'F');
+              y += 5;
+
+              // Coloured header bar
               const sColor = statusPdfColors[eq.status] || [107, 114, 128];
               doc.setFillColor(...sColor);
-              doc.roundedRect(P.M, y, UW, 20, 2, 2, 'F');
+              doc.roundedRect(P.M, y, UW, 24, 2, 2, 'F');
+
+              // Equipment number pill
+              const eqNum = String(eqIdx + 1).padStart(2, '0');
+              doc.setFillColor(255, 255, 255, 0.3);
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(12);
+              doc.setFontSize(8);
               doc.setTextColor(255, 255, 255);
-              const nameLine = doc.splitTextToSize(eq.name || 'Equipamento sem nome', UW - 40)[0];
-              doc.text(nameLine, P.M + 4, y + 8);
+              doc.text(`#${eqNum}`, P.M + 4, y + 7);
+
+              // Equipment name
+              doc.setFontSize(13);
+              const nameStr = doc.splitTextToSize(eq.name || 'Equipamento sem nome', UW - 48)[0];
+              doc.text(nameStr, P.M + 14, y + 9);
+
+              // Type + location subtitle
               const typeTxt = eq.type === 'Outro' ? (eq.typeOther || 'Outro') : (eq.type || '');
-              const subtitleLine = doc.splitTextToSize(typeTxt + (eq.location ? ' · ' + eq.location : ''), UW - 40)[0];
+              const subtitleStr = doc.splitTextToSize(
+                typeTxt + (eq.location ? '  ·  ' + eq.location : ''), UW - 48
+              )[0];
               doc.setFont('helvetica', 'normal');
-              doc.setFontSize(8);
+              doc.setFontSize(9);
               doc.setTextColor(255, 255, 255);
-              doc.text(subtitleLine, P.M + 4, y + 15);
+              doc.text(subtitleStr, P.M + 14, y + 17);
 
-              // Status badge
+              // Status badge (white pill, right side)
               const statusLabel = this.getStatusLabel(eq.status);
+              const badgeW = 30, badgeX = P.W - P.M - badgeW - 2;
               doc.setFillColor(255, 255, 255);
-              doc.roundedRect(P.W - P.M - 32, y + 5, 30, 10, 2, 2, 'F');
+              doc.roundedRect(badgeX, y + 7, badgeW, 9, 2, 2, 'F');
               doc.setFont('helvetica', 'bold');
-              doc.setFontSize(8);
+              doc.setFontSize(8.5);
               doc.setTextColor(...sColor);
-              doc.text(statusLabel, P.W - P.M - 17, y + 11.5, { align: 'center' });
+              doc.text(statusLabel, badgeX + badgeW / 2, y + 13, { align: 'center' });
 
-              y += 25;
+              y += 28;
 
               // Observations
               if (eq.observations) {
-                checkPage(12);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(7.5);
-                doc.setTextColor(100, 116, 139);
-                doc.text('OBSERVAÇÕES TÉCNICAS', P.M, y);
-                y += 4;
-                const lines = wrapText(eq.observations, UW, 9);
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(9);
-                doc.setTextColor(30, 41, 59);
-                lines.forEach(line => {
-                  checkPage(6);
-                  doc.text(line, P.M, y);
-                  y += 5;
-                });
-                y += 2;
+                checkPage(14);
+                sectionLabel('OBSERVAÇÕES TÉCNICAS');
+                drawText(eq.observations, UW);
+                y += 3;
               }
 
               // Recommended action
               if (eq.recommendedAction) {
-                checkPage(12);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(7.5);
-                doc.setTextColor(100, 116, 139);
-                doc.text('AÇÃO RECOMENDADA', P.M, y);
-                y += 4;
-                const lines = wrapText(eq.recommendedAction, UW, 9);
-                doc.setFont('helvetica', 'normal');
-                doc.setFontSize(9);
-                doc.setTextColor(30, 41, 59);
-                lines.forEach(line => {
-                  checkPage(6);
-                  doc.text(line, P.M, y);
-                  y += 5;
-                });
-                y += 2;
+                checkPage(14);
+                // Subtle separator between obs and action
+                if (eq.observations) {
+                  doc.setDrawColor(226, 232, 240);
+                  doc.setLineWidth(0.3);
+                  doc.line(P.M, y, P.W - P.M, y);
+                  y += 4;
+                }
+                sectionLabel('AÇÃO RECOMENDADA');
+                drawText(eq.recommendedAction, UW);
+                y += 3;
               }
 
-              // Photos (2-col grid)
+              // Photos
               if (eq.photos.length > 0) {
-                checkPage(12);
-                doc.setFont('helvetica', 'bold');
-                doc.setFontSize(7.5);
-                doc.setTextColor(200, 32, 28);
-                doc.text('REGISTRO FOTOGRÁFICO', P.M, y);
-                y += 4;
+                checkPage(16);
+                if (eq.observations || eq.recommendedAction) {
+                  doc.setDrawColor(226, 232, 240);
+                  doc.setLineWidth(0.3);
+                  doc.line(P.M, y, P.W - P.M, y);
+                  y += 4;
+                }
+                sectionLabel('REGISTRO FOTOGRÁFICO', [200, 32, 28]);
 
-                const PHOTO_W = (UW - 4) / 2; // ~89mm per column
+                const GAP    = 5;                   // gap between columns
+                const PH_W   = (UW - GAP) / 2;     // ~88.5mm each column
+                const MAX_H  = 80;                  // max photo height mm
+
+                const fit = ph => {
+                  let w = PH_W, h = PH_W * (ph.height / ph.width);
+                  if (h > MAX_H) { h = MAX_H; w = MAX_H * (ph.width / ph.height); }
+                  return { w, h };
+                };
+
                 for (let pi = 0; pi < eq.photos.length; pi += 2) {
                   const ph1 = eq.photos[pi];
                   const ph2 = eq.photos[pi + 1];
-
-                  // Fit each photo within PHOTO_W × 65mm, preserving aspect ratio
-                  const fit = (ph) => {
-                    let w = PHOTO_W, h = PHOTO_W * (ph.height / ph.width);
-                    if (h > 65) { h = 65; w = 65 * (ph.width / ph.height); }
-                    return { w, h };
-                  };
-                  const f1 = fit(ph1);
-                  const f2 = ph2 ? fit(ph2) : null;
+                  const f1  = fit(ph1);
+                  const f2  = ph2 ? fit(ph2) : null;
                   const rowH = f2 ? Math.max(f1.h, f2.h) : f1.h;
-                  checkPage(rowH + 4);
 
-                  // Center photo in its column
-                  const x1 = P.M + (PHOTO_W - f1.w) / 2;
-                  try { doc.addImage(ph1.dataUrl, 'JPEG', x1, y, f1.w, f1.h); } catch {}
+                  checkPage(rowH + 6);
+
+                  // Light gray background behind each photo cell
+                  doc.setFillColor(248, 250, 252);
+                  doc.roundedRect(P.M, y, PH_W, rowH + 1, 1.5, 1.5, 'F');
+                  if (ph2) doc.roundedRect(P.M + PH_W + GAP, y, PH_W, rowH + 1, 1.5, 1.5, 'F');
+
+                  // Photo centred in cell
+                  const cx1 = P.M + (PH_W - f1.w) / 2;
+                  try { doc.addImage(ph1.dataUrl, 'JPEG', cx1, y + 0.5, f1.w, f1.h); } catch {}
                   if (ph2 && f2) {
-                    const x2 = P.M + PHOTO_W + 4 + (PHOTO_W - f2.w) / 2;
-                    try { doc.addImage(ph2.dataUrl, 'JPEG', x2, y, f2.w, f2.h); } catch {}
+                    const cx2 = P.M + PH_W + GAP + (PH_W - f2.w) / 2;
+                    try { doc.addImage(ph2.dataUrl, 'JPEG', cx2, y + 0.5, f2.w, f2.h); } catch {}
                   }
-                  y += rowH + 4;
+                  y += rowH + 5;
                 }
                 y += 2;
               }
 
-              y += 4;
-            }
+              y += 6;
+            });
 
-            // ── Conclusion page ────────────────────────────
-            checkPage(35);
-            doc.setDrawColor(200, 32, 28);
-            doc.setLineWidth(0.5);
-            doc.line(P.M, y, P.W - P.M, y);
-            doc.setLineWidth(0.2);
-            y += 6;
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(12);
-            doc.setTextColor(200, 32, 28);
-            doc.text('CONCLUSÃO', P.M, y);
+            // ══════════════════════════════════════════════
+            // CONCLUSION
+            // ══════════════════════════════════════════════
+
+            checkPage(40);
+            doc.setFillColor(200, 32, 28);
+            doc.rect(P.M, y, UW, 0.8, 'F');
             y += 7;
 
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(13);
+            doc.setTextColor(200, 32, 28);
+            doc.text('CONCLUSÃO', P.M, y);
+            y += 8;
+
             if (report.generalObservations) {
-              doc.setFont('helvetica', 'bold');
-              doc.setFontSize(8);
-              doc.setTextColor(100, 116, 139);
-              doc.text('OBSERVAÇÕES GERAIS', P.M, y);
-              y += 4;
-              const lines = wrapText(report.generalObservations, UW, 9);
-              doc.setFont('helvetica', 'normal');
-              doc.setFontSize(9);
-              doc.setTextColor(30, 41, 59);
-              lines.forEach(line => {
-                checkPage(6);
-                doc.text(line, P.M, y);
-                y += 5;
-              });
+              sectionLabel('OBSERVAÇÕES GERAIS');
+              drawText(report.generalObservations, UW);
               y += 4;
             }
 
             if (report.nextInspectionDate) {
-              checkPage(10);
+              checkPage(14);
+              doc.setFillColor(254, 243, 199);
+              doc.roundedRect(P.M, y, UW, 11, 2, 2, 'F');
               doc.setFont('helvetica', 'bold');
               doc.setFontSize(9);
-              doc.setTextColor(26, 26, 26);
-              doc.text('Próxima Vistoria: ', P.M, y);
+              doc.setTextColor(146, 64, 14);
+              doc.text('Próxima vistoria programada:', P.M + 4, y + 7);
               doc.setFont('helvetica', 'normal');
-              doc.text(this.formatDate(report.nextInspectionDate), P.M + 35, y);
-              y += 8;
+              doc.text(this.formatDate(report.nextInspectionDate), P.M + 60, y + 7);
+              y += 16;
             }
 
-            // ── Signature blocks ──────────────────────────
-            checkPage(42);
+            // ── Signatures ────────────────────────────────
+            checkPage(45);
             y += 4;
             doc.setDrawColor(226, 232, 240);
             doc.setLineWidth(0.3);
             doc.line(P.M, y, P.W - P.M, y);
-            y += 6;
-            doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8);
-            doc.setTextColor(100, 116, 139);
-            doc.text('ASSINATURAS', P.M, y);
-            y += 10;
+            y += 7;
 
-            const sigW = (UW - 10) / 2;
-            // Left signature: System Engenharia
-            doc.setDrawColor(100, 116, 139);
+            sectionLabel('ASSINATURAS');
+            y += 4;
+
+            const sigW = (UW - 12) / 2;
+            const sigLineY = y + 18;
+
+            // Left: System Engenharia
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(P.M, y, sigW, 28, 2, 2, 'F');
+            doc.setDrawColor(150, 163, 175);
             doc.setLineWidth(0.5);
-            doc.line(P.M, y + 14, P.M + sigW, y + 14);
+            doc.line(P.M + 6, sigLineY, P.M + sigW - 6, sigLineY);
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8);
+            doc.setFontSize(9);
             doc.setTextColor(26, 26, 26);
-            doc.text('System Engenharia', P.M + sigW / 2, y + 19, { align: 'center' });
+            doc.text('System Engenharia', P.M + sigW / 2, sigLineY + 5, { align: 'center' });
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(7);
+            doc.setFontSize(8);
             doc.setTextColor(100, 116, 139);
-            doc.text(report.technician || 'Técnico Responsável', P.M + sigW / 2, y + 24, { align: 'center' });
+            doc.text(report.technician || 'Técnico Responsável', P.M + sigW / 2, sigLineY + 10, { align: 'center' });
 
-            // Right signature: Condomínio / Cliente
-            const sigX2 = P.M + sigW + 10;
-            doc.setDrawColor(100, 116, 139);
-            doc.setLineWidth(0.5);
-            doc.line(sigX2, y + 14, sigX2 + sigW, y + 14);
+            // Right: Condomínio
+            const sigX2 = P.M + sigW + 12;
+            doc.setFillColor(248, 250, 252);
+            doc.roundedRect(sigX2, y, sigW, 28, 2, 2, 'F');
+            doc.setDrawColor(150, 163, 175);
+            doc.line(sigX2 + 6, sigLineY, sigX2 + sigW - 6, sigLineY);
             doc.setFont('helvetica', 'bold');
-            doc.setFontSize(8);
+            doc.setFontSize(9);
             doc.setTextColor(26, 26, 26);
-            doc.text('Condomínio / Cliente', sigX2 + sigW / 2, y + 19, { align: 'center' });
+            doc.text('Condomínio / Cliente', sigX2 + sigW / 2, sigLineY + 5, { align: 'center' });
             doc.setFont('helvetica', 'normal');
-            doc.setFontSize(7);
+            doc.setFontSize(8);
             doc.setTextColor(100, 116, 139);
-            doc.text(report.client || 'Responsável', sigX2 + sigW / 2, y + 24, { align: 'center' });
+            doc.text(report.client || 'Responsável', sigX2 + sigW / 2, sigLineY + 10, { align: 'center' });
 
-            y += 30;
+            y += 34;
 
-            // Footer on all pages
+            // ══════════════════════════════════════════════
+            // FOOTER — all pages
+            // ══════════════════════════════════════════════
+
             const totalPages = doc.internal.getNumberOfPages();
-            for (let p = 1; p <= totalPages; p++) {
-              doc.setPage(p);
-              // Red line above footer
+            for (let pg = 1; pg <= totalPages; pg++) {
+              doc.setPage(pg);
               doc.setFillColor(200, 32, 28);
-              doc.rect(0, P.H - 13, P.W, 1.5, 'F');
-              // Dark footer bar
+              doc.rect(0, P.H - FH + 0.5, P.W, 1.5, 'F');
               doc.setFillColor(26, 26, 26);
-              doc.rect(0, P.H - 11.5, P.W, 11.5, 'F');
+              doc.rect(0, P.H - FH + 2, P.W, FH - 2, 'F');
               doc.setFont('helvetica', 'normal');
-              doc.setFontSize(7);
-              doc.setTextColor(160, 160, 160);
-              doc.text('System Engenharia · ' + (report.reportNumber || '') + ' · ' + this.formatDate(report.inspectionDate), P.M, P.H - 4);
-              doc.text(`Pág. ${p} / ${totalPages}`, P.W - P.M, P.H - 4, { align: 'right' });
+              doc.setFontSize(7.5);
+              doc.setTextColor(180, 180, 180);
+              doc.text(
+                'System Engenharia  ·  ' + (report.reportNumber || '') + '  ·  ' + this.formatDate(report.inspectionDate),
+                P.M, P.H - 4
+              );
+              doc.text(`Pág. ${pg} / ${totalPages}`, P.W - P.M, P.H - 4, { align: 'right' });
             }
 
             const filename = 'relatorio-' + (report.reportNumber || 'SE').replace(/[^a-z0-9]/gi, '-').toLowerCase() + '.pdf';
